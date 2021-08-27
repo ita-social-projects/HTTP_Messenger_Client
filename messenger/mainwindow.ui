@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(136, 165, 211);
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="background2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>10</y>
+      <width>661</width>
+      <height>641</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(230, 221, 238);
+border-radius: 15px;</string>
+    </property>
+    <widget class="QLineEdit" name="EnterMessage">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>540</y>
+       <width>641</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+border-style: solid;
+border-width: 1px;
+border-color: rgb(174, 143, 177);</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="SendButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>590</y>
+       <width>641</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(174, 143, 177);
+border-radius: 15px;</string>
+     </property>
+     <property name="text">
+      <string>Send Message</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="Messages">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>641</width>
+       <height>471</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+border-style: solid;
+border-width: 1px;
+border-color: rgb(174, 143, 177);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ChatName">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>641</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(174, 143, 177);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="background1" native="true">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>351</width>
+      <height>641</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(230, 221, 238);
+border-radius: 15px;</string>
+    </property>
+    <widget class="QLineEdit" name="SearchUser">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+border-style: solid;
+border-width: 1px;
+border-color: rgb(174, 143, 177);</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="UsersList">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>331</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+border-style: solid;
+border-width: 1px;
+border-color: rgb(174, 143, 177);</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="SearchUserButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>331</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(174, 143, 177);
+border-radius: 15px;</string>
+     </property>
+     <property name="text">
+      <string>Search User</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="background3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>151</width>
+      <height>641</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(230, 221, 238);
+border-radius: 15px;</string>
+    </property>
+    <widget class="QPushButton" name="ExitButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>590</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(174, 143, 177);
+border-radius: 15px;</string>
+     </property>
+     <property name="text">
+      <string>Exit</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UserName">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>131</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 40px;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
