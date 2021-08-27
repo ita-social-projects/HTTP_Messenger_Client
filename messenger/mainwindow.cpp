@@ -61,7 +61,7 @@ void MainWindow::logging()
 void MainWindow::registration()
 {
     QString pass1 = sign_w.GetPassword();
-    QString pass2 = sign_w.GetPasswordAgain();
+    QString pass2 = sign_w.GetConfirmPassword();
     if(pass1 != pass2)
     {
         QMessageBox::warning(this, "ERROR","Invalid login or password!");
