@@ -32,6 +32,10 @@ private slots:
     void logging();
     void registration();
 
+    void on_ShowOrHideProfileButton_clicked();
+
+    void on_ShowOrHideChatButton_clicked();
+
 private:
     Ui::MainWindow *main_w;
     LoginWindow log_w;

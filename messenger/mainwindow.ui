@@ -18,7 +18,7 @@
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="background2" native="true">
+   <widget class="QWidget" name="ConversationWidget" native="true">
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -107,7 +107,7 @@ border-radius: 15px;
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="background1" native="true">
+   <widget class="QWidget" name="ChatsWidget" native="true">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -174,7 +174,7 @@ border-radius: 15px;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="background3" native="true">
+   <widget class="QWidget" name="ProfileWidget" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -228,6 +228,42 @@ border-radius: 40px;
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="ShowOrHideProfileButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>651</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(174, 143, 177);
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>Profile</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ShowOrHideChatButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>650</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(174, 143, 177);
+border-radius: 15px;</string>
+    </property>
+    <property name="text">
+     <string>Chats</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -235,11 +271,10 @@ border-radius: 40px;
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

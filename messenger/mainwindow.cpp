@@ -11,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&sign_w, SIGNAL(SignupButton_signal()), this, SLOT(registration()));
 
     main_w->setupUi(this);
+    main_w->ShowOrHideChatButton->setCheckable(true);
+    main_w->ShowOrHideProfileButton->setCheckable(true);
+    main_w->ShowOrHideChatButton->setChecked(true);
+    main_w->ShowOrHideProfileButton->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -95,5 +99,29 @@ void MainWindow::on_ExitButton_clicked()
 {
     log_w.show();
     this->close_window();
+}
+
+
+void MainWindow::on_ShowOrHideProfileButton_clicked()
+{
+    if(main_w->ShowOrHideProfileButton->isChecked()){
+        main_w->ProfileWidget->show();
+    }
+    else
+    {
+        main_w->ProfileWidget->hide();
+    }
+}
+
+
+void MainWindow::on_ShowOrHideChatButton_clicked()
+{
+    if(main_w->ShowOrHideChatButton->isChecked()){
+        main_w->ChatsWidget->show();
+    }
+    else
+    {
+        main_w->ChatsWidget->hide();
+    }
 }
 
