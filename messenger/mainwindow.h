@@ -22,7 +22,6 @@ public:
     void close_window();
 
 private slots:
-    void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
     void on_ExitButton_clicked();
@@ -33,8 +32,6 @@ private slots:
     void registration();
 
     void on_ShowOrHideProfileButton_clicked();
-
-    void on_ShowOrHideChatButton_clicked();
 
 private:
     Ui::MainWindow *main_w;

@@ -11,9 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&sign_w, SIGNAL(SignupButton_signal()), this, SLOT(registration()));
 
     main_w->setupUi(this);
-    main_w->ShowOrHideChatButton->setCheckable(true);
     main_w->ShowOrHideProfileButton->setCheckable(true);
-    main_w->ShowOrHideChatButton->setChecked(true);
     main_w->ShowOrHideProfileButton->setChecked(true);
 }
 
@@ -34,7 +32,7 @@ void MainWindow::close_window()
     main_w->ChatName->clear();
     main_w->EnterMessage->clear();
     main_w->SearchUser->clear();
-    main_w->UsersList->clear();
+    main_w->UserList_2->clear();
     main_w->Messages->clear();
 }
 
@@ -80,10 +78,6 @@ void MainWindow::registration()
     }
 }
 
-void MainWindow::on_UsersList_itemClicked(QListWidgetItem *item)
-{
-
-}
 
 void MainWindow::on_SendButton_clicked()
 {
@@ -105,23 +99,14 @@ void MainWindow::on_ExitButton_clicked()
 void MainWindow::on_ShowOrHideProfileButton_clicked()
 {
     if(main_w->ShowOrHideProfileButton->isChecked()){
-        main_w->ProfileWidget->show();
+        main_w->profileWidget_2->show();
     }
     else
     {
-        main_w->ProfileWidget->hide();
+        main_w->profileWidget_2->hide();
     }
 }
 
 
-void MainWindow::on_ShowOrHideChatButton_clicked()
-{
-    if(main_w->ShowOrHideChatButton->isChecked()){
-        main_w->ChatsWidget->show();
-    }
-    else
-    {
-        main_w->ChatsWidget->hide();
-    }
-}
+
 
