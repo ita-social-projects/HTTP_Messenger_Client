@@ -2,6 +2,7 @@
 #define SIGNUPWINDOW_H
 
 #include <QWidget>
+#include "IWindowOpener.h"
 
 namespace Ui {
 class SignupWindow;
@@ -29,6 +30,7 @@ private slots:
 
 private:
     Ui::SignupWindow *ui;
+    std::weak_ptr<IWindowOpener> WindowManager;
 };
 
 #endif // SIGNUPWINDOW_H
