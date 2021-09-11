@@ -6,6 +6,8 @@
 #include <QListWidgetItem>
 #include "loginwindow.h"
 #include "signupwindow.h"
+#include "IWindowOpener.h"
+#include"windowmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,5 +38,6 @@ private:
     Ui::MainWindow *main_w;
     LoginWindow log_w;
     SignupWindow sign_w;
+    std::weak_ptr<IWindowOpener> WindowManager;
 };
 #endif // MAINWINDOW_H
