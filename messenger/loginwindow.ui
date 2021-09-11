@@ -20,9 +20,9 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>100</y>
+     <y>90</y>
      <width>531</width>
-     <height>401</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -33,7 +33,7 @@ border-radius: 15px;</string>
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>70</y>
+      <y>100</y>
       <width>291</width>
       <height>41</height>
      </rect>
@@ -51,7 +51,7 @@ border-color: rgb(174, 143, 177);</string>
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>170</y>
+      <y>190</y>
       <width>291</width>
       <height>41</height>
      </rect>
@@ -69,7 +69,7 @@ border-color: rgb(174, 143, 177);</string>
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>260</y>
+      <y>280</y>
       <width>291</width>
       <height>41</height>
      </rect>
@@ -87,7 +87,7 @@ border-radius: 15px;</string>
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>330</y>
+      <y>350</y>
       <width>161</width>
       <height>21</height>
      </rect>
@@ -99,49 +99,68 @@ border-radius: 15px;</string>
      <string>Don't have an account?</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>50</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-    <property name="text">
-     <string>Enter login:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>150</y>
-      <width>111</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
-    </property>
-    <property name="text">
-     <string>Enter password:</string>
-    </property>
-   </widget>
    <widget class="QCommandLinkButton" name="SignupButton">
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>320</y>
+      <y>340</y>
       <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Sign Up</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="SignUpText">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>20</y>
+      <width>281</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>User Logging</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Info">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>60</y>
+      <width>341</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI Semibold</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

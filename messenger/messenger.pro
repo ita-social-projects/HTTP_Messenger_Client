@@ -12,12 +12,14 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    signupwindow.cpp
+    signupwindow.cpp \
+    windowmanager.cpp
 
 HEADERS += \
     loginwindow.h \
     mainwindow.h \
-    signupwindow.h
+    signupwindow.h \
+    windowmanager.h
 
 FORMS += \
     loginwindow.ui \
@@ -28,3 +30,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+QT += core gui network
