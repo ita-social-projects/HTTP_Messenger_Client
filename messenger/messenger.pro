@@ -9,15 +9,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    jsonparser.cpp \
+    logininfo.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    signupwindow.cpp
+    signupinfo.cpp \
+    signupwindow.cpp \
+    userinterface.cpp
 
 HEADERS += \
+    jsonparser.h \
+    logininfo.h \
     loginwindow.h \
     mainwindow.h \
-    signupwindow.h
+    signupinfo.h \
+    signupwindow.h \
+    userinterface.h
 
 FORMS += \
     loginwindow.ui \

@@ -110,9 +110,9 @@ background-color:rgb(111, 91, 113);
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>35</y>
+      <y>40</y>
       <width>271</width>
-      <height>21</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -135,9 +135,9 @@ background-color:rgb(111, 91, 113);
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>115</y>
-      <width>271</width>
-      <height>21</height>
+      <y>120</y>
+      <width>270</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -182,7 +182,7 @@ border-color: rgb(174, 143, 177);</string>
      <rect>
       <x>130</x>
       <y>199</y>
-      <width>281</width>
+      <width>271</width>
       <height>21</height>
      </rect>
     </property>

@@ -14,13 +14,10 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
-    QString GetLogin();
-    QString GetPassword();
-    void close_window();
 
 signals:
-    void LoginButton_signal();
-    void SignupButton_signal();
+    void LoginSuccess();
+    void OpenSignupWindow();
 
 private slots:
     void on_LoginButton_clicked();

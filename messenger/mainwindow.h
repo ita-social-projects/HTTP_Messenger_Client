@@ -18,23 +18,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void display();
-    void close_window();
+    void show_window(QString user_name);
+
+signals:
+    void ExitButtonClicked();
 
 private slots:
     void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
     void on_ExitButton_clicked();
-
-    void LoginWindow_open();
-    void SignupWindow_open();
-    void logging();
-    void registration();
-
 private:
-    Ui::MainWindow *main_w;
-    LoginWindow log_w;
-    SignupWindow sign_w;
+    Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H

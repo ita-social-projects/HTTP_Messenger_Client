@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
+#include "signupinfo.h"
 
 namespace Ui {
 class SignupWindow;

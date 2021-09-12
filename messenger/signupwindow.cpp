@@ -1,6 +1,7 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
 
+
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignupWindow)
@@ -62,6 +63,11 @@ void SignupWindow::on_SignUp_clicked()
 {
     ClearInfoFields();
     CheckInput();
+    SignUpInfo info;
+    info.SetLogin(ui->Login->text());
+    info.SetPassword(ui->Password->text());
+
+    info.pack();
     //save information about user
     //send it to a server
 }
@@ -82,21 +88,20 @@ void SignupWindow::CheckInput()
     QString confPassword = GetConfirmPassword();
     QString login = GetLogin();
 
-
-
     if(login.isEmpty() ||
        password.isEmpty() ||
        confPassword.isEmpty())
     {
+       palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
        return;
     }
 
-
     if(password.size() < 5)
     {
+        palette.setColor(ui->PasswordInfo->backgroundRole(), Qt::white);
         palette.setColor(ui->PasswordInfo->foregroundRole(), Qt::red);
         ui->PasswordInfo->setPalette(palette);
         ui->PasswordInfo->setText("Your password should be at least 5 characters.");
@@ -105,6 +110,7 @@ void SignupWindow::CheckInput()
 
     if(password != confPassword)
     {
+        palette.setColor(ui->ConfPassInfo->backgroundRole(), Qt::white);
         palette.setColor(ui->ConfPassInfo->foregroundRole(), Qt::red);
         ui->ConfPassInfo->setPalette(palette);
         ui->ConfPassInfo->setText("Your password inputs are not equel. Try again.");

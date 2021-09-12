@@ -14,32 +14,13 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
-QString LoginWindow::GetLogin()
-{
-    return ui->EnterLogin->text();
-}
-
-
-QString LoginWindow::GetPassword()
-{
-    return ui->EnterPassword->text();
-}
-
-void LoginWindow::close_window()
-{
-    this->close();
-    ui->EnterLogin->clear();
-    ui->EnterPassword->clear();
-}
-
 void LoginWindow::on_LoginButton_clicked()
 {
-    emit LoginButton_signal();
+    emit LoginSuccess();
 }
 
 
 void LoginWindow::on_SignupButton_clicked()
 {
-    emit SignupButton_signal();
+    emit OpenSignupWindow();
 }
-
