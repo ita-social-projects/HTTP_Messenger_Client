@@ -16,6 +16,5 @@ private slots:
     void open_MainWindow(QString user_name);
 private:
     std::unique_ptr<QWidget> current_window;
-};
-
+    
 #endif // WINDOWMANAGER_H
