@@ -1,24 +1,20 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
-#include"IWindowOpener.h"
-#include <QMainWindow>
 
-#include "loginwindow.h"
-#include "signupwindow.h"
+#include <QObject>
 #include <QWidget>
 
-
-class WindowManager: public IWindowOpener
+class WindowManager : public QObject
 {
+    Q_OBJECT
 public:
-    WindowManager(QWidget);
-    virtual void OpenMainWindow();
-    virtual void OpenLoginWindow();
-    virtual void OpenSignupindow();
+    explicit WindowManager(QObject *parent = nullptr);
+    ~WindowManager();
+private slots:
+    void open_LoginWindow();
+    void open_SignupWindow();
+    void open_MainWindow(QString user_name);
 private:
-
-    std::unique_ptr<QWidget> currentWindow(QWidget);
-
-};
-
+    std::unique_ptr<QWidget> current_window;
+    
 #endif // WINDOWMANAGER_H

@@ -2,11 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMessageBox>
-#include <QListWidgetItem>
-#include "loginwindow.h"
-#include "signupwindow.h"
-#include "IWindowOpener.h"
 #include"windowmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,26 +13,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QString user_name);
     ~MainWindow();
-    void display();
-    void close_window();
+    void show_window(QString user_name);
+
+signals:
+    void ExitButtonClicked();
 
 private slots:
     void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
     void on_ExitButton_clicked();
-
-    void LoginWindow_open();
-    void SignupWindow_open();
-    void logging();
-    void registration();
-
 private:
-    Ui::MainWindow *main_w;
-    LoginWindow log_w;
-    SignupWindow sign_w;
-    std::weak_ptr<IWindowOpener> WindowManager;
+    Ui::MainWindow *ui;
 };
+
 #endif // MAINWINDOW_H

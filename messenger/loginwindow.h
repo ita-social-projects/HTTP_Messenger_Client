@@ -2,7 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QWidget>
-#include "IWindowOpener.h"
+#include <QRegularExpressionValidator>
 
 namespace Ui {
 class LoginWindow;
@@ -15,13 +15,12 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
-    QString GetLogin();
-    QString GetPassword();
-    void close_window();
+    bool CheckInput();
+    void ClearInfoFields();
 
 signals:
-    void LoginButton_signal();
-    void SignupButton_signal();
+    void LoginSuccess(QString);
+    void OpenSignupWindow();
 
 private slots:
     void on_LoginButton_clicked();
@@ -29,7 +28,6 @@ private slots:
 
 private:
     Ui::LoginWindow *ui;
-    std::weak_ptr<IWindowOpener> WindowManager;
 };
 
 #endif // LOGINWINDOW_H
