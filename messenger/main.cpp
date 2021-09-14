@@ -1,9 +1,9 @@
 #include <QApplication>
-#include "userinterface.h"
+#include "windowmanager.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    UserInterface ui;
+    WindowManager ui;
     return a.exec();
 }

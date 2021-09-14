@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QString user_name)
+    : QMainWindow(nullptr)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->UserName->setText(user_name);
+
+    ui->EnterMessage->setPlaceholderText(" Enter message:");
+    ui->SearchUser->setPlaceholderText(" Enter user to search:");
 }
 
 MainWindow::~MainWindow()

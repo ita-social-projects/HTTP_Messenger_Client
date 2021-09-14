@@ -29,7 +29,6 @@ QString SignupWindow::GetLogin()
     return ui->Login->text();
 }
 
-
 QString SignupWindow::GetPassword()
 {
     return ui->Password->text();
