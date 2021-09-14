@@ -47,15 +47,9 @@ void SignupWindow::close_window()
     ui->ConfirmPassword->clear();
 }
 
-void SignupWindow::on_SignupButton_clicked()
-{
-    emit SignupButton_signal();
-}
-
-
 void SignupWindow::on_LoginButton_clicked()
 {
-    emit LoginButton_signal();
+    emit OpenLoginWindow();
 }
 
 void SignupWindow::on_SignUp_clicked()
@@ -69,6 +63,7 @@ void SignupWindow::on_SignUp_clicked()
     info.pack();
     //save information about user
     //send it to a server
+    emit SignupSuccess(ui->Login->text());
 }
 
 void SignupWindow::ClearInfoFields()
