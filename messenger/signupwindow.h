@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
+#include "signupinfo.h"
 
 namespace Ui {
 class SignupWindow;
@@ -15,16 +16,22 @@ class SignupWindow : public QWidget
 public:
     explicit SignupWindow(QWidget *parent = nullptr);
     ~SignupWindow();
+    QString GetLogin();
+    QString GetPassword();
+    QString GetConfirmPassword();
     void CheckIfUserAlreadyRegistered();
-    bool CheckInput();
+    void CheckInput();
     void ClearInfoFields();
+    void close_window();
 
 signals:
-    void OpenLoginWindow();
-    void SignupSuccess(QString);
+    void LoginButton_signal();
+    void SignupButton_signal();
 
 private slots:
+    void on_SignupButton_clicked();
     void on_LoginButton_clicked();
+
     void on_SignUp_clicked();
 
 private:

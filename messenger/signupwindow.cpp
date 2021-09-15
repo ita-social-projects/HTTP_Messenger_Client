@@ -17,13 +17,34 @@ SignupWindow::SignupWindow(QWidget *parent) :
     ui->Login->setPlaceholderText(" Enter login:");
     ui->Password->setPlaceholderText(" Enter password:");
     ui->ConfirmPassword->setPlaceholderText(" Confirm password:");
-
-    delete validator;
 }
 
 SignupWindow::~SignupWindow()
 {
     delete ui;
+}
+
+QString SignupWindow::GetLogin()
+{
+    return ui->Login->text();
+}
+
+QString SignupWindow::GetPassword()
+{
+    return ui->Password->text();
+}
+
+QString SignupWindow::GetConfirmPassword()
+{
+    return ui->ConfirmPassword->text();
+}
+
+void SignupWindow::close_window()
+{
+    this->close();
+    ui->Login->clear();
+    ui->Password->clear();
+    ui->ConfirmPassword->clear();
 }
 
 void SignupWindow::on_LoginButton_clicked()
@@ -34,11 +55,15 @@ void SignupWindow::on_LoginButton_clicked()
 void SignupWindow::on_SignUp_clicked()
 {
     ClearInfoFields();
-    if(CheckInput())
-    {
-        //send it to a server
-        emit SignupSuccess(ui->Login->text());
-    }
+    CheckInput();
+    SignUpInfo info;
+    info.SetLogin(ui->Login->text());
+    info.SetPassword(ui->Password->text());
+
+    info.pack();
+    //save information about user
+    //send it to a server
+    emit SignupSuccess(ui->Login->text());
 }
 
 void SignupWindow::ClearInfoFields()
@@ -49,12 +74,13 @@ void SignupWindow::ClearInfoFields()
     ui->LoginInfo->clear();
 }
 
-bool SignupWindow::CheckInput()
+void SignupWindow::CheckInput()
 {
     QPalette palette = ui->Info->palette();
-    QString password = ui->Password->text();
-    QString confPassword = ui->ConfirmPassword->text();
-    QString login = ui->Login->text();
+
+    QString password = GetPassword();
+    QString confPassword = GetConfirmPassword();
+    QString login = GetLogin();
 
     if(login.isEmpty() ||
        password.isEmpty() ||
@@ -64,7 +90,7 @@ bool SignupWindow::CheckInput()
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
-       return false;
+       return;
     }
 
     if(password.size() < 5)
@@ -73,7 +99,7 @@ bool SignupWindow::CheckInput()
         palette.setColor(ui->PasswordInfo->foregroundRole(), Qt::red);
         ui->PasswordInfo->setPalette(palette);
         ui->PasswordInfo->setText("Your password should be at least 5 characters.");
-        return false;
+        return;
     }
 
     if(password != confPassword)
@@ -82,8 +108,6 @@ bool SignupWindow::CheckInput()
         palette.setColor(ui->ConfPassInfo->foregroundRole(), Qt::red);
         ui->ConfPassInfo->setPalette(palette);
         ui->ConfPassInfo->setText("Your password inputs are not equel. Try again.");
-        return false;
+        return;
     }
-
-    return true;
 }

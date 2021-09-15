@@ -41,17 +41,23 @@ void LoginWindow::on_SignupButton_clicked()
 
 void LoginWindow::ClearInfoFields()
 {
-
+    ui->Info->clear();
 }
 
 bool LoginWindow::CheckInput()
 {
+    QPalette palette = ui->Info->palette();
+
     QString password = ui->EnterPassword->text();
     QString login = ui->EnterLogin->text();
 
     if(login.isEmpty() ||
        password.isEmpty())
     {
+       palette.setColor(ui->Info->backgroundRole(), Qt::white);
+       palette.setColor(ui->Info->foregroundRole(), Qt::red);
+       ui->Info->setPalette(palette);
+       ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
        return false;
     }
 
