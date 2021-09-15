@@ -2,6 +2,8 @@
 #define SIGNUPWINDOW_H
 
 #include <QWidget>
+#include <QRegularExpressionValidator>
+#include "signupinfo.h"
 
 namespace Ui {
 class SignupWindow;
@@ -16,7 +18,10 @@ public:
     ~SignupWindow();
     QString GetLogin();
     QString GetPassword();
-    QString GetPasswordAgain();
+    QString GetConfirmPassword();
+    void CheckIfUserAlreadyRegistered();
+    void CheckInput();
+    void ClearInfoFields();
     void close_window();
 
 signals:
@@ -26,6 +31,8 @@ signals:
 private slots:
     void on_SignupButton_clicked();
     void on_LoginButton_clicked();
+
+    void on_SignUp_clicked();
 
 private:
     Ui::SignupWindow *ui;

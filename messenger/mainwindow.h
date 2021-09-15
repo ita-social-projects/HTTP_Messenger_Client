@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -39,3 +40,4 @@ private:
     SignupWindow sign_w;
 };
 #endif // MAINWINDOW_H
+
