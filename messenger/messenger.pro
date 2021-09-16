@@ -16,7 +16,6 @@ SOURCES += \
     windowmanager.cpp
 
 HEADERS += \
-    IWindowOpener.h \
     loginwindow.h \
     mainwindow.h \
     signupwindow.h \
