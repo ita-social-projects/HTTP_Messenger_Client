@@ -1,7 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
 
-
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignupWindow)
@@ -56,11 +55,6 @@ void SignupWindow::on_SignUp_clicked()
 {
     ClearInfoFields();
     CheckInput();
-    SignUpInfo info;
-    info.SetLogin(ui->Login->text());
-    info.SetPassword(ui->Password->text());
-
-    info.pack();
     //save information about user
     //send it to a server
     emit SignupSuccess(ui->Login->text());

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
-#include "signupinfo.h"
 
 namespace Ui {
 class SignupWindow;
@@ -25,13 +24,11 @@ public:
     void close_window();
 
 signals:
-    void LoginButton_signal();
-    void SignupButton_signal();
+    void OpenLoginWindow();
+    void SignupSuccess(QString);
 
 private slots:
-    void on_SignupButton_clicked();
     void on_LoginButton_clicked();
-
     void on_SignUp_clicked();
 
 private:

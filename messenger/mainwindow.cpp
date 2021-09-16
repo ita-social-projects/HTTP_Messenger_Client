@@ -1,84 +1,26 @@
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , main_w(new Ui::MainWindow)
+MainWindow::MainWindow(QString user_name)
+    : QMainWindow(nullptr)
+    , ui(new Ui::MainWindow)
 {
-    connect(&log_w, SIGNAL(LoginButton_signal()), this, SLOT(logging()));
-    connect(&log_w, SIGNAL(SignupButton_signal()), this, SLOT(SignupWindow_open()));
-    connect(&sign_w, SIGNAL(LoginButton_signal()), this, SLOT(LoginWindow_open()));
-    connect(&sign_w, SIGNAL(SignupButton_signal()), this, SLOT(registration()));
+    ui->setupUi(this);
+    ui->UserName->setText(user_name);
 
-    main_w->setupUi(this);
-    main_w->ShowOrHideProfileButton->setCheckable(true);
-    main_w->ShowOrHideProfileButton->setChecked(true);
+    ui->EnterMessage->setPlaceholderText(" Enter message:");
+    ui->SearchUser->setPlaceholderText(" Enter user to search:");
 }
 
 MainWindow::~MainWindow()
 {
-    delete main_w;
+    delete ui;
 }
 
-void MainWindow::display()
+void MainWindow::on_UsersList_itemClicked(QListWidgetItem *item)
 {
-    log_w.show();
+
 }
-
-void MainWindow::close_window()
-{
-    this->close();
-    main_w->UserName->clear();
-    main_w->ChatName->clear();
-    main_w->EnterMessage->clear();
-    main_w->SearchUser->clear();
-    main_w->UserList_2->clear();
-    main_w->Messages->clear();
-}
-
-void MainWindow::LoginWindow_open()
-{
-    log_w.show();
-    sign_w.close_window();
-}
-
-void MainWindow::SignupWindow_open()
-{
-    sign_w.show();
-    log_w.close_window();
-}
-
-void MainWindow::logging()
-{
-    // request to server
-    QString server_answer = "Success";
-    if(server_answer == "Success")
-    {
-        main_w->UserName->setText(log_w.GetLogin());
-        this->show();
-        log_w.close_window();
-    }
-}
-
-void MainWindow::registration()
-{
-    QString pass1 = sign_w.GetPassword();
-    QString pass2 = sign_w.GetPasswordAgain();
-    if(pass1 != pass2)
-    {
-        QMessageBox::warning(this, "ERROR","Invalid login or password!");
-
-    }
-    // request to server
-    QString server_answer = "Success";
-    if(server_answer == "Success")
-    {
-        log_w.show();
-        sign_w.close_window();
-    }
-}
-
 
 void MainWindow::on_SendButton_clicked()
 {
@@ -92,22 +34,5 @@ void MainWindow::on_SearchUserButton_clicked()
 
 void MainWindow::on_ExitButton_clicked()
 {
-    log_w.show();
-    this->close_window();
+    emit ExitButtonClicked();
 }
-
-
-void MainWindow::on_ShowOrHideProfileButton_clicked()
-{
-    if(main_w->ShowOrHideProfileButton->isChecked()){
-        main_w->profileWidget_2->show();
-    }
-    else
-    {
-        main_w->profileWidget_2->hide();
-    }
-}
-
-
-
-
