@@ -1,6 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
-
+#include "signupinfo.h"
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -36,7 +36,8 @@ void SignupWindow::on_SignUp_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
-        //send it to a server
+        SignUpInfo info;
+        info.send(info.pack());
         emit SignupSuccess(ui->Login->text());
     }
 }
