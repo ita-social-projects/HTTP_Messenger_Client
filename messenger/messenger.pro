@@ -13,13 +13,24 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     signupwindow.cpp \
-    windowmanager.cpp
+    windowmanager.cpp \
+    jsonparser.cpp \
+    logininfo.cpp \
+    signupinfo.cpp \
+    userinterface.cpp \
+    requestmanager.cpp
+
 
 HEADERS += \
     loginwindow.h \
     mainwindow.h \
     signupwindow.h \
-    windowmanager.h
+    windowmanager.h \
+    jsonparser.h \
+    logininfo.h \
+    signupinfo.h \
+    userinterface.h \
+    requestmanager.h
 
 FORMS += \
     loginwindow.ui \
