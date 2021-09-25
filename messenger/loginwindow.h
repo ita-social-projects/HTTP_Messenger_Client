@@ -3,12 +3,13 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
+#include <requestmanager.h>
 
 namespace Ui {
 class LoginWindow;
 }
 
-class LoginWindow : public QWidget
+class LoginWindow : public QWidget, virtual public RequestManager
 {
     Q_OBJECT
 

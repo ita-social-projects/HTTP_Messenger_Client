@@ -1,5 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -28,9 +29,25 @@ void LoginWindow::on_LoginButton_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
-        //save information about user
-        //send it to a server
-        emit LoginSuccess(ui->EnterLogin->text());
+        // get JsonDocument
+        QString answer = get("/login"); // post
+        if (answer=="SUCCESS")
+        {
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit LoginSuccess(ui->EnterLogin->text());
+        }
+        if (answer == "NO ANSWER")
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Opps! Check your Internet connection!");
+        }
+        if (answer == "ERROR")
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Opps! Some technical problems... Please, try again later!");
+        }
+        if (answer == "FAIL")
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Opps! Invalid login or password!");
+        }
     }
 }
 
@@ -60,6 +77,5 @@ bool LoginWindow::CheckInput()
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
        return false;
     }
-
     return true;
 }

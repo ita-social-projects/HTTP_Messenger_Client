@@ -17,7 +17,6 @@ SOURCES += \
     jsonparser.cpp \
     logininfo.cpp \
     signupinfo.cpp \
-    userinterface.cpp \
     requestmanager.cpp
 
 
@@ -29,7 +28,6 @@ HEADERS += \
     jsonparser.h \
     logininfo.h \
     signupinfo.h \
-    userinterface.h \
     requestmanager.h
 
 FORMS += \

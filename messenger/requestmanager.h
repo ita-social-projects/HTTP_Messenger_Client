@@ -1,16 +1,18 @@
 #ifndef REQUESTMANAGER_H
 #define REQUESTMANAGER_H
-#include <QtNetwork/QNetworkAccessManager>
+
+#include <QNetworkAccessManager>
 
 class RequestManager
 {
-    QNetworkAccessManager *manager;
-
-    QNetworkRequest createRequest(QString header);
+    std::unique_ptr<QNetworkAccessManager> manager;
 public:
     RequestManager();
-    ~RequestManager();
-    bool post(QString header, QJsonObject &json_data);
+    QString post(QString, QJsonDocument&);
+    QString get(QString);
+private:
+    QNetworkRequest createRequest(QString );
+    QString getReply(QNetworkReply*);
 };
 
 #endif // REQUESTMANAGER_H

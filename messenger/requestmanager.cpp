@@ -1,54 +1,59 @@
 #include "requestmanager.h"
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
-#include <QUrl>
-#include <QJsonObject>
 #include <QJsonDocument>
-#include <QByteArray>
+#include <QNetworkReply>
+#include <QEventLoop>
+#include <QTimer>
 
-QString server_url = "http://there_will_be_server_url"; // need changes
+QString serverUrl = "http://fcc-weather-api.glitch.me";
 
-RequestManager::RequestManager()
+RequestManager::RequestManager():manager(new QNetworkAccessManager())
 {
-    manager = new QNetworkAccessManager();
-}
 
-RequestManager::~RequestManager()
-{
-    delete manager;
 }
-
-QNetworkRequest RequestManager::createRequest(QString header)
-{
-    QNetworkRequest request;
-    request.setUrl(QUrl(server_url + header));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, header);
-    return request;
-}
-
-bool RequestManager::post(QString header, QJsonObject &json_data)
+QString RequestManager::post(QString header, QJsonDocument& jsonData)
 {
     QNetworkRequest request = createRequest(header);
-    QNetworkReply *reply;
-    QJsonDocument document(json_data);
-    QByteArray postDataByteArray = document.toJson();
-    reply = manager->post(request, postDataByteArray);
-    bool serverAnswer;
-    QObject::connect(reply, &QNetworkReply::finished, [reply, &serverAnswer]()
+    // ... //
+    return "getReply(reply)";
+}
+QString RequestManager::get(QString header)
+{
+    QNetworkRequest request = createRequest(header);
+    QNetworkReply* reply = manager->get(request);
+    return getReply(reply);
+}
+QString RequestManager::getReply(QNetworkReply* reply) // return string reply
+{
+    QEventLoop loop;
+    QTimer timer;
+
+    timer.setSingleShot(true);
+    QObject::connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    QObject::connect(manager.release(), &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+
+    timer.start(15000);
+    loop.exec();
+    if(timer.isActive())
     {
-        if(reply->error() == QNetworkReply::NoError)
+        if(reply->error())
         {
-            QString contents = QString::fromUtf8(reply->readAll());
-            qDebug() << contents;
-            serverAnswer = true;
+            return "ERROR";
         }
         else
         {
-            QString err = reply->errorString();
-            qDebug() << err;
-            serverAnswer = false;
+            // parsing
+            return "SUCCESS";
         }
-        reply->deleteLater();
-    });
-    return serverAnswer;
+    }
+    else
+    {
+        return "NO ANSWER";
+    }
+    reply->deleteLater();
+}
+QNetworkRequest RequestManager::createRequest(QString header)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl(serverUrl + header));
+    return request;
 }
