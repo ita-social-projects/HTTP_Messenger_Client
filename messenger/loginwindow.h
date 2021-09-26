@@ -9,7 +9,7 @@ namespace Ui {
 class LoginWindow;
 }
 
-class LoginWindow : public QWidget, virtual public RequestManager
+class LoginWindow : public QWidget, public RequestManager
 {
     Q_OBJECT
 
