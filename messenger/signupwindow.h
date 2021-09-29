@@ -9,7 +9,7 @@ namespace Ui {
 class SignupWindow;
 }
 
-class SignupWindow : public QWidget, public RequestManager
+class SignupWindow : public QWidget
 {
     Q_OBJECT
 
