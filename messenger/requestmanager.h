@@ -2,17 +2,19 @@
 #define REQUESTMANAGER_H
 
 #include <QNetworkAccessManager>
+#include <QJsonDocument>
+#include <QNetworkReply>
 
 class RequestManager
 {
     std::unique_ptr<QNetworkAccessManager> manager;
 public:
     RequestManager();
-    QString post(QString, QJsonDocument&);
-    QString get(QString);
+    QNetworkReply* post(QString, QJsonDocument&);
+    QNetworkReply* get(QString);
 private:
     QNetworkRequest createRequest(QString );
-    QString getReply(QNetworkReply*);
+    bool waitForReply();
 };
 
 #endif // REQUESTMANAGER_H

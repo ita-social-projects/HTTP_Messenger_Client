@@ -1,28 +1,31 @@
 #include "requestmanager.h"
-#include <QJsonDocument>
-#include <QNetworkReply>
 #include <QEventLoop>
 #include <QTimer>
 
-QString serverUrl = "http://fcc-weather-api.glitch.me";
+QString serverUrl = "https://615376d53f4c430017159389.mockapi.io/api";
 
-RequestManager::RequestManager():manager(new QNetworkAccessManager())
+RequestManager::RequestManager() : manager(new QNetworkAccessManager())
 {
 
 }
-QString RequestManager::post(QString header, QJsonDocument& jsonData)
+QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
     QNetworkRequest request = createRequest(header);
-    // ... //
-    return "getReply(reply)";
+    QByteArray data = jsonDocument.toJson();
+    QNetworkReply* reply = manager->post(request, data);
+    if(waitForReply())
+        return reply;
+    return nullptr;
 }
-QString RequestManager::get(QString header)
+QNetworkReply* RequestManager::get(QString header)
 {
     QNetworkRequest request = createRequest(header);
     QNetworkReply* reply = manager->get(request);
-    return getReply(reply);
+    if(waitForReply())
+        return reply;
+    return nullptr;
 }
-QString RequestManager::getReply(QNetworkReply* reply) // return string reply
+bool RequestManager::waitForReply()
 {
     QEventLoop loop;
     QTimer timer;
@@ -33,27 +36,17 @@ QString RequestManager::getReply(QNetworkReply* reply) // return string reply
 
     timer.start(15000);
     loop.exec();
+
     if(timer.isActive())
     {
-        if(reply->error())
-        {
-            return "ERROR";
-        }
-        else
-        {
-            // parsing
-            return "SUCCESS";
-        }
+        return true;
     }
-    else
-    {
-        return "NO ANSWER";
-    }
-    reply->deleteLater();
+    return false;
 }
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl + header));
+    request.setUrl(QUrl(serverUrl));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, header);
     return request;
 }

@@ -50,23 +50,25 @@ void SignupWindow::on_SignUp_clicked()
     if(CheckInput())
     {
         // get JsonDocument
-        QString answer = get("/login"); // post
-        if (answer=="SUCCESS")
+        QNetworkReply* answer = get("/signup"); // post
+        if (answer == nullptr)
         {
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-            emit SignupSuccess(ui->Login->text());
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }
-        if (answer == "NO ANSWER")
+        else
         {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Check your Internet connection!");
-        }
-        if (answer == "ERROR")
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Some technical problems... Please, try again later!");
-        }
-        if (answer == "FAIL")
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Invalid login or password!");
+            if (answer->error())
+            {
+                QMessageBox::critical(nullptr, "ERROR", "This account already exist!");
+            }
+            else
+            {
+                QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+                // User user = answer.extact(document, "/signup") ???
+                QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+                emit SignupSuccess(ui->Login->text());
+            }
+            answer->deleteLater();
         }
     }
 }

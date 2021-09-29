@@ -30,23 +30,25 @@ void LoginWindow::on_LoginButton_clicked()
     if(CheckInput())
     {
         // get JsonDocument
-        QString answer = get("/login"); // post
-        if (answer=="SUCCESS")
+        QNetworkReply* answer = get("/login"); // post
+        if (answer == nullptr)
         {
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-            emit LoginSuccess(ui->EnterLogin->text());
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }
-        if (answer == "NO ANSWER")
+        else
         {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Check your Internet connection!");
-        }
-        if (answer == "ERROR")
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Some technical problems... Please, try again later!");
-        }
-        if (answer == "FAIL")
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Opps! Invalid login or password!");
+            if (answer->error())
+            {
+                QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+            }
+            else
+            {
+                QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+                // User user = answer.extact(document, "/login") ???
+                QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+                emit LoginSuccess(ui->EnterLogin->text());
+            }
+            answer->deleteLater();
         }
     }
 }
