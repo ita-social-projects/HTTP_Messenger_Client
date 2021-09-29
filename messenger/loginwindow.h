@@ -9,7 +9,7 @@ namespace Ui {
 class LoginWindow;
 }
 
-class LoginWindow : public QWidget, public RequestManager
+class LoginWindow : public QWidget, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -18,6 +18,8 @@ public:
     ~LoginWindow();
     bool CheckInput();
     void ClearInfoFields();
+
+    virtual void OnRequestFinished(QNetworkReply *reply) override;
 
 signals:
     void LoginSuccess(QString);

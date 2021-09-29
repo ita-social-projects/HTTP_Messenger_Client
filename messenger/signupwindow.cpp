@@ -49,27 +49,27 @@ void SignupWindow::on_SignUp_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
-        // get JsonDocument
-        QNetworkReply* answer = get("/signup"); // post
-        if (answer == nullptr)
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-        }
-        else
-        {
-            if (answer->error())
-            {
-                QMessageBox::critical(nullptr, "ERROR", "This account already exist!");
-            }
-            else
-            {
-                QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-                // User user = answer.extact(document, "/signup") ???
-                QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-                emit SignupSuccess(ui->Login->text());
-            }
-            answer->deleteLater();
-        }
+//        // get JsonDocument
+//        QNetworkReply* answer = get("/signup"); // post
+//        if (answer == nullptr)
+//        {
+//            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+//        }
+//        else
+//        {
+//            if (answer->error())
+//            {
+//                QMessageBox::critical(nullptr, "ERROR", "This account already exist!");
+//            }
+//            else
+//            {
+//                QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+//                // User user = answer.extact(document, "/signup") ???
+//                QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+//                emit SignupSuccess(ui->Login->text());
+//            }
+//            answer->deleteLater();
+//        }
     }
 }
 
