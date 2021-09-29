@@ -41,6 +41,63 @@ void RequestManager::login(QString username, QString password, RequestResultInte
     resultMap[reply] =  resultInterface;
 }
 
+void RequestManager::signup(QString username, QString password, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    QJsonObject jsonObj;
+    jsonObj.insert("user",username);
+    jsonObj.insert("password",password);
+    QJsonDocument jsonDocument(jsonObj);
+    auto reply = post("/user/register", jsonDocument);
+    resultMap[reply] =  resultInterface;
+}
+
+void RequestManager::sendMessage(QString from, QString to, QString message, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    QJsonObject jsonObj;
+    jsonObj.insert("from", from);
+    jsonObj.insert("to",to);
+    jsonObj.insert("message", message);
+    QJsonDocument jsonDocument(jsonObj);
+    auto reply = post("/user/send_message", jsonDocument);
+    resultMap[reply] =  resultInterface;
+}
+
+void RequestManager::getMessage(RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    auto reply = get("/user/get_message");
+    resultMap[reply] =  resultInterface;
+}
+
+void RequestManager::getChats(RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    auto reply = get("/user/get_chats");
+    resultMap[reply] =  resultInterface;
+}
+
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 {
     RequestResultInterface *resultInterface = resultMap[networkReply];

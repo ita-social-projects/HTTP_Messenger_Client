@@ -8,7 +8,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -16,6 +16,11 @@ public:
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
+
+    virtual void OnRequestFinished(QNetworkReply *reply) override;
+
+private:
+    bool CheckMessage();
 
 signals:
     void ExitButtonClicked();

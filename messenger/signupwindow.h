@@ -9,7 +9,7 @@ namespace Ui {
 class SignupWindow;
 }
 
-class SignupWindow : public QWidget
+class SignupWindow : public QWidget, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -22,6 +22,8 @@ public:
     void CheckIfUserAlreadyRegistered();
     bool CheckInput();
     void ClearInfoFields();
+
+    virtual void OnRequestFinished(QNetworkReply *reply) override;
 
 signals:
     void OpenLoginWindow();

@@ -33,6 +33,10 @@ public:
     static RequestManager *GetInstance();
 
     void login(QString username, QString password, RequestResultInterface *resultInterface);
+    void signup(QString username, QString password, RequestResultInterface *resultInterface);
+    void sendMessage(QString from, QString to, QString massage, RequestResultInterface *resultInterface);
+    void getMessage(RequestResultInterface *resultInterface);
+    void getChats(RequestResultInterface *resultInterface);
 
 private:
     QNetworkRequest createRequest(QString );
