@@ -10,25 +10,24 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ijsonSerializer.cpp \
-    ijsondeserializer.cpp \
-    logininfo.cpp \
+    JsonDeserializer.cpp \
+    JsonSerializer.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    signupinfo.cpp \
+    requestmanager.cpp \
     signupwindow.cpp \
+    user.cpp \
     windowmanager.cpp
 
 HEADERS += \
-    IWindowOpener.h \
-    ijsonDeserializer.h \
-    ijsonSerializer.h \
-    logininfo.h \
+    JsonDeserializer.h \
+    JsonSerializer.h \
     loginwindow.h \
     mainwindow.h \
-    signupinfo.h \
+    requestmanager.h \
     signupwindow.h \
+    user.h \
     windowmanager.h
 
 FORMS += \

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
-#include"windowmanager.h"
+#include "windowmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

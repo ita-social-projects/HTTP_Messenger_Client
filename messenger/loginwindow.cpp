@@ -1,6 +1,7 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "logininfo.h"
+#include "JsonSerializer.h"
+#include "JsonDeserializer.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -29,9 +30,33 @@ void LoginWindow::on_LoginButton_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
+        QString password = ui->EnterPassword->text();
+        QString login = ui->EnterLogin->text();
         //save information about user
         //send it to a server
-        emit LoginSuccess(ui->EnterLogin->text());
+        RequestManager::GetInstance()->login(login,password, this);
+    }
+}
+
+void LoginWindow::OnRequestFinished(QNetworkReply *answer)
+{
+    if (answer == nullptr)
+    {
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+    }
+    else
+    {
+        if (answer->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+            // User user = answer.extact(document, "/login") ???
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit LoginSuccess(ui->EnterLogin->text());
+        }
     }
 }
 

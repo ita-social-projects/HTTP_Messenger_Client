@@ -3,12 +3,14 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
+#include <QMessageBox>
+#include "requestmanager.h"
 
 namespace Ui {
 class SignupWindow;
 }
 
-class SignupWindow : public QWidget
+class SignupWindow : public QWidget, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -18,6 +20,15 @@ public:
     void CheckIfUserAlreadyRegistered();
     bool CheckInput();
     void ClearInfoFields();
+
+
+    virtual void OnRequestFinished(QNetworkReply *reply) override;
+
+private:
+    void PrintErrorText(QLabel *label,QString text);
+    void SetErrorLabelColor(QLabel *label);
+    bool IsEqualPassword(QString& pass, QString& confPass);
+    bool IsEmptyFields();
 
 signals:
     void OpenLoginWindow();

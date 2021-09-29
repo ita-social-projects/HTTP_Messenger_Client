@@ -1,6 +1,7 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
-#include "signupinfo.h"
+#include "JsonDeserializer.h"
+#define MIN_PASS_LENGTH 5
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -36,9 +37,10 @@ void SignupWindow::on_SignUp_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
-        SignUpInfo info;
-        info.send(info.pack());
-        emit SignupSuccess(ui->Login->text());
+        QString password = ui->Password->text();
+        QString login = ui->Login->text();
+        RequestManager *manager = RequestManager::GetInstance();
+        manager->signUp(login,password,this);
     }
 }
 
@@ -52,39 +54,77 @@ void SignupWindow::ClearInfoFields()
 
 bool SignupWindow::CheckInput()
 {
-    QPalette palette = ui->Info->palette();
     QString password = ui->Password->text();
     QString confPassword = ui->ConfirmPassword->text();
-    QString login = ui->Login->text();
 
-    if(login.isEmpty() ||
-       password.isEmpty() ||
-       confPassword.isEmpty())
+    if(IsEmptyFields())
     {
-       palette.setColor(ui->Info->backgroundRole(), Qt::white);
-       palette.setColor(ui->Info->foregroundRole(), Qt::red);
-       ui->Info->setPalette(palette);
-       ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
+       PrintErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
        return false;
     }
 
-    if(password.size() < 5)
+    if(password.size() < MIN_PASS_LENGTH)
     {
-        palette.setColor(ui->PasswordInfo->backgroundRole(), Qt::white);
-        palette.setColor(ui->PasswordInfo->foregroundRole(), Qt::red);
-        ui->PasswordInfo->setPalette(palette);
-        ui->PasswordInfo->setText("Your password should be at least 5 characters.");
+        PrintErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
         return false;
     }
 
-    if(password != confPassword)
+    if(!IsEqualPassword(password,confPassword))
     {
-        palette.setColor(ui->ConfPassInfo->backgroundRole(), Qt::white);
-        palette.setColor(ui->ConfPassInfo->foregroundRole(), Qt::red);
-        ui->ConfPassInfo->setPalette(palette);
-        ui->ConfPassInfo->setText("Your password inputs are not equel. Try again.");
+        PrintErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
         return false;
     }
 
     return true;
+}
+
+bool SignupWindow::IsEmptyFields()
+{
+    QString password = ui->Password->text();
+    QString confPassword = ui->ConfirmPassword->text();
+    QString login = ui->Login->text();
+
+    return login.isEmpty() || password.isEmpty() || confPassword.isEmpty();
+}
+
+void SignupWindow::PrintErrorText(QLabel *label,QString text)
+{
+    SetErrorLabelColor(label);
+    label->setText(text);
+}
+
+void SignupWindow::SetErrorLabelColor(QLabel *label)
+{
+    QPalette palette = label->palette();
+    palette.setColor(label->backgroundRole(), Qt::white);
+    palette.setColor(label->foregroundRole(), Qt::red);
+    label->setPalette(palette);
+}
+
+bool SignupWindow::IsEqualPassword(QString& pass, QString& confPass)
+{
+    return pass == confPass;
+}
+
+void SignupWindow::OnRequestFinished(QNetworkReply *answer)
+{
+    JsonDeserializer deserializer;
+    if (answer == nullptr)
+    {
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+    }
+    else
+    {
+        if (answer->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+            deserializer.extract(document, "login");
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit SignupSuccess(ui->Login->text());
+        }
+    }
 }
