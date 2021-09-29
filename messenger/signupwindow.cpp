@@ -1,6 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
-#include "JsonDeserializer.h"
+
 #define MIN_PASS_LENGTH 5
 
 SignupWindow::SignupWindow(QWidget *parent) :
@@ -39,8 +39,7 @@ void SignupWindow::on_SignUp_clicked()
     {
         QString password = ui->Password->text();
         QString login = ui->Login->text();
-        RequestManager *manager = RequestManager::GetInstance();
-        manager->signUp(login,password,this);
+        RequestManager::GetInstance()->signUp(login,password,this);
     }
 }
 
@@ -108,7 +107,7 @@ bool SignupWindow::IsEqualPassword(QString& pass, QString& confPass)
 
 void SignupWindow::OnRequestFinished(QNetworkReply *answer)
 {
-    JsonDeserializer deserializer;
+    ReplyMsgKeeper replyMsg;
     if (answer == nullptr)
     {
         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
@@ -122,7 +121,8 @@ void SignupWindow::OnRequestFinished(QNetworkReply *answer)
         else
         {
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            deserializer.extract(document, "login");
+            QString resMsg = replyMsg.extract(document);
+            // check status code;
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit SignupSuccess(ui->Login->text());
         }

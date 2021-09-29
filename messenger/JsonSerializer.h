@@ -12,7 +12,7 @@ class JsonSerializer
 {
 public:
     JsonSerializer();
-    QJsonDocument& pack(QString pass, QString userLogin);
+    QJsonDocument pack(QString pass, QString userLogin);
 };
 
 #endif // JSONSERIALIZER_H

@@ -5,6 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include "requestmanager.h"
+#include "replymsgkeeper.h"
 
 namespace Ui {
 class SignupWindow;

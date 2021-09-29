@@ -1,7 +1,5 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "JsonSerializer.h"
-#include "JsonDeserializer.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -26,14 +24,12 @@ LoginWindow::~LoginWindow()
 }
 
 void LoginWindow::on_LoginButton_clicked()
-{
+{   
     ClearInfoFields();
     if(CheckInput())
     {
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
-        //save information about user
-        //send it to a server
         RequestManager::GetInstance()->login(login,password, this);
     }
 }
@@ -46,17 +42,30 @@ void LoginWindow::OnRequestFinished(QNetworkReply *answer)
     }
     else
     {
-        if (answer->error())
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
-        }
-        else
-        {
+        //if (answer->error())
+        //{
+        //    QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+        //}
+        //else
+        //{
+            UserInfoReply userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            // User user = answer.extact(document, "/login") ???
+
+            QJsonDocument testFileDoc;
+            QFile file("TestAnswerLogin.json");
+            if(file.open(QIODevice::ReadOnly | QFile::Text))
+            {
+                testFileDoc = QJsonDocument::fromJson(file.readAll());
+            }
+            file.close();
+
+            User user = userInfo.extract(testFileDoc); //document
+
+            qDebug() << "AccessToken: " << user.getAccessToken();
+
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
-        }
+        //}
     }
 }
 

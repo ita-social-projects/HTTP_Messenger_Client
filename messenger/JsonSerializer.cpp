@@ -7,7 +7,7 @@ JsonSerializer::JsonSerializer()
 
 }
 
-QJsonDocument& JsonSerializer::pack(QString pass, QString userLogin)
+QJsonDocument JsonSerializer::pack(QString pass, QString userLogin)
 {
     QJsonObject jsonInfo;
 

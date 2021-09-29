@@ -24,3 +24,9 @@ QString User::getAccessToken()
 {
     return accessToken;
 }
+
+void User::operator=(User& user)
+{
+    this->login = user.login;
+    this->accessToken = user.accessToken;
+}

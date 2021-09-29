@@ -13,6 +13,8 @@ public:
     QString getLogin();
     QString getAccessToken();
 
+    void operator=(User& user);
+
 private:
     QString login;
     QString accessToken;
