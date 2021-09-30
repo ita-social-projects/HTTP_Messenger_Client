@@ -8,8 +8,7 @@ class ReplyMsgKeeper: public JsonDeserializer<QString>
 {
 public:
     ReplyMsgKeeper();
-
-    QString extract(QJsonDocument &replyInfo) override;
+    QString extract(const QJsonDocument &replyInfo) override;
 };
 
 #endif // REPLYMSGKEEPER_H

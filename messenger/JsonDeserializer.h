@@ -12,7 +12,7 @@ template <typename T>
 class JsonDeserializer
 {
 public:
-    virtual T extract(QJsonDocument &replyInfo) = 0;
+    virtual T extract(const QJsonDocument &replyInfo) = 0;
 };
 
 #endif // JSONDESERIALIZER_H

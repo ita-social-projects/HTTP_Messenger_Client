@@ -12,7 +12,8 @@ class JsonSerializer
 {
 public:
     JsonSerializer();
-    QJsonDocument pack(QString pass, QString userLogin);
+    QJsonDocument packUserInfo(const QString& pass,const QString& userLogin);
+    QJsonDocument packMsg(const QString& sendToken,const QString& recLogin,const QString& msg);
 };
 
 #endif // JSONSERIALIZER_H

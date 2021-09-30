@@ -10,17 +10,14 @@ UserInfoReply::UserInfoReply(QString login)
     this->login = login;
 }
 
-User UserInfoReply::extract(QJsonDocument &replyInfo)
+User* UserInfoReply::extract(const QJsonDocument &replyInfo)
 {
-    User user;
-    user.setAccessToken("default");
+    User* user = User::getInstance();
 
-    if(replyInfo.isNull())
+    if(!replyInfo.isNull())
     {
-        return user;
+       user->setAccessToken(replyInfo.object().value("token").toString());
     }
-
-    user.setAccessToken(replyInfo.object().value("token").toString());
 
     return user;
 }

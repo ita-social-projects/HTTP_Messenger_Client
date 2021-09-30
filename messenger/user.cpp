@@ -1,32 +1,33 @@
 #include "user.h"
+User* User::instance{nullptr};
+std::mutex User::mtx;
 
-User::User()
+User* User::getInstance()
 {
-
+    std::lock_guard<std::mutex> lock(mtx);
+    if(instance == nullptr)
+    {
+        instance = new User();
+    }
+    return instance;
 }
 
-void User::setLogin(QString userLogin)
+void User::setLogin(const QString& userLogin)
 {
     login = userLogin;
 }
 
-void User::setAccessToken(QString userAccessToken)
+void User::setAccessToken(const QString& userAccessToken)
 {
     accessToken = userAccessToken;
 }
 
-QString User::getLogin()
+const QString& User::getLogin()
 {
     return login;
 }
 
-QString User::getAccessToken()
+const QString& User::getAccessToken()
 {
     return accessToken;
-}
-
-void User::operator=(User& user)
-{
-    this->login = user.login;
-    this->accessToken = user.accessToken;
 }

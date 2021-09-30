@@ -34,8 +34,8 @@ void SignupWindow::on_LoginButton_clicked()
 
 void SignupWindow::on_SignUp_clicked()
 {
-    ClearInfoFields();
-    if(CheckInput())
+    clearInfoFields();
+    if(checkInput())
     {
         QString password = ui->Password->text();
         QString login = ui->Login->text();
@@ -43,7 +43,7 @@ void SignupWindow::on_SignUp_clicked()
     }
 }
 
-void SignupWindow::ClearInfoFields()
+void SignupWindow::clearInfoFields()
 {
     ui->Info->clear();
     ui->ConfPassInfo->clear();
@@ -51,33 +51,33 @@ void SignupWindow::ClearInfoFields()
     ui->LoginInfo->clear();
 }
 
-bool SignupWindow::CheckInput()
+bool SignupWindow::checkInput()
 {
     QString password = ui->Password->text();
     QString confPassword = ui->ConfirmPassword->text();
 
-    if(IsEmptyFields())
+    if(isEmptyFields())
     {
-       PrintErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
+       printErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
        return false;
     }
 
     if(password.size() < MIN_PASS_LENGTH)
     {
-        PrintErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
+        printErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
         return false;
     }
 
-    if(!IsEqualPassword(password,confPassword))
+    if(!isEqualPassword(password,confPassword))
     {
-        PrintErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
+        printErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
         return false;
     }
 
     return true;
 }
 
-bool SignupWindow::IsEmptyFields()
+bool SignupWindow::isEmptyFields()
 {
     QString password = ui->Password->text();
     QString confPassword = ui->ConfirmPassword->text();
@@ -86,13 +86,13 @@ bool SignupWindow::IsEmptyFields()
     return login.isEmpty() || password.isEmpty() || confPassword.isEmpty();
 }
 
-void SignupWindow::PrintErrorText(QLabel *label,QString text)
+void SignupWindow::printErrorText(QLabel *label,QString text)
 {
-    SetErrorLabelColor(label);
+    setErrorLabelColor(label);
     label->setText(text);
 }
 
-void SignupWindow::SetErrorLabelColor(QLabel *label)
+void SignupWindow::setErrorLabelColor(QLabel *label)
 {
     QPalette palette = label->palette();
     palette.setColor(label->backgroundRole(), Qt::white);
@@ -100,12 +100,12 @@ void SignupWindow::SetErrorLabelColor(QLabel *label)
     label->setPalette(palette);
 }
 
-bool SignupWindow::IsEqualPassword(QString& pass, QString& confPass)
+bool SignupWindow::isEqualPassword(QString& pass, QString& confPass)
 {
     return pass == confPass;
 }
 
-void SignupWindow::OnRequestFinished(QNetworkReply *answer)
+void SignupWindow::onRequestFinished(QNetworkReply *answer)
 {
     ReplyMsgKeeper replyMsg;
     if (answer == nullptr)
@@ -114,17 +114,37 @@ void SignupWindow::OnRequestFinished(QNetworkReply *answer)
     }
     else
     {
-        if (answer->error())
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
-        }
-        else
-        {
+        //if (answer->error())
+        //{
+        //    QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+        //}
+        //else
+        //{
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            QString resMsg = replyMsg.extract(document);
-            // check status code;
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-            emit SignupSuccess(ui->Login->text());
-        }
+
+            QJsonDocument testFileDoc;
+            QFile file("TestAnswerSignUp.json");
+            if(file.open(QIODevice::ReadOnly | QFile::Text))
+            {
+                testFileDoc = QJsonDocument::fromJson(file.readAll());
+            }
+            file.close();
+
+            QString resMsg = replyMsg.extract(testFileDoc);//document);
+            printReplyStatusInformation(resMsg);
+        //}
+    }
+}
+
+void SignupWindow::printReplyStatusInformation(QString &msg)
+{
+    if(msg.contains("200"))
+    {
+        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
+        emit SignupSuccess(ui->Login->text());
+    }
+    else if(msg.contains("400"))
+    {
+        QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
     }
 }

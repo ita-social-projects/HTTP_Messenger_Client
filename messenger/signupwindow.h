@@ -18,18 +18,18 @@ class SignupWindow : public QWidget, public RequestManager::RequestResultInterfa
 public:
     explicit SignupWindow(QWidget *parent = nullptr);
     ~SignupWindow();
-    void CheckIfUserAlreadyRegistered();
-    bool CheckInput();
-    void ClearInfoFields();
+    void checkIfUserAlreadyRegistered();
+    bool checkInput();
+    void clearInfoFields();
 
-
-    virtual void OnRequestFinished(QNetworkReply *reply) override;
+    virtual void onRequestFinished(QNetworkReply *reply) override;
 
 private:
-    void PrintErrorText(QLabel *label,QString text);
-    void SetErrorLabelColor(QLabel *label);
-    bool IsEqualPassword(QString& pass, QString& confPass);
-    bool IsEmptyFields();
+    void printErrorText(QLabel *label, QString text);
+    void printReplyStatusInformation(QString &msg);
+    void setErrorLabelColor(QLabel *label);
+    bool isEqualPassword(QString& pass, QString& confPass);
+    bool isEmptyFields();
 
 signals:
     void OpenLoginWindow();

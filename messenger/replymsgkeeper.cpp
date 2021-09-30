@@ -5,7 +5,7 @@ ReplyMsgKeeper::ReplyMsgKeeper()
 
 }
 
-QString ReplyMsgKeeper::extract(QJsonDocument &replyInfo)
+QString ReplyMsgKeeper::extract(const QJsonDocument &replyInfo)
 {
     return replyInfo.object().value("status").toString();
 }
