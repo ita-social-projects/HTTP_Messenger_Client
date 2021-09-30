@@ -3,12 +3,13 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
+#include <requestmanager.h>
 
 namespace Ui {
 class SignupWindow;
 }
 
-class SignupWindow : public QWidget
+class SignupWindow : public QWidget, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -19,9 +20,10 @@ public:
     QString GetPassword();
     QString GetConfirmPassword();
     void CheckIfUserAlreadyRegistered();
-    void CheckInput();
+    bool CheckInput();
     void ClearInfoFields();
-    void close_window();
+
+    virtual void OnRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 signals:
     void OpenLoginWindow();

@@ -1,5 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -28,9 +29,29 @@ void LoginWindow::on_LoginButton_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
-        //save information about user
-        //send it to a server
-        emit LoginSuccess(ui->EnterLogin->text());
+        QString password = ui->EnterPassword->text();
+        QString login = ui->EnterLogin->text();
+
+        //emit LoginSuccess(ui->EnterLogin->text());
+        RequestManager::GetInstance()->login(login, password, this);
+    }
+}
+
+void LoginWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
+{
+    if(type == RequestType::LOGIN)
+    {
+        if (reply->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+            // parsing json
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit LoginSuccess(ui->EnterLogin->text());
+        }
     }
 }
 
@@ -60,6 +81,5 @@ bool LoginWindow::CheckInput()
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
        return false;
     }
-
     return true;
 }

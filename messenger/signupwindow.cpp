@@ -1,5 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
+#include <QMessageBox>
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -38,14 +39,6 @@ QString SignupWindow::GetConfirmPassword()
     return ui->ConfirmPassword->text();
 }
 
-void SignupWindow::close_window()
-{
-    this->close();
-    ui->Login->clear();
-    ui->Password->clear();
-    ui->ConfirmPassword->clear();
-}
-
 void SignupWindow::on_LoginButton_clicked()
 {
     emit OpenLoginWindow();
@@ -54,10 +47,32 @@ void SignupWindow::on_LoginButton_clicked()
 void SignupWindow::on_SignUp_clicked()
 {
     ClearInfoFields();
-    CheckInput();
-    //save information about user
-    //send it to a server
-    emit SignupSuccess(ui->Login->text());
+    if(CheckInput())
+    {
+        QString password = ui->Password->text();
+        QString login = ui->Login->text();
+
+        //emit SignupSuccess(ui->EnterLogin->text());
+        RequestManager::GetInstance()->signup(login,password, this);
+    }
+}
+
+void SignupWindow::OnRequestFinished(QNetworkReply *answer, RequestType type)
+{
+    if(type == RequestType::SIGNUP)
+    {
+        if (answer->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+            // parsing json
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit SignupSuccess(ui->Login->text());
+        }
+    }
 }
 
 void SignupWindow::ClearInfoFields()
@@ -68,7 +83,7 @@ void SignupWindow::ClearInfoFields()
     ui->LoginInfo->clear();
 }
 
-void SignupWindow::CheckInput()
+bool SignupWindow::CheckInput()
 {
     QPalette palette = ui->Info->palette();
 
@@ -84,7 +99,7 @@ void SignupWindow::CheckInput()
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
-       return;
+       return false;
     }
 
     if(password.size() < 5)
@@ -93,7 +108,7 @@ void SignupWindow::CheckInput()
         palette.setColor(ui->PasswordInfo->foregroundRole(), Qt::red);
         ui->PasswordInfo->setPalette(palette);
         ui->PasswordInfo->setText("Your password should be at least 5 characters.");
-        return;
+        return false;
     }
 
     if(password != confPassword)
@@ -102,6 +117,7 @@ void SignupWindow::CheckInput()
         palette.setColor(ui->ConfPassInfo->foregroundRole(), Qt::red);
         ui->ConfPassInfo->setPalette(palette);
         ui->ConfPassInfo->setText("Your password inputs are not equel. Try again.");
-        return;
+        return false;
     }
+    return true;
 }
