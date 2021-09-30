@@ -58,13 +58,8 @@ void RequestManager::sendMessage(QString from, QString to, QString message, Requ
         // DO nothing if result will not be used
         return;
     }
-    // Roman json
-    QJsonObject jsonObj;
-    jsonObj.insert("from", from);
-    jsonObj.insert("to",to);
-    jsonObj.insert("message", message);
-    QJsonDocument jsonDocument(jsonObj);
-
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packMsg(from,to,message);
     auto reply = post("/user/send_message", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
 }

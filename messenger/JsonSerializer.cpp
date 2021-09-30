@@ -29,7 +29,7 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
     return document;
 }
 
-QJsonDocument packMsg(const QString& userSenderToken,const QString& userReceiverLogin,const QString& msg)
+QJsonDocument JsonSerializer::packMsg(const QString& userSenderToken,const QString& userReceiverLogin,const QString& msg)
 {
     QJsonObject jsonObject;
 
