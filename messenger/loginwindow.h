@@ -2,8 +2,10 @@
 #define LOGINWINDOW_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include <QRegularExpressionValidator>
-#include <requestmanager.h>
+#include "requestmanager.h"
+#include "userinforeply.h"
 
 namespace Ui {
 class LoginWindow;
@@ -19,7 +21,7 @@ public:
     bool CheckInput();
     void ClearInfoFields();
 
-    virtual void OnRequestFinished(QNetworkReply *reply, RequestType type) override;
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 signals:
     void LoginSuccess(QString);

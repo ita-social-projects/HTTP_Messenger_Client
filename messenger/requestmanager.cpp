@@ -1,10 +1,8 @@
 #include "requestmanager.h"
-
-#include <QJsonObject>
 #include <QEventLoop>
 #include <QTimer>
 
-QString serverUrl = "http://server_url";
+const QString serverUrl = "http://server_url";
 
 RequestManager* RequestManager::sharedInstance{nullptr};
 std::mutex RequestManager::mutex_;
@@ -32,17 +30,13 @@ void RequestManager::login(QString username, QString password, RequestResultInte
         // DO nothing if result will not be used
         return;
     }
-    // Roman json
-    QJsonObject jsonObj;
-    jsonObj.insert("user",username);
-    jsonObj.insert("password",password);
-    QJsonDocument jsonDocument(jsonObj);
-
-    auto reply = post("/user/login", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::LOGIN));
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
+    auto reply = post("/login", jsonDocument);
+    resultMap.emplace(reply,Requester(resultInterface, RequestType::LOGIN));
 }
 
-void RequestManager::signup(QString username, QString password, RequestResultInterface *resultInterface)
+void RequestManager::signUp(QString username, QString password, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
@@ -50,14 +44,10 @@ void RequestManager::signup(QString username, QString password, RequestResultInt
         // DO nothing if result will not be used
         return;
     }
-    // Roman json
-    QJsonObject jsonObj;
-    jsonObj.insert("user",username);
-    jsonObj.insert("password",password);
-    QJsonDocument jsonDocument(jsonObj);
-
-    auto reply = post("/user/register", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::SIGNUP));
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
+    auto reply = post("/register", jsonDocument);
+    resultMap.emplace(reply,Requester(resultInterface,RequestType::SIGNUP));
 }
 
 void RequestManager::sendMessage(QString from, QString to, QString message, RequestResultInterface *resultInterface)
@@ -68,13 +58,8 @@ void RequestManager::sendMessage(QString from, QString to, QString message, Requ
         // DO nothing if result will not be used
         return;
     }
-    // Roman json
-    QJsonObject jsonObj;
-    jsonObj.insert("from", from);
-    jsonObj.insert("to",to);
-    jsonObj.insert("message", message);
-    QJsonDocument jsonDocument(jsonObj);
-
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packMsg(from,to,message);
     auto reply = post("/user/send_message", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
 }
@@ -113,7 +98,8 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
         // TODO: add log
         return;
     }
-    resultInterface->OnRequestFinished(networkReply, type);
+
+    resultInterface->onRequestFinished(networkReply,type);
     networkReply->deleteLater();
 }
 

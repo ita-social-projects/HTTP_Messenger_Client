@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,26 +10,29 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    JsonSerializer.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    replymsgkeeper.cpp \
+    requestmanager.cpp \
     signupwindow.cpp \
-    windowmanager.cpp \
-    jsonparser.cpp \
-    logininfo.cpp \
-    signupinfo.cpp \
-    requestmanager.cpp
+    user.cpp \
+    userinforeply.cpp \
+    windowmanager.cpp
 
 
 HEADERS += \
+    JsonDeserializer.h \
+    JsonSerializer.h \
     loginwindow.h \
     mainwindow.h \
+    replymsgkeeper.h \
+    requestmanager.h \
     signupwindow.h \
-    windowmanager.h \
-    jsonparser.h \
-    logininfo.h \
-    signupinfo.h \
-    requestmanager.h
+    user.h \
+    userinforeply.h \
+    windowmanager.h
 
 FORMS += \
     loginwindow.ui \

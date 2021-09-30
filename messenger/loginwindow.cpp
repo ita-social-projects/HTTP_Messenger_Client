@@ -25,19 +25,17 @@ LoginWindow::~LoginWindow()
 }
 
 void LoginWindow::on_LoginButton_clicked()
-{
+{   
     ClearInfoFields();
     if(CheckInput())
     {
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
-
-        //emit LoginSuccess(ui->EnterLogin->text());
-        RequestManager::GetInstance()->login(login, password, this);
+        RequestManager::GetInstance()->login(login,password, this);
     }
 }
 
-void LoginWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
+void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     if(type == RequestType::LOGIN)
     {
@@ -47,14 +45,25 @@ void LoginWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else
         {
-            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-            // parsing json
+            UserInfoReply userInfo;
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+
+            //using test file to watch if it works
+            QJsonDocument testFileDoc;
+            QFile file("TestAnswerLogin.json");
+            if(file.open(QIODevice::ReadOnly | QFile::Text))
+            {
+                testFileDoc = QJsonDocument::fromJson(file.readAll());
+            }
+            file.close();
+
+            User* user = userInfo.extract(testFileDoc); //document
+
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
         }
     }
 }
-
 void LoginWindow::on_SignupButton_clicked()
 {
     emit OpenSignupWindow();
