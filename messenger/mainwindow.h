@@ -17,7 +17,7 @@ public:
     ~MainWindow();
     void checkNewMessages();
 
-    virtual void OnRequestFinished(QNetworkReply *reply, RequestType type) override;
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 private:
     bool CheckMessage();

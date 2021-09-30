@@ -39,7 +39,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     if(type == RequestType::LOGIN)
     {
-        if (reply->error())
+        if (answer->error())
         {
             QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }

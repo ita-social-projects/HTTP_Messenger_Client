@@ -89,7 +89,7 @@ void MainWindow::on_ExitButton_clicked()
     emit ExitButtonClicked();
 }
 
-void MainWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
+void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
     if(type != RequestType::LOGIN && type != RequestType::SIGNUP)
     {

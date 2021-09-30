@@ -26,21 +26,6 @@ SignupWindow::~SignupWindow()
     delete ui;
 }
 
-QString SignupWindow::GetLogin()
-{
-    return ui->Login->text();
-}
-
-QString SignupWindow::GetPassword()
-{
-    return ui->Password->text();
-}
-
-QString SignupWindow::GetConfirmPassword()
-{
-    return ui->ConfirmPassword->text();
-}
-
 void SignupWindow::on_LoginButton_clicked()
 {
     emit OpenLoginWindow();
