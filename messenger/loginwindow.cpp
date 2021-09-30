@@ -34,7 +34,7 @@ void LoginWindow::on_LoginButton_clicked()
     }
 }
 
-void LoginWindow::OnRequestFinished(QNetworkReply *answer)
+void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     if (answer == nullptr)
     {
@@ -51,6 +51,7 @@ void LoginWindow::OnRequestFinished(QNetworkReply *answer)
             UserInfoReply userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
 
+            //using test file to watch if it works
             QJsonDocument testFileDoc;
             QFile file("TestAnswerLogin.json");
             if(file.open(QIODevice::ReadOnly | QFile::Text))
@@ -59,9 +60,7 @@ void LoginWindow::OnRequestFinished(QNetworkReply *answer)
             }
             file.close();
 
-            User user = userInfo.extract(testFileDoc); //document
-
-            qDebug() << "AccessToken: " << user.getAccessToken();
+            User* user = userInfo.extract(testFileDoc); //document
 
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());

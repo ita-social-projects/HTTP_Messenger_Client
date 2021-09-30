@@ -21,7 +21,7 @@ public:
     bool CheckInput();
     void ClearInfoFields();
 
-    virtual void OnRequestFinished(QNetworkReply *reply) override;
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 signals:
     void LoginSuccess(QString);

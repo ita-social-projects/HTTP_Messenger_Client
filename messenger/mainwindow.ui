@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>700</height>
+    <width>1206</width>
+    <height>711</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -234,8 +234,8 @@ border-radius: 40px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
-     <height>26</height>
+     <width>1206</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>

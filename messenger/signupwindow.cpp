@@ -105,7 +105,7 @@ bool SignupWindow::isEqualPassword(QString& pass, QString& confPass)
     return pass == confPass;
 }
 
-void SignupWindow::onRequestFinished(QNetworkReply *answer)
+void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     ReplyMsgKeeper replyMsg;
     if (answer == nullptr)

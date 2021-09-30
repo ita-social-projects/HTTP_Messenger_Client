@@ -22,7 +22,7 @@ public:
     bool checkInput();
     void clearInfoFields();
 
-    virtual void onRequestFinished(QNetworkReply *reply) override;
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 private:
     void printErrorText(QLabel *label, QString text);

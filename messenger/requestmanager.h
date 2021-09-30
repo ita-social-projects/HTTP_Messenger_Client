@@ -1,13 +1,20 @@
 #ifndef REQUESTMANAGER_H
 #define REQUESTMANAGER_H
 #include <mutex>
-
 #include <QNetworkAccessManager>
-#include <QJsonDocument>
 #include <QNetworkReply>
 #include <QObject>
 
 #include "JsonSerializer.h"
+
+enum class RequestType
+{
+    LOGIN,
+    SIGNUP,
+    SENDMESSAGE,
+    GETMESSAGE,
+    GETCHATS
+};
 
 class RequestManager : public QObject
 {
@@ -23,11 +30,22 @@ public:
     class RequestResultInterface
     {
     public:
-        virtual void OnRequestFinished(QNetworkReply *reply) = 0;
+        virtual void onRequestFinished(QNetworkReply *reply, RequestType type) = 0;
     };
 
 private:
     RequestManager(QObject *parent = 0);
+
+    class Requester
+        {
+            RequestResultInterface * interface;
+            RequestType requestType;
+        public:
+            Requester() = default;
+            Requester(RequestResultInterface * interface, RequestType type);
+            RequestResultInterface * getInterface();
+            RequestType getType();
+        };
 
 public:
     RequestManager(RequestManager &other) = delete;
@@ -36,11 +54,14 @@ public:
 
     void login(QString username, QString password, RequestResultInterface *resultInterface);
     void signUp(QString username, QString password,RequestResultInterface *resultInterface);
+    void sendMessage(QString from, QString to, QString massage, RequestResultInterface *resultInterface);
+    void getMessage(RequestResultInterface *resultInterface);
+    void getChats(RequestResultInterface *resultInterface);
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);
     QNetworkReply* get(QString);
-    std::map<QNetworkReply *, RequestResultInterface *> resultMap;
+    std::map<QNetworkReply *, Requester> resultMap;
 
 public slots:
     void OnRequestResult(QNetworkReply *networkReply);
