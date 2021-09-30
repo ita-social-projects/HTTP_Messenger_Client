@@ -33,26 +33,22 @@ void LoginWindow::on_LoginButton_clicked()
         QString login = ui->EnterLogin->text();
 
         //emit LoginSuccess(ui->EnterLogin->text());
-        RequestManager::GetInstance()->login(login,password, this);
+        RequestManager::GetInstance()->login(login, password, this);
     }
 }
 
-void LoginWindow::OnRequestFinished(QNetworkReply *answer)
+void LoginWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    if (answer == nullptr)
+    if(type == RequestType::LOGIN)
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-    }
-    else
-    {
-        if (answer->error())
+        if (reply->error())
         {
-            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }
         else
         {
-            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            // User user = answer.extact(document, "/login") ???
+            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+            // parsing json
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
         }

@@ -89,9 +89,34 @@ void MainWindow::on_ExitButton_clicked()
     emit ExitButtonClicked();
 }
 
-void MainWindow::OnRequestFinished(QNetworkReply *reply)
+void MainWindow::OnRequestFinished(QNetworkReply *reply, RequestType type)
 {
-
+    if(type != RequestType::LOGIN && type != RequestType::SIGNUP)
+    {
+        if (reply->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+            if(type==RequestType::SENDMESSAGE)
+            {
+                // parsing json
+                ui->Messages->addItem("Me: message");
+            }
+            if(type==RequestType::GETMESSAGE)
+            {
+                // parsing json
+                ui->Messages->addItem("Somebody: message");
+            }
+            if(type==RequestType::GETCHATS)
+            {
+                // parsing json
+                ui->UserList_2->addItem("ChatName");
+            }
+        }
+    }
 }
 
 bool MainWindow::CheckMessage()

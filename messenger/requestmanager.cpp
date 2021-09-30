@@ -1,11 +1,10 @@
 #include "requestmanager.h"
 
 #include <QJsonObject>
-
 #include <QEventLoop>
 #include <QTimer>
 
-QString serverUrl = "https://615376d53f4c430017159389.mockapi.io/api";
+QString serverUrl = "http://server_url";
 
 RequestManager* RequestManager::sharedInstance{nullptr};
 std::mutex RequestManager::mutex_;
@@ -33,12 +32,14 @@ void RequestManager::login(QString username, QString password, RequestResultInte
         // DO nothing if result will not be used
         return;
     }
+    // Roman json
     QJsonObject jsonObj;
     jsonObj.insert("user",username);
     jsonObj.insert("password",password);
     QJsonDocument jsonDocument(jsonObj);
-    auto reply = post("/login", jsonDocument);
-    resultMap[reply] =  resultInterface;
+
+    auto reply = post("/user/login", jsonDocument);
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::LOGIN));
 }
 
 void RequestManager::signup(QString username, QString password, RequestResultInterface *resultInterface)
@@ -49,12 +50,14 @@ void RequestManager::signup(QString username, QString password, RequestResultInt
         // DO nothing if result will not be used
         return;
     }
+    // Roman json
     QJsonObject jsonObj;
     jsonObj.insert("user",username);
     jsonObj.insert("password",password);
     QJsonDocument jsonDocument(jsonObj);
+
     auto reply = post("/user/register", jsonDocument);
-    resultMap[reply] =  resultInterface;
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::SIGNUP));
 }
 
 void RequestManager::sendMessage(QString from, QString to, QString message, RequestResultInterface *resultInterface)
@@ -65,13 +68,15 @@ void RequestManager::sendMessage(QString from, QString to, QString message, Requ
         // DO nothing if result will not be used
         return;
     }
+    // Roman json
     QJsonObject jsonObj;
     jsonObj.insert("from", from);
     jsonObj.insert("to",to);
     jsonObj.insert("message", message);
     QJsonDocument jsonDocument(jsonObj);
+
     auto reply = post("/user/send_message", jsonDocument);
-    resultMap[reply] =  resultInterface;
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
 }
 
 void RequestManager::getMessage(RequestResultInterface *resultInterface)
@@ -83,7 +88,7 @@ void RequestManager::getMessage(RequestResultInterface *resultInterface)
         return;
     }
     auto reply = get("/user/get_message");
-    resultMap[reply] =  resultInterface;
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETMESSAGE));
 }
 
 void RequestManager::getChats(RequestResultInterface *resultInterface)
@@ -95,20 +100,20 @@ void RequestManager::getChats(RequestResultInterface *resultInterface)
         return;
     }
     auto reply = get("/user/get_chats");
-    resultMap[reply] =  resultInterface;
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
 }
 
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 {
-    RequestResultInterface *resultInterface = resultMap[networkReply];
+    RequestResultInterface *resultInterface = resultMap[networkReply].getInterface();
+    RequestType type = resultMap[networkReply].getType();
     resultMap.erase(networkReply);
     if(resultInterface == nullptr)
     {
         // TODO: add log
         return;
     }
-
-    resultInterface->OnRequestFinished(networkReply);
+    resultInterface->OnRequestFinished(networkReply, type);
     networkReply->deleteLater();
 }
 
@@ -131,4 +136,20 @@ QNetworkRequest RequestManager::createRequest(QString header)
     request.setUrl(QUrl(serverUrl));
     request.setHeader(QNetworkRequest::ContentTypeHeader, header);
     return request;
+}
+
+RequestManager::Requester::Requester(RequestResultInterface * interface, RequestType type)
+{
+    this->interface = interface;
+    this->requestType = type;
+}
+
+RequestManager::RequestResultInterface * RequestManager::Requester::getInterface()
+{
+    return interface;
+}
+
+RequestType RequestManager::Requester::getType()
+{
+    return requestType;
 }

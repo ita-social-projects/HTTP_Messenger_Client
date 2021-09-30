@@ -53,26 +53,22 @@ void SignupWindow::on_SignUp_clicked()
         QString login = ui->Login->text();
 
         //emit SignupSuccess(ui->EnterLogin->text());
-        RequestManager::GetInstance()->login(login,password, this);
+        RequestManager::GetInstance()->signup(login,password, this);
     }
 }
 
-void SignupWindow::OnRequestFinished(QNetworkReply *answer)
+void SignupWindow::OnRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    if (answer == nullptr)
-    {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-    }
-    else
+    if(type == RequestType::SIGNUP)
     {
         if (answer->error())
         {
-            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }
         else
         {
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            // User user = answer.extact(document, "/login") ???
+            // parsing json
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit SignupSuccess(ui->Login->text());
         }
