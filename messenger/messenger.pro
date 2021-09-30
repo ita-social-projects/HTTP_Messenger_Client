@@ -21,6 +21,7 @@ SOURCES += \
     userinforeply.cpp \
     windowmanager.cpp
 
+
 HEADERS += \
     JsonDeserializer.h \
     JsonSerializer.h \

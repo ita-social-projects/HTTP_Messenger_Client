@@ -1,5 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
+#include <QMessageBox>
 
 #define MIN_PASS_LENGTH 5
 
@@ -18,13 +19,26 @@ SignupWindow::SignupWindow(QWidget *parent) :
     ui->Login->setPlaceholderText(" Enter login:");
     ui->Password->setPlaceholderText(" Enter password:");
     ui->ConfirmPassword->setPlaceholderText(" Confirm password:");
-
-    delete validator;
 }
 
 SignupWindow::~SignupWindow()
 {
     delete ui;
+}
+
+QString SignupWindow::GetLogin()
+{
+    return ui->Login->text();
+}
+
+QString SignupWindow::GetPassword()
+{
+    return ui->Password->text();
+}
+
+QString SignupWindow::GetConfirmPassword()
+{
+    return ui->ConfirmPassword->text();
 }
 
 void SignupWindow::on_LoginButton_clicked()
@@ -73,7 +87,6 @@ bool SignupWindow::checkInput()
         printErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
         return false;
     }
-
     return true;
 }
 
