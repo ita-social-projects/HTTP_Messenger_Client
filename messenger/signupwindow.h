@@ -3,35 +3,40 @@
 
 #include <QWidget>
 #include <QRegularExpressionValidator>
-#include "signupinfo.h"
+#include <QMessageBox>
+#include "requestmanager.h"
+#include "replymsgkeeper.h"
 
 namespace Ui {
 class SignupWindow;
 }
 
-class SignupWindow : public QWidget
+class SignupWindow : public QWidget, public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
 public:
     explicit SignupWindow(QWidget *parent = nullptr);
     ~SignupWindow();
-    QString GetLogin();
-    QString GetPassword();
-    QString GetConfirmPassword();
-    void CheckIfUserAlreadyRegistered();
-    void CheckInput();
-    void ClearInfoFields();
-    void close_window();
+    void checkIfUserAlreadyRegistered();
+    bool checkInput();
+    void clearInfoFields();
+
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
+
+private:
+    void printErrorText(QLabel *label, QString text);
+    void printReplyStatusInformation(QString &msg);
+    void setErrorLabelColor(QLabel *label);
+    bool isEqualPassword(QString& pass, QString& confPass);
+    bool isEmptyFields();
 
 signals:
-    void LoginButton_signal();
-    void SignupButton_signal();
+    void OpenLoginWindow();
+    void SignupSuccess(QString);
 
 private slots:
-    void on_SignupButton_clicked();
     void on_LoginButton_clicked();
-
     void on_SignUp_clicked();
 
 private:

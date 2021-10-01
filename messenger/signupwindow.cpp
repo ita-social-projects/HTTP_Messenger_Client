@@ -1,6 +1,8 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
+#include <QMessageBox>
 
+#define MIN_PASS_LENGTH 5
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -24,29 +26,6 @@ SignupWindow::~SignupWindow()
     delete ui;
 }
 
-QString SignupWindow::GetLogin()
-{
-    return ui->Login->text();
-}
-
-QString SignupWindow::GetPassword()
-{
-    return ui->Password->text();
-}
-
-QString SignupWindow::GetConfirmPassword()
-{
-    return ui->ConfirmPassword->text();
-}
-
-void SignupWindow::close_window()
-{
-    this->close();
-    ui->Login->clear();
-    ui->Password->clear();
-    ui->ConfirmPassword->clear();
-}
-
 void SignupWindow::on_LoginButton_clicked()
 {
     emit OpenLoginWindow();
@@ -54,19 +33,16 @@ void SignupWindow::on_LoginButton_clicked()
 
 void SignupWindow::on_SignUp_clicked()
 {
-    ClearInfoFields();
-    CheckInput();
-    SignUpInfo info;
-    info.SetLogin(ui->Login->text());
-    info.SetPassword(ui->Password->text());
-
-    info.pack();
-    //save information about user
-    //send it to a server
-    emit SignupSuccess(ui->Login->text());
+    clearInfoFields();
+    if(checkInput())
+    {
+        QString password = ui->Password->text();
+        QString login = ui->Login->text();
+        RequestManager::GetInstance()->signUp(login,password,this);
+    }
 }
 
-void SignupWindow::ClearInfoFields()
+void SignupWindow::clearInfoFields()
 {
     ui->Info->clear();
     ui->ConfPassInfo->clear();
@@ -74,40 +50,99 @@ void SignupWindow::ClearInfoFields()
     ui->LoginInfo->clear();
 }
 
-void SignupWindow::CheckInput()
+bool SignupWindow::checkInput()
 {
-    QPalette palette = ui->Info->palette();
+    QString password = ui->Password->text();
+    QString confPassword = ui->ConfirmPassword->text();
 
-    QString password = GetPassword();
-    QString confPassword = GetConfirmPassword();
-    QString login = GetLogin();
-
-    if(login.isEmpty() ||
-       password.isEmpty() ||
-       confPassword.isEmpty())
+    if(isEmptyFields())
     {
-       palette.setColor(ui->Info->backgroundRole(), Qt::white);
-       palette.setColor(ui->Info->foregroundRole(), Qt::red);
-       ui->Info->setPalette(palette);
-       ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
-       return;
+       printErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
+       return false;
     }
 
-    if(password.size() < 5)
+    if(password.size() < MIN_PASS_LENGTH)
     {
-        palette.setColor(ui->PasswordInfo->backgroundRole(), Qt::white);
-        palette.setColor(ui->PasswordInfo->foregroundRole(), Qt::red);
-        ui->PasswordInfo->setPalette(palette);
-        ui->PasswordInfo->setText("Your password should be at least 5 characters.");
-        return;
+        printErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
+        return false;
     }
 
-    if(password != confPassword)
+    if(!isEqualPassword(password,confPassword))
     {
-        palette.setColor(ui->ConfPassInfo->backgroundRole(), Qt::white);
-        palette.setColor(ui->ConfPassInfo->foregroundRole(), Qt::red);
-        ui->ConfPassInfo->setPalette(palette);
-        ui->ConfPassInfo->setText("Your password inputs are not equel. Try again.");
-        return;
+        printErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
+        return false;
+    }
+    return true;
+}
+
+bool SignupWindow::isEmptyFields()
+{
+    QString password = ui->Password->text();
+    QString confPassword = ui->ConfirmPassword->text();
+    QString login = ui->Login->text();
+
+    return login.isEmpty() || password.isEmpty() || confPassword.isEmpty();
+}
+
+void SignupWindow::printErrorText(QLabel *label,QString text)
+{
+    setErrorLabelColor(label);
+    label->setText(text);
+}
+
+void SignupWindow::setErrorLabelColor(QLabel *label)
+{
+    QPalette palette = label->palette();
+    palette.setColor(label->backgroundRole(), Qt::white);
+    palette.setColor(label->foregroundRole(), Qt::red);
+    label->setPalette(palette);
+}
+
+bool SignupWindow::isEqualPassword(QString& pass, QString& confPass)
+{
+    return pass == confPass;
+}
+
+void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
+{
+    ReplyMsgKeeper replyMsg;
+    if (answer == nullptr)
+    {
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+    }
+    else
+    {
+        //if (answer->error())
+        //{
+        //    QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+        //}
+        //else
+        //{
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+
+            QJsonDocument testFileDoc;
+            QFile file("TestAnswerSignUp.json");
+            if(file.open(QIODevice::ReadOnly | QFile::Text))
+            {
+                testFileDoc = QJsonDocument::fromJson(file.readAll());
+            }
+            file.close();
+
+            QString resMsg = replyMsg.extract(testFileDoc);//document);
+            printReplyStatusInformation(resMsg);
+        //}
+    }
+}
+
+void SignupWindow::printReplyStatusInformation(QString &msg)
+{
+    if(msg.contains("200"))
+    {
+        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
+        emit SignupSuccess(ui->Login->text());
+    }
+    else if(msg.contains("400"))
+    {
+        QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
     }
 }
