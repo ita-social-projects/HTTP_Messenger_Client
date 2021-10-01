@@ -1,5 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -24,16 +25,45 @@ LoginWindow::~LoginWindow()
 }
 
 void LoginWindow::on_LoginButton_clicked()
-{
+{   
     ClearInfoFields();
     if(CheckInput())
     {
-        //save information about user
-        //send it to a server
-        emit LoginSuccess(ui->EnterLogin->text());
+        QString password = ui->EnterPassword->text();
+        QString login = ui->EnterLogin->text();
+        RequestManager::GetInstance()->login(login,password, this);
     }
 }
 
+void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
+{
+    if(type == RequestType::LOGIN)
+    {
+        if (answer->error())
+        {
+            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        }
+        else
+        {
+            UserInfoReply userInfo;
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+
+            //using test file to watch if it works
+            QJsonDocument testFileDoc;
+            QFile file("TestAnswerLogin.json");
+            if(file.open(QIODevice::ReadOnly | QFile::Text))
+            {
+                testFileDoc = QJsonDocument::fromJson(file.readAll());
+            }
+            file.close();
+
+            User* user = userInfo.extract(testFileDoc); //document
+
+            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            emit LoginSuccess(ui->EnterLogin->text());
+        }
+    }
+}
 void LoginWindow::on_SignupButton_clicked()
 {
     emit OpenSignupWindow();
@@ -60,6 +90,5 @@ bool LoginWindow::CheckInput()
        ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
        return false;
     }
-
     return true;
 }
