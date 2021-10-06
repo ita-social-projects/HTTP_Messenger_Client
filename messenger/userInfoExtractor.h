@@ -1,7 +1,7 @@
 #ifndef USERINFOEXTRACTOR_H
 #define USERINFOEXTRACTOR_H
 #include "JsonDeserializer.h"
-#include "user.h"
+#include "currentuser.h"
 
 class UserInfoExtractor: public JsonDeserializer<CurrentUser*>
 {
