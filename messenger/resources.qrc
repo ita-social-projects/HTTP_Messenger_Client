@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/messenger1.ico</file>
+        <file>icons/search.ico</file>
+        <file>icons/send.ico</file>
+    </qresource>
+</RCC>
