@@ -13,6 +13,7 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
     Q_OBJECT
 
 public:
+    MainWindow(){};
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
@@ -29,7 +30,9 @@ private slots:
     void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
-    void on_ExitButton_clicked();
+    void on_actionAbout_triggered();
+    void on_actionAbout_Qt_triggered();
+    void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;

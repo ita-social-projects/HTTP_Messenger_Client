@@ -20,7 +20,7 @@ void WindowManager::open_SignupWindow()
     close_Window();
     current_window.reset(new SignupWindow());
     connect(current_window.get(), SIGNAL(OpenLoginWindow()), this, SLOT(open_LoginWindow()));
-    connect(current_window.get(), SIGNAL(SignupSuccess(QString)), this, SLOT(open_MainWindow(QString)));
+    connect(current_window.get(), SIGNAL(SignupSuccess(QString)), this, SLOT(open_LoginWindow()));
     current_window->show();
 }
 void WindowManager::open_MainWindow(QString user_name)

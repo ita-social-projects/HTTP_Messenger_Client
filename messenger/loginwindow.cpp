@@ -16,6 +16,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->EnterLogin->setPlaceholderText(" Enter login:");
     ui->EnterPassword->setPlaceholderText(" Enter password:");
 
+    this->setWindowTitle("Log In");
     delete validator;
 }
 
@@ -39,13 +40,13 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     if(type == RequestType::LOGIN)
     {
-        if (answer->error())
-        {
-            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-        }
-        else
-        {
-            UserInfoReply userInfo;
+        //if (answer->error())
+        //{
+        //    QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        //}
+        //else
+        //{
+            UserInfoExtractor userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
 
             //using test file to watch if it works
@@ -57,11 +58,11 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
             }
             file.close();
 
-            User* user = userInfo.extract(testFileDoc); //document
+            CurrentUser* user = userInfo.extract(testFileDoc); //document
 
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
-        }
+        //}
     }
 }
 void LoginWindow::on_SignupButton_clicked()

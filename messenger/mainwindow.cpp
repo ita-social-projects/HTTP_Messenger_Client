@@ -2,18 +2,19 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QThread>
+#include "currentUser.h"
 
 MainWindow::MainWindow(QString user_name)
     : QMainWindow(nullptr)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->UserName->setText(user_name);
 
-    ui->EnterMessage->setPlaceholderText(" Enter message:");
+    ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchUser->setPlaceholderText(" Enter user to search:");
 
     RequestManager::GetInstance()->getChats(this);
+    this->setWindowTitle("Toretto");
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +52,8 @@ void MainWindow::on_SendButton_clicked()
 {
     if(CheckMessage())
     {
-        RequestManager::GetInstance()->sendMessage(ui->UserName->text(), ui->ChatName->text(), ui->EnterMessage->text(), this);
+        CurrentUser *user = CurrentUser::getInstance();
+        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
 
     // get JsonDocument
 //    QNetworkReply* answer = get("/send"); // post
@@ -82,11 +84,6 @@ void MainWindow::on_SearchUserButton_clicked()
 //        // show list
 //        answer->deleteLater();
 //    }
-}
-
-void MainWindow::on_ExitButton_clicked()
-{
-    emit ExitButtonClicked();
 }
 
 void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
@@ -127,3 +124,22 @@ bool MainWindow::CheckMessage()
     }
     return true;
 }
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(nullptr,"Project Team","Hello!\nWe are the team Lv.617-C++, and we are glad to see "
+    "that you`re using our project messenger!\nGood luck and have fun!!!");
+}
+
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QApplication::aboutQt();
+}
+
+
+void MainWindow::on_actionExit_triggered()
+{
+     emit ExitButtonClicked();
+}
+
