@@ -110,31 +110,16 @@ bool SignupWindow::isEqualPassword(const QString& pass,const QString& confPass)
 void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     ReplyMsgExtractor replyMsg;
-    if (answer == nullptr)
+    if (answer->error())
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
     }
     else
     {
-        //if (answer->error())
-        //{
-        //     QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-        //}
-        //else
-        //{
-            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+        QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
 
-            QJsonDocument testFileDoc;
-            QFile file("TestAnswerSignUp.json");
-            if(file.open(QIODevice::ReadOnly | QFile::Text))
-            {
-                testFileDoc = QJsonDocument::fromJson(file.readAll());
-            }
-            file.close();
-
-            QString resMsg = replyMsg.extract(testFileDoc);//document);
-            printReplyStatusInformation(resMsg);
-        //}
+        QString resMsg = replyMsg.extract(document);
+        printReplyStatusInformation(resMsg);
     }
 }
 

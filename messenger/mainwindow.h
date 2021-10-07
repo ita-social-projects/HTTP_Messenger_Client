@@ -17,6 +17,7 @@ public:
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
+    void showMessage(QString from, QString message);
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
