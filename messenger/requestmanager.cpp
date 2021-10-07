@@ -2,7 +2,7 @@
 #include <QEventLoop>
 #include <QTimer>
 
-const QString serverUrl = "http://server_url";
+const QString serverUrl = "http://localhost:8080/restdemo";
 
 RequestManager* RequestManager::sharedInstance{nullptr};
 std::mutex RequestManager::mutex_;
@@ -32,7 +32,7 @@ void RequestManager::login(QString username, QString password, RequestResultInte
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
-    auto reply = post("/login", jsonDocument);
+    auto reply = post("/user/login", jsonDocument);
     resultMap.emplace(reply,Requester(resultInterface, RequestType::LOGIN));
 }
 
@@ -46,7 +46,7 @@ void RequestManager::signUp(QString username, QString password, RequestResultInt
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
-    auto reply = post("/register", jsonDocument);
+    auto reply = post("/user/sign_up", jsonDocument);
     resultMap.emplace(reply,Requester(resultInterface,RequestType::SIGNUP));
 }
 

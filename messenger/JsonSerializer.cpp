@@ -1,6 +1,6 @@
 #include "JsonSerializer.h"
 #define LOGIN "login"
-#define PASSWORD "password"
+#define PASSWORD "pass"
 #define SENDER "sender"
 #define RECEIVER "receiver"
 #define MESSAGE "message"
