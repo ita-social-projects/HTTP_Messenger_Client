@@ -50,7 +50,7 @@ void RequestManager::signUp(QString username, QString password, RequestResultInt
     resultMap.emplace(reply,Requester(resultInterface,RequestType::SIGNUP));
 }
 
-void RequestManager::sendMessage(QString from, QString to, QString message, RequestResultInterface *resultInterface)
+void RequestManager::sendMessage(QString userID, QString to, QString message, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
@@ -59,12 +59,12 @@ void RequestManager::sendMessage(QString from, QString to, QString message, Requ
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packMsg(from,to,message);
+    QJsonDocument jsonDocument = serializer.packMsg(userID,to,message);
     auto reply = post("/user/send_message", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
 }
 
-void RequestManager::getMessage(RequestResultInterface *resultInterface)
+void RequestManager::getMessage(QString userID, QString chatID, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
@@ -76,7 +76,7 @@ void RequestManager::getMessage(RequestResultInterface *resultInterface)
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETMESSAGE));
 }
 
-void RequestManager::getChats(RequestResultInterface *resultInterface)
+void RequestManager::getChats(QString userID, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
@@ -86,6 +86,26 @@ void RequestManager::getChats(RequestResultInterface *resultInterface)
     }
     auto reply = get("/user/get_chats");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
+}
+
+void createChat(QString userID, QString chatName, QVector<QString> members)
+{
+
+}
+
+void searchUser(QString userID, QString searchingName)
+{
+
+}
+
+void updateProfile(QString userID, QString newName, QString newPassword)
+{
+
+}
+
+void signOut(QString userID)
+{
+
 }
 
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
@@ -106,6 +126,7 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
     QNetworkRequest request = createRequest(header);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QByteArray data = jsonDocument.toJson();
     return manager->post(request, data);
 }
@@ -119,8 +140,7 @@ QNetworkReply* RequestManager::get(QString header)
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, header);
+    request.setUrl(QUrl(serverUrl + header));
     return request;
 }
 

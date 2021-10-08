@@ -112,12 +112,11 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     ReplyMsgExtractor replyMsg;
     if (answer->error())
     {
-         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+         QMessageBox::critical(nullptr, "ERROR", "This user alreade exist!");
     }
     else
     {
         QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-
         QString resMsg = replyMsg.extract(document);
         printReplyStatusInformation(resMsg);
     }

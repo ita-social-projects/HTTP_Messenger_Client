@@ -15,7 +15,7 @@ MainWindow::MainWindow(QString user_name)
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchUser->setPlaceholderText(" Enter user to search:");
 
-    RequestManager::GetInstance()->getChats(this);
+    //RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
@@ -29,7 +29,7 @@ void MainWindow::checkNewMessages()
 {
     while (true)
     {
-        RequestManager::GetInstance()->getMessage(this);
+        //RequestManager::GetInstance()->getMessage(this);
         QThread::sleep(1);
     }
 }

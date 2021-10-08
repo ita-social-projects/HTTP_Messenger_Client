@@ -32,8 +32,7 @@ void LoginWindow::on_LoginButton_clicked()
     {
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
-        RequestManager::GetInstance()->login(login,password, this);
-        //emit LoginSuccess(ui->EnterLogin->text());
+        RequestManager::GetInstance()->login(login, password, this);
     }
 }
 
@@ -43,14 +42,13 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     {
         if (answer->error())
         {
-            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
         }
         else
         {
             UserInfoExtractor userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            CurrentUser* user = userInfo.extract(document); //document
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
+            CurrentUser* user = userInfo.extract(document);
             emit LoginSuccess(ui->EnterLogin->text());
         }
     }
