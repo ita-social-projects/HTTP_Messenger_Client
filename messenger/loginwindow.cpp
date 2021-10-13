@@ -16,6 +16,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->EnterLogin->setPlaceholderText(" Enter login:");
     ui->EnterPassword->setPlaceholderText(" Enter password:");
 
+    this->setWindowTitle("Log In");
     delete validator;
 }
 
@@ -32,6 +33,7 @@ void LoginWindow::on_LoginButton_clicked()
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
         RequestManager::GetInstance()->login(login,password, this);
+        //emit LoginSuccess(ui->EnterLogin->text());
     }
 }
 
@@ -45,20 +47,9 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         }
         else
         {
-            UserInfoReply userInfo;
+            UserInfoExtractor userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-
-            //using test file to watch if it works
-            QJsonDocument testFileDoc;
-            QFile file("TestAnswerLogin.json");
-            if(file.open(QIODevice::ReadOnly | QFile::Text))
-            {
-                testFileDoc = QJsonDocument::fromJson(file.readAll());
-            }
-            file.close();
-
-            User* user = userInfo.extract(testFileDoc); //document
-
+            CurrentUser* user = userInfo.extract(document); //document
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
         }
@@ -87,7 +78,7 @@ bool LoginWindow::CheckInput()
        palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
-       ui->Info->setText("Some of registration lines are empty. Fill empty lines.");
+       ui->Info->setText("Some of lines are empty. Fill empty lines.");
        return false;
     }
     return true;

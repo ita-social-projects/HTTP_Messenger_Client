@@ -5,7 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include "requestmanager.h"
-#include "replymsgkeeper.h"
+#include "replyMsgExtractor.h"
 
 namespace Ui {
 class SignupWindow;
@@ -28,7 +28,7 @@ private:
     void printErrorText(QLabel *label, QString text);
     void printReplyStatusInformation(QString &msg);
     void setErrorLabelColor(QLabel *label);
-    bool isEqualPassword(QString& pass, QString& confPass);
+    bool isEqualPassword(const QString& pass,const QString& confPass);
     bool isEmptyFields();
 
 signals:
