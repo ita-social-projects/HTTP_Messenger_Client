@@ -50,7 +50,7 @@ void RequestManager::signUp(QString username, QString password, RequestResultInt
     resultMap.emplace(reply,Requester(resultInterface,RequestType::SIGNUP));
 }
 
-void RequestManager::sendMessage(QString userID, QString to, QString message, RequestResultInterface *resultInterface)
+void RequestManager::sendMessage(QString userID, QString chatID, QString message, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
@@ -59,7 +59,7 @@ void RequestManager::sendMessage(QString userID, QString to, QString message, Re
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packMsg(userID,to,message);
+    QJsonDocument jsonDocument = serializer.packMsg(userID,chatID,message);
     auto reply = post("/user/send_message", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
 }
@@ -88,24 +88,65 @@ void RequestManager::getChats(QString userID, RequestResultInterface *resultInte
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
 }
 
-void createChat(QString userID, QString chatName, QVector<QString> members)
+void RequestManager::createChat(QString userID, QString chatName, QVector<QString> members, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // parsing
+    auto reply = post("/user/create_chat", jsonDocument);
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATECHATS));
+}
+
+void RequestManager::searchUser(QString userID, QString searchingName, RequestResultInterface *resultInterface)
 {
 
 }
 
-void searchUser(QString userID, QString searchingName)
+void RequestManager::updateLogin(QString userID, QString newLogin, RequestResultInterface *resultInterface)
 {
-
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // parsing
+    auto reply = post("/user/update_login", jsonDocument);
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATELOGIN));
 }
 
-void updateProfile(QString userID, QString newName, QString newPassword)
+void RequestManager::updatePassword(QString userID, QString newPassword, RequestResultInterface *resultInterface)
 {
-
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // parsing
+    auto reply = post("/user/update_password", jsonDocument);
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATEPASSWORD));
 }
 
-void signOut(QString userID)
+void RequestManager::signOut(QString userID, RequestResultInterface *resultInterface)
 {
-
+    if(resultInterface == nullptr)
+    {
+        // TODO: add log.
+        // DO nothing if result will not be used
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // parsing
+    auto reply = post("/user/signout", jsonDocument);
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::SIGNOUT));
 }
 
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)

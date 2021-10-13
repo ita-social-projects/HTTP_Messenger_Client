@@ -12,7 +12,12 @@ enum class RequestType
     SIGNUP,
     SENDMESSAGE,
     GETMESSAGE,
-    GETCHATS
+    GETCHATS,
+    CREATECHATS,
+    SEARCHUSER,
+    UPDATELOGIN,
+    UPDATEPASSWORD,
+    SIGNOUT
 };
 
 class RequestManager : public QObject
@@ -52,13 +57,14 @@ public:
 
     void login(QString username, QString password, RequestResultInterface *resultInterface);
     void signUp(QString username, QString password,RequestResultInterface *resultInterface);
-    void sendMessage(QString userID, QString to, QString massage, RequestResultInterface *resultInterface);
+    void sendMessage(QString userID, QString chatID, QString massage, RequestResultInterface *resultInterface);
     void getMessage(QString userID, QString chatID, RequestResultInterface *resultInterface);
     void getChats(QString userID, RequestResultInterface *resultInterface);
-    void createChat(QString userID, QString chatName, QVector<QString> members);
-    void searchUser(QString userID, QString searchingName);
-    void updateProfile(QString userID, QString newName, QString newPassword);
-    void signOut(QString userID);
+    void createChat(QString userID, QString chatName, QVector<QString> members, RequestResultInterface *resultInterface);
+    void searchUser(QString userID, QString searchingName, RequestResultInterface *resultInterface);
+    void updateLogin(QString userID, QString newLogin, RequestResultInterface *resultInterface);
+    void updatePassword(QString userID, QString newPassword, RequestResultInterface *resultInterface);
+    void signOut(QString userID, RequestResultInterface *resultInterface);
 
 private:
     QNetworkRequest createRequest(QString );
