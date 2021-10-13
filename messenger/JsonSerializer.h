@@ -13,7 +13,7 @@ class JsonSerializer
 public:
     JsonSerializer();
     QJsonDocument packUserInfo(const QString& pass,const QString& userLogin);
-    QJsonDocument packMsg(const QString& sendToken,const QString& recLogin,const QString& msg);
+    QJsonDocument packMsg(const QString& sender,const QString& recLogin,const QString& msg);
 };
 
 #endif // JSONSERIALIZER_H

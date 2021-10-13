@@ -3,6 +3,8 @@
 #include <QMessageBox>
 
 #define MIN_PASS_LENGTH 5
+#define STATUS_OK "200"
+#define STATUS_BAD_REQUEST "400"
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -12,13 +14,15 @@ SignupWindow::SignupWindow(QWidget *parent) :
     ui->Password->setEchoMode(QLineEdit::EchoMode::Password);
     ui->ConfirmPassword->setEchoMode(QLineEdit::EchoMode::Password);
 
-    QRegularExpression rx("[a-zA-Z]+");
+    QRegularExpression rx("[a-zA-Z0-9]+");
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     ui->Login->setValidator(validator);
 
     ui->Login->setPlaceholderText(" Enter login:");
     ui->Password->setPlaceholderText(" Enter password:");
     ui->ConfirmPassword->setPlaceholderText(" Confirm password:");
+
+    this->setWindowTitle("User registration");
 }
 
 SignupWindow::~SignupWindow()
@@ -69,7 +73,7 @@ bool SignupWindow::checkInput()
 
     if(!isEqualPassword(password,confPassword))
     {
-        printErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
+        printErrorText(ui->ConfPassInfo,"Your password inputs are not equal. Try again.");
         return false;
     }
     return true;
@@ -98,50 +102,39 @@ void SignupWindow::setErrorLabelColor(QLabel *label)
     label->setPalette(palette);
 }
 
-bool SignupWindow::isEqualPassword(QString& pass, QString& confPass)
+bool SignupWindow::isEqualPassword(const QString& pass,const QString& confPass)
 {
     return pass == confPass;
 }
 
 void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    ReplyMsgKeeper replyMsg;
-    if (answer == nullptr)
+    ReplyMsgExtractor replyMsg;
+    if (answer->error())
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
     }
     else
     {
-        //if (answer->error())
-        //{
-        //    QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
-        //}
-        //else
-        //{
-            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+        QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
 
-            QJsonDocument testFileDoc;
-            QFile file("TestAnswerSignUp.json");
-            if(file.open(QIODevice::ReadOnly | QFile::Text))
-            {
-                testFileDoc = QJsonDocument::fromJson(file.readAll());
-            }
-            file.close();
-
-            QString resMsg = replyMsg.extract(testFileDoc);//document);
-            printReplyStatusInformation(resMsg);
-        //}
+        QString resMsg = replyMsg.extract(document);
+        printReplyStatusInformation(resMsg);
     }
 }
 
 void SignupWindow::printReplyStatusInformation(QString &msg)
 {
-    if(msg.contains("200"))
+    if(msg.isEmpty())
+    {
+        QMessageBox::information(nullptr,"ERROR","Didn't get the reply from server");
+    }
+    else if(msg.contains(STATUS_OK))
     {
         QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
         emit SignupSuccess(ui->Login->text());
     }
-    else if(msg.contains("400"))
+    else if(msg.contains(STATUS_BAD_REQUEST))
     {
         QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
     }

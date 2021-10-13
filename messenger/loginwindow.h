@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
 #include "requestmanager.h"
-#include "userinforeply.h"
+#include "userInfoExtractor.h"
 
 namespace Ui {
 class LoginWindow;

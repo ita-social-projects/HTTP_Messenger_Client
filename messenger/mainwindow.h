@@ -13,9 +13,11 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
     Q_OBJECT
 
 public:
+    MainWindow(){};
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
+    void showMessage(QString from, QString message);
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
@@ -29,7 +31,9 @@ private slots:
     void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
-    void on_ExitButton_clicked();
+    void on_actionAbout_triggered();
+    void on_actionAbout_Qt_triggered();
+    void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;

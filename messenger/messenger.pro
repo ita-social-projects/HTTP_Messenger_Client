@@ -11,27 +11,27 @@ CONFIG += c++11
 
 SOURCES += \
     JsonSerializer.cpp \
+    currentUser.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    replymsgkeeper.cpp \
+    replyMsgExtractor.cpp \
     requestmanager.cpp \
     signupwindow.cpp \
-    user.cpp \
-    userinforeply.cpp \
+    userinfoExtractor.cpp \
     windowmanager.cpp
 
 
 HEADERS += \
     JsonDeserializer.h \
     JsonSerializer.h \
+    currentUser.h \
     loginwindow.h \
     mainwindow.h \
-    replymsgkeeper.h \
+    replyMsgExtractor.h \
     requestmanager.h \
     signupwindow.h \
-    user.h \
-    userinforeply.h \
+    userInfoExtractor.h \
     windowmanager.h
 
 FORMS += \
@@ -48,3 +48,6 @@ QT += core gui network
 
 QMAKE_EXTRA_TARGETS += copyfiles
 POST_TARGETDEPS += copyfiles
+
+RESOURCES += \
+    resources.qrc
