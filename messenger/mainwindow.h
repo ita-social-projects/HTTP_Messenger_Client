@@ -33,6 +33,8 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionAbout_Qt_triggered();
     void on_actionExit_triggered();
+    void on_actionProfile_triggered();
+    void on_UserImg_clicked();
 
 private:
     Ui::MainWindow *ui;

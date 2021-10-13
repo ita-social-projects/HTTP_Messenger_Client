@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-#include <QThread>
+#include <QPainter>
+#include <QPainterPath>
 #include "currentUser.h"
+#include "profilewindow.h"
 
 MainWindow::MainWindow(QString user_name)
     : QMainWindow(nullptr)
@@ -12,6 +14,12 @@ MainWindow::MainWindow(QString user_name)
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchUser->setPlaceholderText(" Enter user to search:");
+
+    QPixmap pixmap(":/icons/icons/profile.svg");
+    QIcon ButtonIcon(pixmap);
+
+     ui->UserImg->setIcon(ButtonIcon);
+     ui->UserImg->setIconSize(ui->UserImg->size());
 
     RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
@@ -131,15 +139,26 @@ void MainWindow::on_actionAbout_triggered()
     "that you`re using our project messenger!\nGood luck and have fun!!!");
 }
 
-
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QApplication::aboutQt();
 }
 
-
 void MainWindow::on_actionExit_triggered()
 {
-     emit ExitButtonClicked();
+     this->close();
 }
 
+void MainWindow::on_actionProfile_triggered()
+{
+    ProfileWindow *window = new ProfileWindow();
+    window->setModal(true);
+    window->show();
+}
+
+void MainWindow::on_UserImg_clicked()
+{
+    ProfileWindow *window = new ProfileWindow();
+    window->setModal(true);
+    window->show();
+}

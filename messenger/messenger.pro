@@ -15,6 +15,7 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    profilewindow.cpp \
     replyMsgExtractor.cpp \
     requestmanager.cpp \
     signupwindow.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     currentUser.h \
     loginwindow.h \
     mainwindow.h \
+    profilewindow.h \
     replyMsgExtractor.h \
     requestmanager.h \
     signupwindow.h \
@@ -37,6 +39,7 @@ HEADERS += \
 FORMS += \
     loginwindow.ui \
     mainwindow.ui \
+    profilewindow.ui \
     signupwindow.ui
 
 # Default rules for deployment.
