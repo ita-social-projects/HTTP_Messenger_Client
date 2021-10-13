@@ -1,5 +1,5 @@
 #include "userinforeply.h"
-
+#include "Logger.h"
 UserInfoReply::UserInfoReply()
 {
 
@@ -16,7 +16,8 @@ User* UserInfoReply::extract(const QJsonDocument &replyInfo)
 
     if(!replyInfo.isNull())
     {
-       user->setAccessToken(replyInfo.object().value("token").toString());
+       LOG_DEBUG("Setting access token");
+        user->setAccessToken(replyInfo.object().value("token").toString());
     }
 
     return user;
