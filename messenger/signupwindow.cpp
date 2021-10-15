@@ -1,5 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
+#include "Logger.h"
 #include <QMessageBox>
 
 #define MIN_PASS_LENGTH 5
@@ -48,6 +49,7 @@ void SignupWindow::on_SignUp_clicked()
 
 void SignupWindow::clearInfoFields()
 {
+    LOG_DEBUG("Clearing fields");
     ui->Info->clear();
     ui->ConfPassInfo->clear();
     ui->PasswordInfo->clear();
@@ -61,18 +63,21 @@ bool SignupWindow::checkInput()
 
     if(isEmptyFields())
     {
+       LOG_ERROR("Sign up fields is empty");
        printErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
        return false;
     }
 
     if(password.size() < MIN_PASS_LENGTH)
     {
+        LOG_ERROR("Sign up password is too short");
         printErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
         return false;
     }
 
     if(!isEqualPassword(password,confPassword))
     {
+        LOG_ERROR("Sign up password inputs isn`t equals");
         printErrorText(ui->ConfPassInfo,"Your password inputs are not equal. Try again.");
         return false;
     }
@@ -112,7 +117,8 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     ReplyMsgExtractor replyMsg;
     if (answer->error())
     {
-         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        LOG_FATAL("Sign up server connection is failed");
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
     }
     else
     {
@@ -131,11 +137,13 @@ void SignupWindow::printReplyStatusInformation(QString &msg)
     }
     else if(msg.contains(STATUS_OK))
     {
+        LOG_DEBUG("Sign up window successfully connected");
         QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
         emit SignupSuccess(ui->Login->text());
     }
     else if(msg.contains(STATUS_BAD_REQUEST))
     {
+        LOG_VERBOSE("Oops...Something went wrong while connecting to the server");
         QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
     }
 }
