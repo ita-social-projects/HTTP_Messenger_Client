@@ -183,7 +183,7 @@ QPushButton:hover {
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset>
                <normaloff>:/icons/icons/search.ico</normaloff>:/icons/icons/search.ico</iconset>
              </property>
              <property name="iconSize">
@@ -278,15 +278,28 @@ color: rgb(161, 156, 169);</string>
             <bool>true</bool>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 10px;</string>
+            <string notr="true">background-color: rgb(255, 255, 255); 
+border-radius: 10px; 
+font: 10pt MS Shell Dlg 2;</string>
            </property>
            <property name="lineWidth">
             <number>0</number>
            </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="showDropIndicator" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::NoSelection</enum>
+           </property>
            <item>
             <property name="text">
              <string>Bro:</string>
+            </property>
+            <property name="flags">
+             <set>NoItemFlags</set>
             </property>
            </item>
            <item>
@@ -392,7 +405,7 @@ QPushButton:hover {
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="resources.qrc">
+              <iconset>
                <normaloff>:/icons/icons/send.ico</normaloff>:/icons/icons/send.ico</iconset>
              </property>
              <property name="iconSize">
@@ -480,8 +493,6 @@ QPushButton:hover {
    </property>
   </action>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
