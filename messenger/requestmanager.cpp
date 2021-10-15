@@ -89,6 +89,19 @@ void RequestManager::getChats(RequestResultInterface *resultInterface)
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
 }
 
+void RequestManager::getCorrespondence(QString userID, unsigned long chatID, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_ERROR("No result from getChats");
+        // DO nothing if result will not be used
+        return;
+    }
+    auto reply = get("/user/get_correspondence"); // post
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCORRESPONDENCE));
+}
+
+
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 {
     RequestResultInterface *resultInterface = resultMap[networkReply].getInterface();

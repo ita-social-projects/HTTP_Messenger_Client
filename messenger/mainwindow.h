@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "requestmanager.h"
+#include <mutex>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,17 +29,18 @@ signals:
     void ExitButtonClicked();
 
 private slots:
-    void on_UsersList_itemClicked(QListWidgetItem *item);
+    void on_ChatList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
-    void on_SearchUserButton_clicked();
     void on_actionAbout_triggered();
     void on_actionAbout_Qt_triggered();
     void on_actionExit_triggered();
     void on_actionProfile_triggered();
     void on_UserImg_clicked();
+    void on_SearchChat_textEdited(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
+    static std::mutex mtx;
 };
 #endif // MAINWINDOW_H
 
