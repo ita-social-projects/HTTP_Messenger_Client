@@ -79,27 +79,30 @@ void ProfileWindow::showPasswordFields()
 
 void ProfileWindow::on_pushButton_SaveLogin_clicked()
 {
-    hideInfoFields();
-    checkUsernameSame();
-
     QString newLogin = ui->lineEdit_Username->text();
+
+    hideInfoFields();
+    checkUsernameSame(newLogin);
     //RequestManager::GetInstance()->UpdateLogin(newLogin);
 }
 
 void ProfileWindow::on_pushButton_SavePassword_clicked()
 {
-    hideInfoFields();
-    checkPasswordEqual();
-
     QString password = ui->lineEdit_Password->text();
-    QString newPassword = ui->lineEdit_ConfNewPassword->text();
+    QString newPassword = ui->lineEdit_NewPassword->text();
+    QString newPassConf = ui->lineEdit_ConfNewPassword->text();
+
+    hideInfoFields();
+    checkPasswordEqual(newPassword,newPassConf);
+    checkOldNewPasswordsEqual(password,newPassword);
+
     //RequestManager::GetInstance()->UpdatePassword(password,newPassword);
 }
 
-void ProfileWindow::checkUsernameSame()
+void ProfileWindow::checkUsernameSame(const QString& username)
 {
    CurrentUser *user = CurrentUser::getInstance();
-   if(ui->label_Username->text() == user->getLogin())
+   if(username == user->getLogin())
    {
        setErrorLabelColor(ui->label_LoginInfo);
        ui->label_LoginInfo->show();
@@ -107,13 +110,23 @@ void ProfileWindow::checkUsernameSame()
    }
 }
 
-void ProfileWindow::checkPasswordEqual()
+void ProfileWindow::checkPasswordEqual(const QString& pass1, const QString& pass2)
 {
-    if(ui->lineEdit_NewPassword->text() != ui->lineEdit_ConfNewPassword->text())
+    if(pass1 != pass2)
     {
        setErrorLabelColor(ui->label_ConfPassInfo);
        ui->label_ConfPassInfo->show();
        ui->label_ConfPassInfo->setText("Your password inputs are not equal. Try again.");
+    }
+}
+
+void ProfileWindow::checkOldNewPasswordsEqual(const QString& pass, const QString& newPass)
+{
+    if(pass == newPass)
+    {
+       setErrorLabelColor(ui->label_ConfPassInfo);
+       ui->label_ConfPassInfo->show();
+       ui->label_ConfPassInfo->setText("Your new password is the same as your previous.");
     }
 }
 

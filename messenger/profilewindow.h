@@ -22,8 +22,9 @@ public:
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 private:
-    void checkUsernameSame();
-    void checkPasswordEqual();
+    void checkUsernameSame(const QString& username);
+    void checkPasswordEqual(const QString& pass1, const QString& pass2);
+    void checkOldNewPasswordsEqual(const QString& pass, const QString& newPass);
 
     void setErrorLabelColor(QLabel *label);
     void setPlaceholderTextToLabels();
