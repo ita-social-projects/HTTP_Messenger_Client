@@ -118,7 +118,7 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     if (answer->error())
     {
         LOG_FATAL("Sign up server connection is failed");
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        QMessageBox::critical(nullptr, "ERROR", "Smth went wrong!!");
     }
     else
     {

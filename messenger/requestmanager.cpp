@@ -32,7 +32,7 @@ void RequestManager::login(QString username, QString password, RequestResultInte
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
+    QJsonDocument jsonDocument = serializer.packUserInfo(password, username);
     auto reply = post("/user/login", jsonDocument);
     resultMap.emplace(reply,Requester(resultInterface, RequestType::LOGIN));
 }
@@ -108,6 +108,7 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
     LOG_DEBUG("Post method sended");
     QNetworkRequest request = createRequest(header);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QByteArray data = jsonDocument.toJson();
     return manager->post(request, data);
 }
@@ -122,8 +123,7 @@ QNetworkReply* RequestManager::get(QString header)
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, header);
+    request.setUrl(QUrl(serverUrl + header));
     return request;
 }
 

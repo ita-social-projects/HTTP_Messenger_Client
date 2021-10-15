@@ -34,7 +34,7 @@ void LoginWindow::on_LoginButton_clicked()
     {
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
-        RequestManager::GetInstance()->login(login,password, this);
+        RequestManager::GetInstance()->login(login, password, this);
         //emit LoginSuccess(ui->EnterLogin->text());
     }
 }
@@ -46,7 +46,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         if (answer->error())
         {
             LOG_ERROR("Connection failed!");
-            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
         }
         else
         {
