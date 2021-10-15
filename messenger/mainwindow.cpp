@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-#include <QPainter>
-#include <QPainterPath>
+#include <mutex>
+#include <QFont>
 #include "currentUser.h"
 #include "profilewindow.h"
+#include "Logger.h"
 
 MainWindow::MainWindow(QString user_name)
     : QMainWindow(nullptr)
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QString user_name)
 
     RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
+    ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
 
 MainWindow::~MainWindow()
@@ -32,19 +34,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::checkNewMessages()
 {
+    LOG_DEBUG("Checking new messages");
     while (true)
     {
         RequestManager::GetInstance()->getMessage(this);
-
-//        QNetworkReply* answer = get("/new_message");
-//        if (answer != nullptr)
-//        {
-//            if (!answer->error())
-//            {
-//                // show message
-//            }
-//            answer->deleteLater();
-//        }
         QThread::sleep(1);
     }
 }
@@ -60,66 +53,43 @@ void MainWindow::on_SendButton_clicked()
 {
     if(CheckMessage())
     {
+        LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
         RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
-
-    // get JsonDocument
-//    QNetworkReply* answer = get("/send"); // post
-//    if (answer == nullptr || answer->error())
-//    {
-//        // show "wasn't sended"
-//    }
-//    else
-//    {
-//        // show message
-//        answer->deleteLater();
-//    }
+        //showMessage("Me:", ui->EnterMessage->text());
+        //ui->EnterMessage->clear();
     }
 }
 
 void MainWindow::on_SearchUserButton_clicked()
 {
-    //RequestManager::GetInstance()->getChats(this);
 
-    // get JsonDocument
-//    QNetworkReply* answer = get("/search"); // post
-//    if (answer == nullptr || answer->error())
-//    {
-//        // show "Not Found"
-//    }
-//    else
-//    {
-//        // show list
-//        answer->deleteLater();
-//    }
 }
 
 void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    if(type != RequestType::LOGIN && type != RequestType::SIGNUP)
+    if (reply->error())
     {
-        if (reply->error())
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+    }
+    else
+    {
+        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+        if(type==RequestType::SENDMESSAGE)
         {
-            QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+            // parsing json
+            showMessage("Me:", ui->EnterMessage->text());
+            ui->EnterMessage->clear();
         }
-        else
+        if(type==RequestType::GETMESSAGE)
         {
-            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-            if(type==RequestType::SENDMESSAGE)
-            {
-                // parsing json
-                ui->Messages->addItem("Me: message");
-            }
-            if(type==RequestType::GETMESSAGE)
-            {
-                // parsing json
-                ui->Messages->addItem("Somebody: message");
-            }
-            if(type==RequestType::GETCHATS)
-            {
-                // parsing json
-                ui->UserList_2->addItem("ChatName");
-            }
+            // parsing json
+            showMessage("Bro:", "Bro's message for me");
+        }
+        if(type==RequestType::GETCHATS)
+        {
+            // parsing json
+            ui->UserList_2->addItem("ChatName");
         }
     }
 }
@@ -135,12 +105,14 @@ bool MainWindow::CheckMessage()
 
 void MainWindow::on_actionAbout_triggered()
 {
+    LOG_DEBUG("About project button clicked");
     QMessageBox::about(nullptr,"Project Team","Hello!\nWe are the team Lv.617-C++, and we are glad to see "
     "that you`re using our project messenger!\nGood luck and have fun!!!");
 }
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
+    LOG_DEBUG("About QT button clicked");
     QApplication::aboutQt();
 }
 
@@ -161,4 +133,27 @@ void MainWindow::on_UserImg_clicked()
     ProfileWindow *window = new ProfileWindow();
     window->setModal(true);
     window->show();
+}
+
+std::mutex mutex_;
+void MainWindow::showMessage(QString from, QString message)
+{
+    QListWidgetItem* itemFrom = new QListWidgetItem(from);
+    QListWidgetItem* itemMessage = new QListWidgetItem(message);
+
+    if(from == "Me:")
+    {
+        itemFrom->setForeground(Qt::red);
+        itemFrom->setTextAlignment(0x0002);
+        itemMessage->setTextAlignment(0x0002);
+    }
+    else
+    {
+        itemFrom->setForeground(Qt::blue);
+    }
+    mutex_.lock();
+    ui->Messages->addItem(itemFrom);
+    ui->Messages->addItem(itemMessage);
+    ui->Messages->addItem("");
+    mutex_.unlock();
 }

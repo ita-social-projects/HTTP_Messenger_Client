@@ -1,9 +1,16 @@
-QT       += core gui
+QT       += core gui statemachine
 QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DEPENDPATH += . $$PWD/Logger/
+INCLUDEPATH += $$PWD/Logger/
+LIBS += -L$$PWD/Logger -lLogger
+
 CONFIG += c++11
+TEMPLATE = app
+
+
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -48,7 +55,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 QT += core gui network
-
+І
 QMAKE_EXTRA_TARGETS += copyfiles
 POST_TARGETDEPS += copyfiles
 

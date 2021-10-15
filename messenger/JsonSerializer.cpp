@@ -1,5 +1,5 @@
 #include "JsonSerializer.h"
-
+#include "Logger.h"
 #define LOGIN "login"
 #define PASSWORD "pass"
 #define NEW_PASSWORD "new_pass"
@@ -8,6 +8,7 @@
 #define MESSAGE "message"
 #define USER_ID "id"
 
+
 JsonSerializer::JsonSerializer()
 {
 
@@ -15,6 +16,7 @@ JsonSerializer::JsonSerializer()
 
 QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& userLogin)
 {
+    LOG_DEBUG("Packing user info into json");
     QJsonObject jsonInfo;
 
     jsonInfo[LOGIN] = userLogin;
@@ -26,6 +28,7 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
 
 QJsonDocument JsonSerializer::packMsg(const QString& userSender,const QString& userReceiverLogin,const QString& msg)
 {
+    LOG_DEBUG("Packing message into json");
     QJsonObject jsonObject;
 
     jsonObject[SENDER] = userSender;

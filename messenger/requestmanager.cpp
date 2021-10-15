@@ -1,4 +1,5 @@
 #include "requestmanager.h"
+#include "Logger.h"
 #include <QEventLoop>
 #include <QTimer>
 
@@ -26,7 +27,7 @@ void RequestManager::login(QString username, QString password, RequestResultInte
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from login");
         // DO nothing if result will not be used
         return;
     }
@@ -40,7 +41,7 @@ void RequestManager::signUp(QString username, QString password, RequestResultInt
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from sign up");
         // DO nothing if result will not be used
         return;
     }
@@ -54,7 +55,7 @@ void RequestManager::sendMessage(QString from, QString to, QString message, Requ
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from sendMessage");
         // DO nothing if result will not be used
         return;
     }
@@ -68,7 +69,7 @@ void RequestManager::getMessage(RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from getMessage");
         // DO nothing if result will not be used
         return;
     }
@@ -80,7 +81,7 @@ void RequestManager::getChats(RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from getChats");
         // DO nothing if result will not be used
         return;
     }
@@ -95,7 +96,7 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
     resultMap.erase(networkReply);
     if(resultInterface == nullptr)
     {
-        // TODO: add log
+        LOG_ERROR("No result from OnResultRequest");
         return;
     }
 
@@ -105,6 +106,7 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 
 QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
+    LOG_DEBUG("Post method sended");
     QNetworkRequest request = createRequest(header);
     QByteArray data = jsonDocument.toJson();
     return manager->post(request, data);
@@ -112,6 +114,7 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 
 QNetworkReply* RequestManager::get(QString header)
 {
+    LOG_DEBUG("Get method sended");
     QNetworkRequest request = createRequest(header);
     return manager->get(request);
 }
