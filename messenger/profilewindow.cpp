@@ -9,8 +9,6 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     this->setWindowTitle("Profile");
     ui->label_Username->setText(CurrentUser::getInstance()->getLogin());
 
-    ui->label_Username->setText("USERNAME");
-
     setPlaceholderTextToLabels();
     hideInfoFields();
     hideLoginFields();
@@ -24,7 +22,8 @@ ProfileWindow::~ProfileWindow()
 
 void ProfileWindow::setPlaceholderTextToLabels()
 {
-    ui->lineEdit_Username->setPlaceholderText(" Enter new username:");
+    CurrentUser *user = CurrentUser::getInstance();
+    ui->lineEdit_Username->setPlaceholderText(user->getLogin());
     ui->lineEdit_Password->setPlaceholderText(" Enter your password:");
     ui->lineEdit_NewPassword->setPlaceholderText(" Enter new password:");
     ui->lineEdit_ConfNewPassword->setPlaceholderText(" Confirm new password:");
@@ -82,16 +81,19 @@ void ProfileWindow::on_pushButton_SaveLogin_clicked()
 {
     hideInfoFields();
     checkUsernameSame();
-    // pack
-    // send
+
+    QString newLogin = ui->lineEdit_Username->text();
+    //RequestManager::GetInstance()->UpdateLogin(newLogin);
 }
 
 void ProfileWindow::on_pushButton_SavePassword_clicked()
 {
     hideInfoFields();
     checkPasswordEqual();
-    // pack
-    // send
+
+    QString password = ui->lineEdit_Password->text();
+    QString newPassword = ui->lineEdit_ConfNewPassword->text();
+    //RequestManager::GetInstance()->UpdatePassword(password,newPassword);
 }
 
 void ProfileWindow::checkUsernameSame()
@@ -122,3 +124,26 @@ void ProfileWindow::setErrorLabelColor(QLabel *label)
     palette.setColor(label->foregroundRole(), Qt::red);
     label->setPalette(palette);
 }
+
+void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
+{
+    ReplyMsgExtractor extractor;
+    if (reply == nullptr)
+    {
+        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+    }
+    else
+    {
+        if (reply->error())
+        {
+             QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        }
+        else
+        {
+            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+            QString resReply = extractor.extract(document);
+            QMessageBox::information(nullptr,"Profile",resReply);
+        }
+    }
+}
+

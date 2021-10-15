@@ -4,12 +4,15 @@
 #include <QDialog>
 #include <QMessageBox>
 #include "currentUser.h"
+#include "requestmanager.h"
+#include "replyMsgExtractor.h"
+#include "userinfoExtractor.h"
 
 namespace Ui {
 class ProfileWindow;
 }
 
-class ProfileWindow : public QDialog
+class ProfileWindow : public QDialog,  public RequestManager::RequestResultInterface
 {
     Q_OBJECT
 
@@ -17,11 +20,14 @@ public:
     explicit ProfileWindow(QWidget *parent = nullptr);
     ~ProfileWindow();
 
+    virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 private:
     void checkUsernameSame();
     void checkPasswordEqual();
+
     void setErrorLabelColor(QLabel *label);
     void setPlaceholderTextToLabels();
+
     void hideInfoFields();
     void hidePasswordFields();
     void hideLoginFields();
