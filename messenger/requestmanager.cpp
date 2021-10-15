@@ -1,6 +1,4 @@
 #include "requestmanager.h"
-#include <QEventLoop>
-#include <QTimer>
 
 const QString serverUrl = "http://localhost:8080/restdemo";
 
