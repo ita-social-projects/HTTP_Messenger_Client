@@ -1,6 +1,7 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include <QMessageBox>
+#include "Logger.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -27,6 +28,7 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_LoginButton_clicked()
 {   
+    LOG_DEBUG("Login button clicked");
     ClearInfoFields();
     if(CheckInput())
     {
@@ -43,10 +45,12 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     {
         if (answer->error())
         {
+            LOG_ERROR("Connection failed!");
             QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
         }
         else
         {
+            LOG_DEBUG("Connection success");
             UserInfoExtractor userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
             CurrentUser* user = userInfo.extract(document); //document
@@ -75,7 +79,8 @@ bool LoginWindow::CheckInput()
     if(login.isEmpty() ||
        password.isEmpty())
     {
-       palette.setColor(ui->Info->backgroundRole(), Qt::white);
+       LOG_ERROR("Some of lines are empty");
+        palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of lines are empty. Fill empty lines.");

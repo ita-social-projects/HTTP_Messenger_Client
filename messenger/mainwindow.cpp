@@ -5,6 +5,7 @@
 #include <QFont>
 #include "currentUser.h"
 #include <mutex>
+#include "Logger.h"
 
 MainWindow::MainWindow(QString user_name)
     : QMainWindow(nullptr)
@@ -27,6 +28,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::checkNewMessages()
 {
+    LOG_DEBUG("Checking new messages");
     while (true)
     {
         RequestManager::GetInstance()->getMessage(this);
@@ -45,6 +47,7 @@ void MainWindow::on_SendButton_clicked()
 {
     if(CheckMessage())
     {
+        LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
         RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
         //showMessage("Me:", ui->EnterMessage->text());
@@ -96,6 +99,7 @@ bool MainWindow::CheckMessage()
 
 void MainWindow::on_actionAbout_triggered()
 {
+    LOG_DEBUG("About project button clicked");
     QMessageBox::about(nullptr,"Project Team","Hello!\nWe are the team Lv.617-C++, and we are glad to see "
     "that you`re using our project messenger!\nGood luck and have fun!!!");
 }
@@ -103,6 +107,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
+    LOG_DEBUG("About QT button clicked");
     QApplication::aboutQt();
 }
 

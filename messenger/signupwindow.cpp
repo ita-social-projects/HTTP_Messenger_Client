@@ -77,12 +77,8 @@ bool SignupWindow::checkInput()
 
     if(!isEqualPassword(password,confPassword))
     {
-<<<<<<< HEAD
         LOG_ERROR("Sign up password inputs isn`t equals");
-        printErrorText(ui->ConfPassInfo,"Your password inputs are not equel. Try again.");
-=======
         printErrorText(ui->ConfPassInfo,"Your password inputs are not equal. Try again.");
->>>>>>> master
         return false;
     }
     return true;
@@ -121,12 +117,8 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     ReplyMsgExtractor replyMsg;
     if (answer->error())
     {
-<<<<<<< HEAD
         LOG_FATAL("Sign up server connection is failed");
         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-=======
-         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
->>>>>>> master
     }
     else
     {
