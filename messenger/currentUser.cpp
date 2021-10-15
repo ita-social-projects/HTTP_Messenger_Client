@@ -22,6 +22,16 @@ void CurrentUser::setId(const QString& userAccessToken)
     id = userAccessToken;
 }
 
+void CurrentUser::setChats(const QMap<int,QString> chats)
+{
+    this->chats = chats;
+}
+
+const QMap<int,QString>& CurrentUser::getChats()
+{
+    return chats;
+}
+
 const QString& CurrentUser::getLogin()
 {
     return login;
@@ -31,3 +41,5 @@ const QString& CurrentUser::getId()
 {
     return id;
 }
+
+
