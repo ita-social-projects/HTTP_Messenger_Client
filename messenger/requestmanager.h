@@ -63,7 +63,7 @@ public:
     void createChat(QString userID, QString chatName, QVector<QString> members, RequestResultInterface *resultInterface);
     void searchUser(QString userID, QString searchingName, RequestResultInterface *resultInterface);
     void updateLogin(QString userID, QString newLogin, RequestResultInterface *resultInterface);
-    void updatePassword(QString userID, QString newPassword, RequestResultInterface *resultInterface);
+    void updatePassword(QString userID, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
     void signOut(QString userID, RequestResultInterface *resultInterface);
 
 private:

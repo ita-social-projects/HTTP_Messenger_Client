@@ -121,7 +121,7 @@ void RequestManager::updateLogin(QString userID, QString newLogin, RequestResult
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATELOGIN));
 }
 
-void RequestManager::updatePassword(QString userID, QString newPassword, RequestResultInterface *resultInterface)
+void RequestManager::updatePassword(QString userID, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
