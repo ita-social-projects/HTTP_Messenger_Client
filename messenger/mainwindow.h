@@ -18,7 +18,7 @@ public:
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
-    void showMessage(QString from, QString message);
+    void showMessage(QString from, QString message, QString time);
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
@@ -26,7 +26,7 @@ private:
     bool CheckMessage();
 
 signals:
-    void ExitButtonClicked();
+    void SignoutButtonClicked();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
