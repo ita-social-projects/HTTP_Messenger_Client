@@ -168,7 +168,7 @@ border-color: rgb(174, 143, 177);</string>
             <string notr="true"/>
            </property>
            <property name="text">
-            <string/>
+            <string>All chats:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

@@ -88,6 +88,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
                 item->setHidden(false);
             }
         }
+        ui->FoundMessage->setText("All chats:");
     }
     else
     {
@@ -112,7 +113,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
         }
         else
         {
-            std::string message = "Founded " + std::to_string(activedElements) + " chats";
+            std::string message = "Founded " + std::to_string(activedElements) + " chats: ";
             ui->FoundMessage->setText(message.c_str());
         }
     }
