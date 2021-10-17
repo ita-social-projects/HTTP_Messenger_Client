@@ -28,6 +28,7 @@ private:
     static RequestManager *sharedInstance;
     static std::mutex mutex_;
     std::unique_ptr<QNetworkAccessManager> manager;
+    const QString serverUrl = "http://localhost:8080/restdemo";
 
 public:
     class RequestResultInterface
@@ -60,7 +61,7 @@ public:
     void sendMessage(QString userID, QString chatID, QString massage, RequestResultInterface *resultInterface);
     void getMessage(QString userID, QString chatID, RequestResultInterface *resultInterface);
     void getChats(QString userID, RequestResultInterface *resultInterface);
-    void createChat(QString userID, QString chatName, QVector<QString> members, RequestResultInterface *resultInterface);
+    void createChat(QString userID, QString chatName, QString memberLogin, RequestResultInterface *resultInterface);
     void searchUser(QString userID, QString searchingName, RequestResultInterface *resultInterface);
     void updateLogin(QString userID, QString newLogin, RequestResultInterface *resultInterface);
     void updatePassword(QString userID, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);

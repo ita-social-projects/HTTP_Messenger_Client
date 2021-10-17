@@ -1,7 +1,5 @@
 #include "requestmanager.h"
 
-const QString serverUrl = "http://localhost:8080/restdemo";
-
 RequestManager* RequestManager::sharedInstance{nullptr};
 std::mutex RequestManager::mutex_;
 
@@ -86,7 +84,7 @@ void RequestManager::getChats(QString userID, RequestResultInterface *resultInte
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
 }
 
-void RequestManager::createChat(QString userID, QString chatName, QVector<QString> members, RequestResultInterface *resultInterface)
+void RequestManager::createChat(QString userID, QString chatName, QString memberLogin, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {
