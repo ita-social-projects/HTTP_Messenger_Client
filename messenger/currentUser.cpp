@@ -1,4 +1,5 @@
 #include "currentUser.h"
+
 CurrentUser* CurrentUser::instance{nullptr};
 std::mutex CurrentUser::mtx;
 
@@ -22,12 +23,17 @@ void CurrentUser::setId(const QString& userAccessToken)
     id = userAccessToken;
 }
 
-void CurrentUser::setChats(const QMap<int,QString> chats)
+void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
 {
     this->chats = chats;
 }
 
-const QMap<int,QString>& CurrentUser::getChats()
+void CurrentUser::setCurrentChat(const unsigned long currentChat)
+{
+    this->currentChat = currentChat;
+}
+
+const std::map<unsigned long, QString>& CurrentUser::getChats()
 {
     return chats;
 }
@@ -42,4 +48,8 @@ const QString& CurrentUser::getId()
     return id;
 }
 
+const unsigned long CurrentUser::getCurrentChat()
+{
+    return currentChat;
+}
 

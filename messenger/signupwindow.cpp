@@ -139,7 +139,7 @@ void SignupWindow::printReplyStatusInformation(QString &msg)
     {
         LOG_DEBUG("Sign up window successfully connected");
         QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit SignupSuccess(ui->Login->text());
+        emit OpenLoginWindow();
     }
     else if(msg.contains(STATUS_BAD_REQUEST))
     {

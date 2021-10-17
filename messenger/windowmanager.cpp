@@ -23,7 +23,6 @@ void WindowManager::open_SignupWindow()
     close_Window();
     current_window.reset(new SignupWindow());
     connect(current_window.get(), SIGNAL(OpenLoginWindow()), this, SLOT(open_LoginWindow()));
-    connect(current_window.get(), SIGNAL(SignupSuccess(QString)), this, SLOT(open_LoginWindow()));
     current_window->show();
 }
 void WindowManager::open_MainWindow(QString user_name)
@@ -31,7 +30,7 @@ void WindowManager::open_MainWindow(QString user_name)
     LOG_DEBUG("Opening main window");
     close_Window();
     current_window.reset(new MainWindow(user_name));
-    connect(current_window.get(), SIGNAL(ExitButtonClicked()), this, SLOT(open_LoginWindow()));
+    connect(current_window.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
     current_window->show();
 }
 void WindowManager::close_Window()
