@@ -18,6 +18,7 @@ TEMPLATE = app
 
 SOURCES += \
     JsonSerializer.cpp \
+    cache.cpp \
     currentUser.cpp \
     loginwindow.cpp \
     main.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 HEADERS += \
     JsonDeserializer.h \
     JsonSerializer.h \
+    cache.h \
     currentUser.h \
     loginwindow.h \
     mainwindow.h \

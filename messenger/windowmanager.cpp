@@ -4,9 +4,17 @@
 #include "mainwindow.h"
 #include "Logger.h"
 
+
 WindowManager::WindowManager(QObject *parent) : QObject(parent), current_window(nullptr)
 {
-    open_LoginWindow();
+    if(Cache::OpenByCache() == "")
+    {
+        open_LoginWindow();
+    }
+    else
+    {
+        open_MainWindow(Cache::OpenByCache());
+    }
 }
 void WindowManager::open_LoginWindow()
 {
@@ -15,6 +23,7 @@ void WindowManager::open_LoginWindow()
     current_window.reset(new LoginWindow());
     connect(current_window.get(), SIGNAL(OpenSignupWindow()), this, SLOT(open_SignupWindow()));
     connect(current_window.get(), SIGNAL(LoginSuccess(QString)), this, SLOT(open_MainWindow(QString)));
+
     current_window->show();
 }
 void WindowManager::open_SignupWindow()
@@ -30,6 +39,7 @@ void WindowManager::open_MainWindow(QString user_name)
 {
     LOG_DEBUG("Opening main window");
     close_Window();
+    Cache::CreateIfNotExists(user_name);
     current_window.reset(new MainWindow(user_name));
     connect(current_window.get(), SIGNAL(ExitButtonClicked()), this, SLOT(open_LoginWindow()));
     current_window->show();

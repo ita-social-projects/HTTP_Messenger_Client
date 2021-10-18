@@ -32,7 +32,7 @@ void RequestManager::login(QString username, QString password, RequestResultInte
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUserInfo(password,username);
+    QJsonDocument jsonDocument = serializer.packUserInfo(password, username);
     auto reply = post("/user/login", jsonDocument);
     resultMap.emplace(reply,Requester(resultInterface, RequestType::LOGIN));
 }
@@ -89,6 +89,19 @@ void RequestManager::getChats(RequestResultInterface *resultInterface)
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
 }
 
+void RequestManager::getCorrespondence(QString userID, unsigned long chatID, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_ERROR("No result from getChats");
+        // DO nothing if result will not be used
+        return;
+    }
+    auto reply = get("/user/get_correspondence"); // post
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCORRESPONDENCE));
+}
+
+
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 {
     RequestResultInterface *resultInterface = resultMap[networkReply].getInterface();
@@ -108,6 +121,7 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
     LOG_DEBUG("Post method sended");
     QNetworkRequest request = createRequest(header);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QByteArray data = jsonDocument.toJson();
     return manager->post(request, data);
 }
@@ -122,8 +136,7 @@ QNetworkReply* RequestManager::get(QString header)
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, header);
+    request.setUrl(QUrl(serverUrl + header));
     return request;
 }
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include "cache.h"
 
 class WindowManager : public QObject
 {
