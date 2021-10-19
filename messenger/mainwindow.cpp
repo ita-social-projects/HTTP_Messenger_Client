@@ -228,9 +228,7 @@ void MainWindow::on_actionSign_out_triggered()
 
 void MainWindow::on_CreateChat_clicked()
 {
-    CreateChat *window = new CreateChat(this);
-    window->setModal(true);
-    window->show();
+    emit openCreateChatWindow(this);
 }
 
 void MainWindow::on_ChatInfo_clicked()
@@ -238,5 +236,15 @@ void MainWindow::on_ChatInfo_clicked()
     ChatInfo *window = new ChatInfo();
     window->setModal(true);
     window->show();
+}
+
+void MainWindow::addNewChat()
+{
+    ui->ChatList->clear();
+    std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();
+    for(auto a: chats)
+    {
+        ui->ChatList->addItem(a.second);
+    }
 }
 

@@ -145,7 +145,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         JsonDeserializer extractor;
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         QString resReply = extractor.extractMsg(document);
-        QMessageBox::information(nullptr, "Profile", resReply);
+        QMessageBox::information(nullptr, "ERROR", resReply);
     }
     else
     {
@@ -156,7 +156,12 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             ui->label_Username->setText(user->getLogin());
             ui->lineEdit_Username->clear();
             ui->lineEdit_Username->setPlaceholderText(user->getLogin());
+            QMessageBox::information(nullptr, "Profile", "Login was updated!");
             // update cache
+        }
+        if(type == RequestType::UPDATEPASSWORD)
+        {
+            QMessageBox::information(nullptr, "Profile", "Password was updated!");
         }
     }
 }

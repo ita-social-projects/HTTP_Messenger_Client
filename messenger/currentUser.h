@@ -21,6 +21,8 @@ public:
     const std::map<unsigned long, QString>& getChats();
     static CurrentUser* getInstance();
 
+    void addNewChat(unsigned long id, QString chatName);
+
 private:
     CurrentUser(){};
     CurrentUser(const QString& userLogin, const QString& userToken)

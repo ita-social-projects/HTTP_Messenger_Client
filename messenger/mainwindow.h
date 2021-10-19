@@ -26,6 +26,7 @@ private:
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
+    void openCreateChatWindow(MainWindow *ptr);
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -39,6 +40,7 @@ private slots:
     void on_actionSign_out_triggered();
     void on_ChatInfo_clicked();
     void on_SearchChat_textEdited(const QString &arg1);
+    void addNewChat();
 
 private:
     Ui::MainWindow *ui;

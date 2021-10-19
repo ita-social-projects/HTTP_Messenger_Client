@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QDialog>
-#include "cache.h"
+#include "mainwindow.h"
 
 class WindowManager : public QObject
 {
@@ -18,6 +18,7 @@ private slots:
     void open_SignupWindow();
     void open_MainWindow();
     void open_ProfileWindow();
+    void open_CreateChatWindow(MainWindow* ptr);
 
     void close_Window();
     void close_MinorWindow();
