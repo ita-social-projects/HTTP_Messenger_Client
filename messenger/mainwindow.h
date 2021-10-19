@@ -14,13 +14,10 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
     Q_OBJECT
 
 public:
-    MainWindow(){};
-    MainWindow(QString user_name);
+    MainWindow(QMainWindow* parent = nullptr);
     ~MainWindow();
 
-    void showMessage(QString from, QString message);
-    void showMessage(QString from, QString message, QString time);
-
+    void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 private:
@@ -28,6 +25,7 @@ private:
 
 signals:
     void SignoutButtonClicked();
+    void openProfileWindow();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);

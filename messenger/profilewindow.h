@@ -35,14 +35,15 @@ private:
     void showPasswordFields();
     void showLoginFields();
 
+signals:
+    void closing();
+
 private slots:
     void on_pushButton_ChangeUsername_clicked();
-
     void on_pushButton_ChangePassword_clicked();
-
     void on_pushButton_SaveLogin_clicked();
-
     void on_pushButton_SavePassword_clicked();
+    void closeEvent(QCloseEvent * e) override;
 
 private:
     Ui::ProfileWindow *ui;

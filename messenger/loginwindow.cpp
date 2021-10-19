@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include <QMessageBox>
 #include "Logger.h"
+#include "cache.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -54,7 +55,8 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
             JsonDeserializer userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
             CurrentUser* user = userInfo.extractUserInfo(document);
-            emit LoginSuccess(ui->EnterLogin->text());
+            Cache::CreateIfNotExists(user->getLogin());
+            emit LoginSuccess();
         }
     }
 }

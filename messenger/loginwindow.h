@@ -24,7 +24,7 @@ public:
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 signals:
-    void LoginSuccess(QString);
+    void LoginSuccess();
     void OpenSignupWindow();
 
 private slots:
