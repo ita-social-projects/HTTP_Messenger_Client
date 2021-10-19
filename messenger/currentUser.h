@@ -11,7 +11,6 @@ public:
     void operator=(const CurrentUser& other) = delete;
 
     void setLogin(const QString& userLogin);
-    void setId(const QString& userId);
     void setChats(const QMap<int,QString> chats);
     void setToken(const QString& token);
     void setChats(const std::map<unsigned long, QString> chats);
@@ -24,11 +23,10 @@ public:
 
 private:
     CurrentUser(){};
-    CurrentUser(const QString& userLogin, const QString& userId)
-        : login(userLogin), id(userId){}
+    CurrentUser(const QString& userLogin, const QString& userToken)
+        : login(userLogin), accessToken(userToken){}
 
     QString login;
-    QString id;
     QString accessToken;
     std::map<unsigned long, QString> chats;
 

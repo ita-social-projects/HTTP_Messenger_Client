@@ -4,7 +4,7 @@
 #include "profilewindow.h"
 #include "createchat.h"
 #include "Logger.h"
-//#include "cache.h"
+#include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
 #include <QThread>
@@ -42,7 +42,6 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
         ++iterator;
     }
     unsigned long chatID = iterator->first;
-    CurrentUser::getInstance()->setCurrentChat(chatID);
     ui->ChatInfo->setText(item->text());
 
     ui->Messages->clear();
@@ -57,7 +56,7 @@ void MainWindow::on_SendButton_clicked()
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatInfo->text(), ui->EnterMessage->text(), this);
+        //RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatInfo->text(), ui->EnterMessage->text(), this);
         //showMessage("Me:", ui->EnterMessage->text(), "00:00:00");
         //ui->EnterMessage->clear();
     }
@@ -210,7 +209,7 @@ void MainWindow::showMessage(QString from, QString message, QString time)
 void MainWindow::on_actionSign_out_triggered()
 {
     //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getId());
-    // Cache::DeleteFile();
+    Cache::DeleteFile();
     emit SignoutButtonClicked();
 }
 
