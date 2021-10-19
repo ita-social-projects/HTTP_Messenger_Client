@@ -2,7 +2,10 @@
 #include "ui_mainwindow.h"
 #include "currentUser.h"
 #include "profilewindow.h"
+#include "createchat.h"
 #include "Logger.h"
+//#include "cache.h"
+#include "chatinfo.h"
 #include <QMessageBox>
 #include <QThread>
 #include <QFont>
@@ -16,16 +19,11 @@ MainWindow::MainWindow(QString user_name)
     ui->setupUi(this);
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
-    ui->SearchChat->setPlaceholderText(" Enter user to search:");
-
-    QPixmap pixmap(":/icons/icons/profile.svg");
-    QIcon ButtonIcon(pixmap);
-
-     ui->UserImg->setIcon(ButtonIcon);
-     ui->UserImg->setIconSize(ui->UserImg->size());
+    ui->SearchUser->setPlaceholderText(" Search chat...");
 
     RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
+    ui->MessengerTitle->setText(this->windowTitle());
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
     ui->SendButton->setShortcut(Qt::Key_Return);
 }
@@ -59,6 +57,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
+    ui->ChatInfo->setText(item->text());
     //RequestManager::GetInstance()->getCorrespondence(CurrentUser::getInstance()->getId(), chatID, this);
 }
 
@@ -154,7 +153,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 
 bool MainWindow::CheckMessage()
 {
-    if(ui->EnterMessage->text() == "" || ui->ChatName->text() == "")
+    if(ui->EnterMessage->text() == "" || ui->ChatInfo->text() == "")
     {
         return false;
     }
@@ -216,5 +215,27 @@ void MainWindow::showMessage(QString from, QString message, QString time)
     ui->Messages->addItem(itemTime);
     ui->Messages->addItem("");
     mtx.unlock();
+}
+
+void MainWindow::on_actionSign_out_triggered()
+{
+    //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getId());
+    // Cache::DeleteFile();
+    emit ExitButtonClicked();
+}
+
+
+void MainWindow::on_CreateChat_clicked()
+{
+    CreateChat *window = new CreateChat(this);
+    window->setModal(true);
+    window->show();
+}
+
+void MainWindow::on_ChatInfo_clicked()
+{
+    ChatInfo *window = new ChatInfo();
+    window->setModal(true);
+    window->show();
 }
 

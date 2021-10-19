@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>893</width>
-    <height>498</height>
+    <width>845</width>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2,1">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -61,18 +61,15 @@
           <number>1</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
-           <property name="spacing">
-            <number>5</number>
-           </property>
-           <property name="sizeConstraint">
-            <enum>QLayout::SetFixedSize</enum>
-           </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <property name="leftMargin">
             <number>5</number>
            </property>
            <property name="topMargin">
             <number>2</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
            </property>
            <property name="bottomMargin">
             <number>2</number>
@@ -90,8 +87,8 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>40</width>
-               <height>40</height>
+               <width>35</width>
+               <height>35</height>
               </size>
              </property>
              <property name="mouseTracking">
@@ -105,7 +102,7 @@
              </property>
              <property name="styleSheet">
               <string notr="true">QPushButton{
-border-radius: 20px;
+border-radius: 17px;
 background-color: white;
 }
 QPushButton:hover {
@@ -115,10 +112,14 @@ QPushButton:hover {
              <property name="text">
               <string/>
              </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/icons/icons/profile.svg</normaloff>:/icons/icons/profile.svg</iconset>
+             </property>
              <property name="iconSize">
               <size>
-               <width>25</width>
-               <height>20</height>
+               <width>30</width>
+               <height>30</height>
               </size>
              </property>
              <property name="checkable">
@@ -136,7 +137,110 @@ QPushButton:hover {
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="SearchChat">
+            <widget class="QLabel" name="MessengerTitle">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>70</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Msg Name</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="CreateChat">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>35</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+border-radius: 17px;
+background-color: white;
+}
+QPushButton:hover {
+     background-color:rgb(200, 192, 207);
+ }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/icons/icons/create.ico</normaloff>:/icons/icons/create.ico</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="Line" name="line_4">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(161, 156, 169);</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>2</number>
+           </property>
+           <property name="bottomMargin">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="SearchUser">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -154,13 +258,6 @@ border-color: rgb(174, 143, 177);</string>
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
          </item>
          <item>
           <widget class="QLabel" name="FoundMessage">
@@ -184,6 +281,18 @@ border-radius: 10px;
 border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::DoubleClicked</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="movement">
+            <enum>QListView::Free</enum>
+           </property>
+           <property name="resizeMode">
+            <enum>QListView::Adjust</enum>
            </property>
           </widget>
          </item>
@@ -211,7 +320,7 @@ color: rgb(161, 156, 169);</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_8">
          <property name="spacing">
-          <number>4</number>
+          <number>2</number>
          </property>
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
@@ -229,167 +338,200 @@ color: rgb(161, 156, 169);</string>
           <number>5</number>
          </property>
          <item>
-          <widget class="QLabel" name="ChatName">
-           <property name="text">
-            <string>Chat Name</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListWidget" name="Messages">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255); 
-border-radius: 10px; 
-font: 10pt MS Shell Dlg 2;</string>
-           </property>
-           <property name="lineWidth">
-            <number>0</number>
-           </property>
-           <property name="editTriggers">
-            <set>QAbstractItemView::NoEditTriggers</set>
-           </property>
-           <property name="showDropIndicator" stdset="0">
-            <bool>false</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::NoSelection</enum>
-           </property>
-           <item>
-            <property name="text">
-             <string>Bro:</string>
-            </property>
-            <property name="flags">
-             <set>NoItemFlags</set>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Let`s go to the party!</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="Line" name="line_3">
-           <property name="styleSheet">
-            <string notr="true">color: rgb(161, 156, 169);</string>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
            <property name="spacing">
-            <number>5</number>
-           </property>
-           <property name="leftMargin">
-            <number>10</number>
-           </property>
-           <property name="topMargin">
-            <number>2</number>
-           </property>
-           <property name="rightMargin">
-            <number>5</number>
-           </property>
-           <property name="bottomMargin">
             <number>2</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="EnterMessage">
+            <widget class="QPushButton" name="ChatInfo">
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>45</height>
               </size>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);
 font: 10pt &quot;MS Shell Dlg 2&quot;;
-border-radius: 15px;
 border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
              </property>
-             <property name="frame">
-              <bool>false</bool>
-             </property>
-             <property name="placeholderText">
-              <string/>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>false</bool>
+             <property name="text">
+              <string>Chat Name</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="SendButton">
+            <widget class="Line" name="line_5">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(161, 156, 169);</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="Messages">
              <property name="enabled">
               <bool>true</bool>
              </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="mouseTracking">
-              <bool>true</bool>
-             </property>
-             <property name="acceptDrops">
-              <bool>false</bool>
-             </property>
-             <property name="autoFillBackground">
-              <bool>false</bool>
-             </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton{
+              <string notr="true">background-color: rgb(255, 255, 255); 
+border-radius: 10px; 
+font: 10pt MS Shell Dlg 2;</string>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="showDropIndicator" stdset="0">
+              <bool>false</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::NoSelection</enum>
+             </property>
+             <item>
+              <property name="text">
+               <string>Bro:</string>
+              </property>
+              <property name="flags">
+               <set>NoItemFlags</set>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Let`s go to the party!</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="Line" name="line_3">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(161, 156, 169);</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="EnterMessage">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+border-radius: 15px;
+border-style: solid;
+border-width: 1px;
+border-color: rgb(174, 143, 177);</string>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <property name="placeholderText">
+                <string/>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="SendButton">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
+               <property name="acceptDrops">
+                <bool>false</bool>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
 border-radius: 15px;
 background-color: white;
 }
 QPushButton:hover {
      background-color:rgb(200, 192, 207);
  }</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resources.qrc">
-               <normaloff>:/icons/icons/send.ico</normaloff>:/icons/icons/send.ico</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>25</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-             <property name="default">
-              <bool>true</bool>
-             </property>
-             <property name="flat">
-              <bool>true</bool>
-             </property>
-            </widget>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/icons/send.ico</normaloff>:/icons/icons/send.ico</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>25</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
+               <property name="default">
+                <bool>true</bool>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -405,7 +547,7 @@ QPushButton:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>893</width>
+     <width>845</width>
      <height>25</height>
     </rect>
    </property>
@@ -429,6 +571,7 @@ QPushButton:hover {
     </property>
     <addaction name="actionProfile"/>
     <addaction name="separator"/>
+    <addaction name="actionSign_out"/>
     <addaction name="actionExit"/>
     <addaction name="separator"/>
    </widget>
@@ -453,6 +596,11 @@ QPushButton:hover {
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionSign_out">
+   <property name="text">
+    <string>Sign out</string>
    </property>
   </action>
  </widget>
