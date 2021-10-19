@@ -234,7 +234,7 @@ QPushButton:hover {
             <number>2</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="SearchUser">
+            <widget class="QLineEdit" name="SearchChat">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -358,7 +358,7 @@ border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
              </property>
              <property name="text">
-              <string>Chat Name</string>
+              <string/>
              </property>
             </widget>
            </item>

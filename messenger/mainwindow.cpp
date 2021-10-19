@@ -19,7 +19,7 @@ MainWindow::MainWindow(QString user_name)
     ui->setupUi(this);
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
-    ui->SearchUser->setPlaceholderText(" Search chat...");
+    ui->SearchChat->setPlaceholderText(" Search chat...");
 
     RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
@@ -91,7 +91,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
     }
     else
     {
-        QString searchingString = ui->SearchUser->text();
+        QString searchingString = ui->SearchChat->text();
         int activedElements = 0;
         for(int i = 0; i < ui->ChatList->count(); i++)
         {
