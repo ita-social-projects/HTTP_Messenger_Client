@@ -7,8 +7,7 @@
 #include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
-#include <QThread>
-#include <QFont>
+#include "currentchat.h"
 
 std::mutex MainWindow::mtx;
 
@@ -20,6 +19,12 @@ MainWindow::MainWindow(QString user_name)
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchChat->setPlaceholderText(" Search chat...");
+
+    QPixmap pixmap(":/icons/icons/profile.svg");
+    QIcon ButtonIcon(pixmap);
+
+    ui->UserImg->setIcon(ButtonIcon);
+    ui->UserImg->setIconSize(ui->UserImg->size());
 
     RequestManager::GetInstance()->getChats(CurrentUser::getInstance()->getToken(), this);
     this->setWindowTitle("Toretto");
@@ -41,13 +46,12 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     {
         ++iterator;
     }
-    unsigned long chatID = iterator->first;
+    unsigned long chatId = iterator->first;
+    CurrentChat::getInstance()->resetChat(chatId, item->text());
     ui->ChatInfo->setText(item->text());
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
-    ui->ChatInfo->setText(item->text());
-    //RequestManager::GetInstance()->getCorrespondence(CurrentUser::getInstance()->getId(), chatID, this);
 }
 
 void MainWindow::on_SendButton_clicked()

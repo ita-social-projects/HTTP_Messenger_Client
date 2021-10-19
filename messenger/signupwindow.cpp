@@ -127,21 +127,3 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     }
 }
 
-void SignupWindow::printReplyStatusInformation(QString &msg)
-{
-    if(msg.isEmpty())
-    {
-        QMessageBox::information(nullptr,"ERROR","Didn't get the reply from server");
-    }
-    else if(msg.contains(STATUS_OK))
-    {
-        LOG_DEBUG("Sign up window successfully connected");
-        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit OpenLoginWindow();
-    }
-    else if(msg.contains(STATUS_BAD_REQUEST))
-    {
-        LOG_VERBOSE("Oops...Something went wrong while connecting to the server");
-        QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
-    }
-}
