@@ -53,7 +53,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     }
     unsigned long chatID = iterator->first;
     CurrentUser::getInstance()->setCurrentChat(chatID);
-    ui->ChatName->setText(item->text());
+    ui->ChatInfo->setText(item->text());
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
@@ -67,7 +67,7 @@ void MainWindow::on_SendButton_clicked()
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
+        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatInfo->text(), ui->EnterMessage->text(), this);
         //showMessage("Me:", ui->EnterMessage->text(), "00:00:00");
         //ui->EnterMessage->clear();
     }
@@ -91,7 +91,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
     }
     else
     {
-        QString searchingString = ui->SearchChat->text();
+        QString searchingString = ui->SearchUser->text();
         int activedElements = 0;
         for(int i = 0; i < ui->ChatList->count(); i++)
         {
@@ -221,7 +221,7 @@ void MainWindow::on_actionSign_out_triggered()
 {
     //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getId());
     // Cache::DeleteFile();
-    emit ExitButtonClicked();
+    emit SignoutButtonClicked();
 }
 
 

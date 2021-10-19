@@ -123,7 +123,7 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     {
         LOG_DEBUG("Sign up window successfully connected");
         QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit SignupSuccess(ui->Login->text());
+        emit OpenLoginWindow();
     }
 }
 
