@@ -2,7 +2,10 @@
 #include "ui_mainwindow.h"
 #include "currentUser.h"
 #include "profilewindow.h"
+#include "createchat.h"
 #include "Logger.h"
+//#include "cache.h"
+#include "chatinfo.h"
 #include <QMessageBox>
 #include <QThread>
 #include <QFont>
@@ -15,16 +18,11 @@ MainWindow::MainWindow(QString user_name)
     ui->setupUi(this);
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
-    ui->SearchUser->setPlaceholderText(" Enter user to search:");
-
-    QPixmap pixmap(":/icons/icons/profile.svg");
-    QIcon ButtonIcon(pixmap);
-
-     ui->UserImg->setIcon(ButtonIcon);
-     ui->UserImg->setIconSize(ui->UserImg->size());
+    ui->SearchUser->setPlaceholderText(" Search chat...");
 
     RequestManager::GetInstance()->getChats(this);
     this->setWindowTitle("Toretto");
+    ui->MessengerTitle->setText(this->windowTitle());
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
 
@@ -47,7 +45,7 @@ void MainWindow::on_UsersList_itemClicked(QListWidgetItem *item)
 {
     ui->Messages->clear();
     ui->EnterMessage->clear();
-    ui->ChatName->setText(item->text());
+    ui->ChatInfo->setText(item->text());
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -56,9 +54,9 @@ void MainWindow::on_SendButton_clicked()
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
-        //showMessage("Me:", ui->EnterMessage->text());
-        //ui->EnterMessage->clear();
+        //RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatInfo->text(), ui->EnterMessage->text(), this);
+        showMessage("Me:", ui->EnterMessage->text());
+        ui->EnterMessage->clear();
     }
 }
 
@@ -97,7 +95,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 
 bool MainWindow::CheckMessage()
 {
-    if(ui->EnterMessage->text() == "" || ui->ChatName->text() == "")
+    if(ui->EnterMessage->text() == "" || ui->ChatInfo->text() == "")
     {
         return false;
     }
@@ -158,3 +156,26 @@ void MainWindow::showMessage(QString from, QString message)
     ui->Messages->addItem("");
     mutex_.unlock();
 }
+
+void MainWindow::on_actionSign_out_triggered()
+{
+    //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getId());
+    // Cache::DeleteFile();
+    emit ExitButtonClicked();
+}
+
+
+void MainWindow::on_CreateChat_clicked()
+{
+    CreateChat *window = new CreateChat(this);
+    window->setModal(true);
+    window->show();
+}
+
+void MainWindow::on_ChatInfo_clicked()
+{
+    ChatInfo *window = new ChatInfo();
+    window->setModal(true);
+    window->show();
+}
+

@@ -5,8 +5,7 @@
 #include <QMessageBox>
 #include "currentUser.h"
 #include "requestmanager.h"
-#include "replyMsgExtractor.h"
-#include "userinfoExtractor.h"
+#include "JsonDeserializer.h"
 
 namespace Ui {
 class ProfileWindow;

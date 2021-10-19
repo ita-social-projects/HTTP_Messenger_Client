@@ -13,10 +13,12 @@ public:
     void setLogin(const QString& userLogin);
     void setId(const QString& userId);
     void setChats(const QMap<int,QString> chats);
+    void setToken(const QString& token);
 
+    const QMap<int,QString>& getChats();
     const QString& getLogin();
     const QString& getId();
-    const QMap<int,QString>& getChats();
+    const QString& getToken();
     static CurrentUser* getInstance();
 
 private:
@@ -26,6 +28,7 @@ private:
 
     QString login;
     QString id;
+    QString accessToken;
     QMap<int,QString> chats;
 
     static CurrentUser* instance;

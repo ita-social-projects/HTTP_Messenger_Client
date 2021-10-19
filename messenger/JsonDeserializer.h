@@ -8,11 +8,14 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-template <typename T>
+#include "currentUser.h"
+
 class JsonDeserializer
 {
 public:
-    virtual T extract(const QJsonDocument &replyInfo) = 0;
+    QMap<int,QString> extractMap(const QJsonDocument &replyInfo);
+    QString extractMsg(const QJsonDocument &replyInfo);
+    CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
 };
 
 #endif // JSONDESERIALIZER_H

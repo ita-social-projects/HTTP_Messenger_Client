@@ -31,11 +31,15 @@ private slots:
     void on_UsersList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
     void on_SearchUserButton_clicked();
+    void on_UserImg_clicked();
+    void on_CreateChat_clicked();
     void on_actionAbout_triggered();
     void on_actionAbout_Qt_triggered();
     void on_actionExit_triggered();
     void on_actionProfile_triggered();
-    void on_UserImg_clicked();
+    void on_actionSign_out_triggered();
+
+    void on_ChatInfo_clicked();
 
 private:
     Ui::MainWindow *ui;
