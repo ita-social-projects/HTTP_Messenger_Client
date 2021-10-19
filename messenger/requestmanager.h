@@ -10,14 +10,17 @@ enum class RequestType
 {
     LOGIN,
     SIGNUP,
-    SENDMESSAGE,
-    GETMESSAGE,
-    GETCHATS,
-    CREATECHATS,
-    SEARCHUSER,
     UPDATELOGIN,
     UPDATEPASSWORD,
-    SIGNOUT
+    LOGOUT,
+    SEARCHUSER,
+    GETCHATS,
+    CREATECHAT,
+    GETCHATPARTICIPANTS,
+    ADDUSERTOCHAT,
+    LEAVECHAT,
+    SENDMESSAGE,
+    GETMESSAGES
 };
 
 class RequestManager : public QObject
@@ -56,16 +59,19 @@ public:
     void operator=(const RequestManager &) = delete;
     static RequestManager *GetInstance();
 
-    void login(QString username, QString password, RequestResultInterface *resultInterface);
-    void signUp(QString username, QString password,RequestResultInterface *resultInterface);
-    void sendMessage(QString userID, QString chatID, QString massage, RequestResultInterface *resultInterface);
-    void getMessage(QString userID, QString chatID, RequestResultInterface *resultInterface);
-    void getChats(QString userID, RequestResultInterface *resultInterface);
-    void createChat(QString userID, QString chatName, QString memberLogin, RequestResultInterface *resultInterface);
-    void searchUser(QString userID, QString searchingName, RequestResultInterface *resultInterface);
-    void updateLogin(QString userID, QString newLogin, RequestResultInterface *resultInterface);
-    void updatePassword(QString userID, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
-    void signOut(QString userID, RequestResultInterface *resultInterface);
+    void login(QString login, QString password, RequestResultInterface *resultInterface);
+    void signUp(QString login, QString password,RequestResultInterface *resultInterface);
+    void updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface);
+    void updatePassword(QString token, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
+    void logOut(QString token, RequestResultInterface *resultInterface);
+    void getChats(QString token, RequestResultInterface *resultInterface);
+    void getChatParticipants(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
+    void createChat(QString token, QString chatName, RequestResultInterface *resultInterface);
+    void searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface);
+    void addUserToChat(QString token, unsigned long chatId, QString memberLogin, RequestResultInterface *resultInterface);
+    void LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
+    void sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface);
+    void getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
 
 private:
     QNetworkRequest createRequest(QString );

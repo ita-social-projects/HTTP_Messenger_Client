@@ -17,9 +17,9 @@ void CurrentUser::setLogin(const QString& userLogin)
     login = userLogin;
 }
 
-void CurrentUser::setId(const QString& userAccessToken)
+void CurrentUser::setToken(const QString& userAccessToken)
 {
-    id = userAccessToken;
+    token = userAccessToken;
 }
 
 const QString& CurrentUser::getLogin()
@@ -27,7 +27,7 @@ const QString& CurrentUser::getLogin()
     return login;
 }
 
-const QString& CurrentUser::getId()
+const QString& CurrentUser::getToken()
 {
-    return id;
+    return token;
 }

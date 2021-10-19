@@ -15,7 +15,7 @@ MainWindow::MainWindow(QString user_name)
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchUser->setPlaceholderText(" Enter user to search:");
 
-    //RequestManager::GetInstance()->getChats(this);
+    RequestManager::GetInstance()->getChats(CurrentUser::getInstance()->getToken(), this);
     this->setWindowTitle("Toretto");
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
@@ -23,15 +23,6 @@ MainWindow::MainWindow(QString user_name)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::checkNewMessages()
-{
-    while (true)
-    {
-        //RequestManager::GetInstance()->getMessage(this);
-        QThread::sleep(1);
-    }
 }
 
 void MainWindow::on_UsersList_itemClicked(QListWidgetItem *item)
@@ -46,15 +37,10 @@ void MainWindow::on_SendButton_clicked()
     if(CheckMessage())
     {
         CurrentUser *user = CurrentUser::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
+        //RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatName->text(), ui->EnterMessage->text(), this);
         //showMessage("Me:", ui->EnterMessage->text());
         //ui->EnterMessage->clear();
     }
-}
-
-void MainWindow::on_SearchUserButton_clicked()
-{
-
 }
 
 void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
@@ -72,7 +58,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             showMessage("Me:", ui->EnterMessage->text());
             ui->EnterMessage->clear();
         }
-        if(type==RequestType::GETMESSAGE)
+        if(type==RequestType::GETMESSAGES)
         {
             // parsing json
             showMessage("Bro:", "Bro's message for me");

@@ -10,19 +10,19 @@ public:
     void operator=(const CurrentUser& other) = delete;
 
     void setLogin(const QString& userLogin);
-    void setId(const QString& userId);
+    void setToken(const QString& userId);
 
     const QString& getLogin();
-    const QString& getId();
+    const QString& getToken();
     static CurrentUser* getInstance();
 
 private:
     CurrentUser(){};
-    CurrentUser(const QString& userLogin,const QString& userId)
-        : login(userLogin), id(userId){}
+    CurrentUser(const QString& userLogin,const QString& userToken)
+        : login(userLogin), token(userToken){}
 
     QString login;
-    QString id;
+    QString token;
 
     static CurrentUser* instance;
     static std::mutex mtx;
