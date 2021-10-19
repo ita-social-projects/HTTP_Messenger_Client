@@ -13,7 +13,8 @@ enum class RequestType
     SIGNUP,
     SENDMESSAGE,
     GETMESSAGE,
-    GETCHATS
+    GETCHATS,
+    GETCORRESPONDENCE
 };
 
 class RequestManager : public QObject
@@ -57,6 +58,7 @@ public:
     void sendMessage(QString from, QString to, QString massage, RequestResultInterface *resultInterface);
     void getMessage(RequestResultInterface *resultInterface);
     void getChats(RequestResultInterface *resultInterface);
+    void getCorrespondence(QString userID, unsigned long chatID, RequestResultInterface *resultInterface);
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);

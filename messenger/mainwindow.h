@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "requestmanager.h"
+#include <mutex>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,7 +18,7 @@ public:
     MainWindow(QString user_name);
     ~MainWindow();
     void checkNewMessages();
-    void showMessage(QString from, QString message);
+    void showMessage(QString from, QString message, QString time);
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
@@ -25,12 +26,11 @@ private:
     bool CheckMessage();
 
 signals:
-    void ExitButtonClicked();
+    void SignoutButtonClicked();
 
 private slots:
-    void on_UsersList_itemClicked(QListWidgetItem *item);
+    void on_ChatList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
-    void on_SearchUserButton_clicked();
     void on_UserImg_clicked();
     void on_CreateChat_clicked();
     void on_actionAbout_triggered();
@@ -38,11 +38,12 @@ private slots:
     void on_actionExit_triggered();
     void on_actionProfile_triggered();
     void on_actionSign_out_triggered();
-
     void on_ChatInfo_clicked();
+    void on_SearchChat_textEdited(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
+    static std::mutex mtx;
 };
 #endif // MAINWINDOW_H
 

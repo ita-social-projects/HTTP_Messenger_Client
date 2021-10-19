@@ -21,6 +21,7 @@ SOURCES += \
     JsonSerializer.cpp \
     chatinfo.cpp \
     createchat.cpp \
+    cache.cpp \
     currentUser.cpp \
     loginwindow.cpp \
     main.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     JsonSerializer.h \
     chatinfo.h \
     createchat.h \
+    cache.h \
     currentUser.h \
     loginwindow.h \
     mainwindow.h \

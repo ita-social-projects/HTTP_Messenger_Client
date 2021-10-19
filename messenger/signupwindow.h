@@ -33,7 +33,6 @@ private:
 
 signals:
     void OpenLoginWindow();
-    void SignupSuccess(QString);
 
 private slots:
     void on_LoginButton_clicked();
