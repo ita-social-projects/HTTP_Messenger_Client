@@ -27,6 +27,7 @@ signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow(MainWindow *ptr);
+    void openChatInfo();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);

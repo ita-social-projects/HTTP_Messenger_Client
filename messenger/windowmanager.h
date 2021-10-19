@@ -19,6 +19,7 @@ private slots:
     void open_MainWindow();
     void open_ProfileWindow();
     void open_CreateChatWindow(MainWindow* ptr);
+    void open_ChatInfoWindow();
 
     void close_Window();
     void close_MinorWindow();

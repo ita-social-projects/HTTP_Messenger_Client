@@ -233,9 +233,7 @@ void MainWindow::on_CreateChat_clicked()
 
 void MainWindow::on_ChatInfo_clicked()
 {
-    ChatInfo *window = new ChatInfo();
-    window->setModal(true);
-    window->show();
+    emit openChatInfo();
 }
 
 void MainWindow::addNewChat()
