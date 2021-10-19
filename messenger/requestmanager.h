@@ -72,7 +72,6 @@ public:
     void LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
     void sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface);
     void getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
-
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);

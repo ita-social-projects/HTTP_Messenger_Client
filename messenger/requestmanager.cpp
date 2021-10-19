@@ -1,4 +1,5 @@
 #include "requestmanager.h"
+#include "Logger.h"
 
 RequestManager* RequestManager::sharedInstance{nullptr};
 std::mutex RequestManager::mutex_;
@@ -22,7 +23,7 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from login");
         // DO nothing if result will not be used
         return;
     }
@@ -36,7 +37,7 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from sign up");
         // DO nothing if result will not be used
         return;
     }
@@ -50,7 +51,7 @@ void RequestManager::updateLogin(QString tocken, QString newLogin, RequestResult
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from sendMessage");
         // DO nothing if result will not be used
         return;
     }
@@ -78,7 +79,7 @@ void RequestManager::logOut(QString tocken, RequestResultInterface *resultInterf
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from getMessage");
         // DO nothing if result will not be used
         return;
     }
@@ -92,7 +93,7 @@ void RequestManager::getChats(QString tocken, RequestResultInterface *resultInte
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
+        LOG_ERROR("No result from getChats");
         // DO nothing if result will not be used
         return;
     }
@@ -207,7 +208,7 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
     resultMap.erase(networkReply);
     if(resultInterface == nullptr)
     {
-        // TODO: add log
+        LOG_ERROR("No result from OnResultRequest");
         return;
     }
 
@@ -217,6 +218,7 @@ void RequestManager::OnRequestResult(QNetworkReply *networkReply)
 
 QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 {
+    LOG_DEBUG("Post method sended");
     QNetworkRequest request = createRequest(header);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QByteArray data = jsonDocument.toJson();
@@ -225,6 +227,7 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
 
 QNetworkReply* RequestManager::get(QString header)
 {
+    LOG_DEBUG("Get method sended");
     QNetworkRequest request = createRequest(header);
     return manager->get(request);
 }

@@ -1,6 +1,7 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include <QMessageBox>
+#include "Logger.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -27,12 +28,14 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_LoginButton_clicked()
 {   
+    LOG_DEBUG("Login button clicked");
     ClearInfoFields();
     if(CheckInput())
     {
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
         RequestManager::GetInstance()->login(login, password, this);
+        //emit LoginSuccess(ui->EnterLogin->text());
     }
 }
 
@@ -42,13 +45,15 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     {
         if (answer->error())
         {
+            LOG_ERROR("Invalid login or password!");
             QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
         }
         else
         {
-            UserInfoExtractor userInfo;
+            LOG_DEBUG("Connection success");
+            JsonDeserializer userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            CurrentUser* user = userInfo.extract(document);
+            CurrentUser* user = userInfo.extractUserInfo(document);
             emit LoginSuccess(ui->EnterLogin->text());
         }
     }
@@ -73,7 +78,8 @@ bool LoginWindow::CheckInput()
     if(login.isEmpty() ||
        password.isEmpty())
     {
-       palette.setColor(ui->Info->backgroundRole(), Qt::white);
+       LOG_ERROR("Some of lines are empty");
+        palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of lines are empty. Fill empty lines.");

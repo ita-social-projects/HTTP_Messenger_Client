@@ -1,6 +1,7 @@
 #ifndef CURRENTUSER_H
 #define CURRENTUSER_H
 #include <QMainWindow>
+#include <map>
 #include <mutex>
 
 class CurrentUser
@@ -10,19 +11,26 @@ public:
     void operator=(const CurrentUser& other) = delete;
 
     void setLogin(const QString& userLogin);
-    void setToken(const QString& userId);
+    void setId(const QString& userId);
+    void setChats(const QMap<int,QString> chats);
+    void setToken(const QString& token);
+    void setChats(const std::map<unsigned long, QString> chats);
 
     const QString& getLogin();
+    const QString& getId();
     const QString& getToken();
+    const std::map<unsigned long, QString>& getChats();
     static CurrentUser* getInstance();
 
 private:
     CurrentUser(){};
-    CurrentUser(const QString& userLogin,const QString& userToken)
-        : login(userLogin), token(userToken){}
+    CurrentUser(const QString& userLogin, const QString& userId)
+        : login(userLogin), id(userId){}
 
     QString login;
-    QString token;
+    QString id;
+    QString accessToken;
+    std::map<unsigned long, QString> chats;
 
     static CurrentUser* instance;
     static std::mutex mtx;

@@ -3,5 +3,12 @@
         <file>icons/messenger1.ico</file>
         <file>icons/search.ico</file>
         <file>icons/send.ico</file>
+        <file>icons/person.ico</file>
+        <file>icons/password.ico</file>
+        <file>icons/profile.svg</file>
+        <file>icons/create.ico</file>
+        <file>icons/image9.ico</file>
+        <file>icons/photo.ico</file>
+        <file>icons/addUser.ico</file>
     </qresource>
 </RCC>

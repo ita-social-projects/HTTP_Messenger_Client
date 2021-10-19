@@ -5,7 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include "requestmanager.h"
-#include "replyMsgExtractor.h"
+#include "JsonDeserializer.h"
 
 namespace Ui {
 class SignupWindow;
@@ -33,7 +33,6 @@ private:
 
 signals:
     void OpenLoginWindow();
-    void SignupSuccess(QString);
 
 private slots:
     void on_LoginButton_clicked();
