@@ -88,4 +88,8 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
 void ChatInfo::on_pushButton_Cancel_clicked()
 {
     ui->label_MemberLogin->clear();
+
+void ChatInfo::closeEvent(QCloseEvent * e)
+{
+    emit closing();
 }

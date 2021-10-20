@@ -18,24 +18,14 @@ void CurrentUser::setLogin(const QString& userLogin)
     login = userLogin;
 }
 
-void CurrentUser::setId(const QString& userAccessToken)
+void CurrentUser::setToken(const QString& userAccessToken)
 {
-    id = userAccessToken;
+    accessToken = userAccessToken;
 }
 
 void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
 {
     this->chats = chats;
-}
-
-void CurrentUser::setToken(const QString& token)
-{
-    accessToken = token;
-}
-
-void CurrentUser::setCurrentChat(const unsigned long currentChat)
-{
-    this->currentChat = currentChat;
 }
 
 const std::map<unsigned long, QString>& CurrentUser::getChats()
@@ -48,17 +38,12 @@ const QString& CurrentUser::getLogin()
     return login;
 }
 
-const QString& CurrentUser::getId()
-{
-    return id;
-}
-
 const QString& CurrentUser::getToken()
 {
     return accessToken;
 }
 
-const unsigned long CurrentUser::getCurrentChat()
-{
-    return currentChat;
-}
+ void CurrentUser::addNewChat(unsigned long id, QString chatName)
+ {
+     chats.emplace(id, chatName);
+ }

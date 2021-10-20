@@ -14,12 +14,10 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
     Q_OBJECT
 
 public:
-    MainWindow(){};
-    MainWindow(QString user_name);
+    MainWindow(QMainWindow* parent = nullptr);
     ~MainWindow();
-    void checkNewMessages();
-    void showMessage(QString from, QString message, QString time);
 
+    void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
 private:
@@ -27,6 +25,9 @@ private:
 
 signals:
     void SignoutButtonClicked();
+    void openProfileWindow();
+    void openCreateChatWindow();
+    void openChatInfo();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -40,6 +41,7 @@ private slots:
     void on_actionSign_out_triggered();
     void on_ChatInfo_clicked();
     void on_SearchChat_textEdited(const QString &arg1);
+    void addNewChat();
 
 private:
     Ui::MainWindow *ui;

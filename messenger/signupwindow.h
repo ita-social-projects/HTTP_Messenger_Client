@@ -26,7 +26,6 @@ public:
 
 private:
     void printErrorText(QLabel *label, QString text);
-    void printReplyStatusInformation(QString &msg);
     void setErrorLabelColor(QLabel *label);
     bool isEqualPassword(const QString& pass,const QString& confPass);
     bool isEmptyFields();

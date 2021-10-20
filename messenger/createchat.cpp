@@ -2,13 +2,12 @@
 #include "ui_createchat.h"
 #include <QMessageBox>
 
-CreateChat::CreateChat(MainWindow* mainPtr) :
+CreateChat::CreateChat() :
     QDialog(nullptr),
     ui(new Ui::CreateChat)
 {
     ui->setupUi(this);
     this->setWindowTitle("Create Chat");
-    this->mainPtr = mainPtr;
 }
 
 CreateChat::~CreateChat()
@@ -31,34 +30,32 @@ void CreateChat::on_pushButton_Cancel_clicked()
     this->close();
 }
 
+void CreateChat::closeEvent(QCloseEvent * e)
+{
+    emit closing();
+}
+
 void CreateChat::on_pushButton_Create_clicked()
 {
     QString selectedMember;
     QString chatName = ui->lineEdit_ChatName->text();
 
-    //RequestManager::GetInstance()->createChat(CurrentUser::getInstance()->getToken(), chatName, mainPtr);
-    this->close();
+    RequestManager::GetInstance()->createChat(CurrentUser::getInstance()->getToken(), chatName, this);
 }
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    if (reply->error())
+    {
+        QString resReply = extractor.extractMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
+    }
     JsonDeserializer extractor;
-    if (reply == nullptr)
-    {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-    }
-    else
-    {
-        if (reply->error())
-        {
-             QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-        }
-        else
-        {
-            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-            // повертають id чату і його title
-            QString resReply = extractor.extractErrorMsg(document);
-            QMessageBox::information(nullptr,"Profile",resReply);
-        }
-    }
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+    // повертають id чату і його title
+    unsigned long id;
+    QString title;
+    CurrentUser::getInstance()->addNewChat(id, title);
+    emit addChat();
+    this->close();
 }

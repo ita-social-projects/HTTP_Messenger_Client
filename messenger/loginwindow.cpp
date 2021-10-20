@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include <QMessageBox>
 #include "Logger.h"
+#include "cache.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -35,7 +36,6 @@ void LoginWindow::on_LoginButton_clicked()
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
         RequestManager::GetInstance()->login(login, password, this);
-        //emit LoginSuccess(ui->EnterLogin->text());
     }
 }
 
@@ -43,19 +43,20 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
     if(type == RequestType::LOGIN)
     {
+        JsonDeserializer extractor;
+        QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
         if (answer->error())
         {
-            LOG_ERROR("Connection failed!");
-            QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
+            QString resReply = extractor.extractMsg(document);
+            LOG_ERROR(resReply.toStdString());
+            QMessageBox::critical(nullptr, "ERROR", resReply);
         }
         else
         {
-            LOG_DEBUG("Connection success");
-            JsonDeserializer userInfo;
-            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            CurrentUser* user = userInfo.extractUserInfo(document);
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-            emit LoginSuccess(ui->EnterLogin->text());
+            LOG_DEBUG("Login success");
+            CurrentUser* user = extractor.extractUserInfo(document);
+            Cache::CreateIfNotExists(user->getLogin());
+            emit LoginSuccess();
         }
     }
 }

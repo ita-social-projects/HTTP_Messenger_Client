@@ -7,40 +7,35 @@
 #include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
-#include <QThread>
-#include <QFont>
+#include "currentchat.h"
 
 std::mutex MainWindow::mtx;
 
-MainWindow::MainWindow(QString user_name)
-    : QMainWindow(nullptr)
+MainWindow::MainWindow(QMainWindow* parent)
+    : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    ui->EnterMessage->setPlaceholderText(" Send a message...");
-    ui->SearchUser->setPlaceholderText(" Search chat...");
+    RequestManager::GetInstance()->getChats(CurrentUser::getInstance()->getToken(), this);
 
-    RequestManager::GetInstance()->getChats(this);
+    ui->EnterMessage->setPlaceholderText(" Send a message...");
+    ui->SearchChat->setPlaceholderText(" Search chat...");
+
+    QPixmap pixmap(":/icons/icons/profile.svg");
+    QIcon ButtonIcon(pixmap);
+
+    ui->UserImg->setIcon(ButtonIcon);
+    ui->UserImg->setIconSize(ui->UserImg->size());
+
     this->setWindowTitle("Toretto");
     ui->MessengerTitle->setText(this->windowTitle());
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
-    ui->SendButton->setShortcut(Qt::Key_Return);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::checkNewMessages()
-{
-    LOG_DEBUG("Checking new messages");
-    while (true)
-    {
-        RequestManager::GetInstance()->getMessage(this);
-        QThread::sleep(1);
-    }
 }
 
 void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
@@ -51,14 +46,12 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     {
         ++iterator;
     }
-    unsigned long chatID = iterator->first;
-    CurrentUser::getInstance()->setCurrentChat(chatID);
+    unsigned long chatId = iterator->first;
+    CurrentChat::getInstance()->resetChat(chatId, item->text());
     ui->ChatInfo->setText(item->text());
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
-    ui->ChatInfo->setText(item->text());
-    //RequestManager::GetInstance()->getCorrespondence(CurrentUser::getInstance()->getId(), chatID, this);
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -67,9 +60,8 @@ void MainWindow::on_SendButton_clicked()
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getLogin(), ui->ChatInfo->text(), ui->EnterMessage->text(), this);
-        //showMessage("Me:", ui->EnterMessage->text(), "00:00:00");
-        //ui->EnterMessage->clear();
+        CurrentChat *chat = CurrentChat::getInstance();
+        RequestManager::GetInstance()->sendMessage(user->getToken(), chat->getId(), ui->EnterMessage->text(), this);
     }
 }
 
@@ -91,7 +83,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
     }
     else
     {
-        QString searchingString = ui->SearchUser->text();
+        QString searchingString = ui->SearchChat->text();
         int activedElements = 0;
         for(int i = 0; i < ui->ChatList->count(); i++)
         {
@@ -120,25 +112,16 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
 
 void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        QString resReply = extractor.extractMsg(document);
+        LOG_ERROR(resReply.toStdString());
+        QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
     {
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        JsonDeserializer extractor;
-        if(type==RequestType::SENDMESSAGE)
-        {
-            // parsing json
-            showMessage("Me:", ui->EnterMessage->text(), "00:00:00");
-            ui->EnterMessage->clear();
-        }
-        if(type==RequestType::GETMESSAGE)
-        {
-            // parsing json
-            showMessage("Bro:", "Bro's message for me", "00:00:00");
-        }
         if(type==RequestType::GETCHATS)
         {
             std::map<unsigned long, QString> chats = extractor.extractMap(document);
@@ -147,6 +130,21 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             {
                 ui->ChatList->addItem(a.second);
             }
+        }
+        if(type==RequestType::GETMESSAGES)
+        {
+            // parsing json
+            std::vector<Message> msgs;
+            for(auto msg: msgs)
+            {
+                showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
+            }
+            CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
+        }
+        if(type==RequestType::SENDMESSAGE)
+        {
+            // ???
+            ui->EnterMessage->clear();
         }
     }
 }
@@ -180,20 +178,25 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionProfile_triggered()
 {
-    ProfileWindow *window = new ProfileWindow();
-    window->setModal(true);
-    window->show();
+    emit openProfileWindow();
 }
 
 void MainWindow::on_UserImg_clicked()
 {
-    ProfileWindow *window = new ProfileWindow();
-    window->setModal(true);
-    window->show();
+    emit openProfileWindow();
 }
 
-void MainWindow::showMessage(QString from, QString message, QString time)
+void MainWindow::showMessage(QString from, QString message, QString date, QString time)
 {
+    if(CurrentChat::getInstance()->getLastMessage().getDate() != date)
+    {
+        QListWidgetItem* itemDate = new QListWidgetItem(date);
+        itemDate->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
+        itemDate->setForeground(Qt::gray);
+        mtx.lock();
+        ui->Messages->addItem(itemDate);
+        mtx.unlock();
+    }
     QListWidgetItem* itemFrom = new QListWidgetItem(from);
     QListWidgetItem* itemMessage = new QListWidgetItem(message);
     QListWidgetItem* itemTime = new QListWidgetItem(time);
@@ -201,9 +204,9 @@ void MainWindow::showMessage(QString from, QString message, QString time)
     if(from == "Me:")
     {
         itemFrom->setForeground(Qt::red);
-        itemFrom->setTextAlignment(0x0002);
-        itemMessage->setTextAlignment(0x0002);
-        itemTime->setTextAlignment(0x0002);
+        itemFrom->setTextAlignment(Qt::AlignmentFlag::AlignRight);
+        itemMessage->setTextAlignment(Qt::AlignmentFlag::AlignRight);
+        itemTime->setTextAlignment(Qt::AlignmentFlag::AlignRight);
     }
     else
     {
@@ -219,7 +222,7 @@ void MainWindow::showMessage(QString from, QString message, QString time)
 
 void MainWindow::on_actionSign_out_triggered()
 {
-    //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getToken());
+    RequestManager::GetInstance()->logOut(CurrentUser::getInstance()->getToken(), this);
     Cache::DeleteFile();
     emit SignoutButtonClicked();
 }
@@ -227,9 +230,7 @@ void MainWindow::on_actionSign_out_triggered()
 
 void MainWindow::on_CreateChat_clicked()
 {
-    CreateChat *window = new CreateChat(this);
-    window->setModal(true);
-    window->show();
+    emit openCreateChatWindow();
 }
 
 void MainWindow::on_ChatInfo_clicked()
@@ -238,8 +239,16 @@ void MainWindow::on_ChatInfo_clicked()
     {
         return;
     }
-    ChatInfo *window = new ChatInfo();
-    window->setModal(true);
-    window->show();
+    emit openChatInfo();
+}
+
+void MainWindow::addNewChat()
+{
+    ui->ChatList->clear();
+    std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();
+    for(auto a: chats)
+    {
+        ui->ChatList->addItem(a.second);
+    }
 }
 

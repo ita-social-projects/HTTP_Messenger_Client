@@ -23,10 +23,12 @@ private slots:
     void on_pushButton_AddMember_clicked();
     void on_pushButton_LeaveChat_clicked();
     void on_pushButton_Add_clicked();
-
     void on_pushButton_Cancel_clicked();
-
-    void on_pushButton_SearchUser_clicked();
+    void on_pushButton_SearchUser_clicked();    
+    void closeEvent(QCloseEvent * e) override;
+    
+signals:
+    void closing();
 
 private:
     Ui::ChatInfo *ui;

@@ -1,5 +1,6 @@
 #include "profilewindow.h"
 #include "ui_profilewindow.h"
+#include "cache.h"
 
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
@@ -83,7 +84,7 @@ void ProfileWindow::on_pushButton_SaveLogin_clicked()
 
     hideInfoFields();
     checkUsernameSame(newLogin);
-    //RequestManager::GetInstance()->UpdateLogin(CurrentUser::GetToken(),newLogin);
+    RequestManager::GetInstance()->updateLogin(CurrentUser::getInstance()->getToken(), newLogin, this);
 }
 
 void ProfileWindow::on_pushButton_SavePassword_clicked()
@@ -96,7 +97,7 @@ void ProfileWindow::on_pushButton_SavePassword_clicked()
     checkPasswordEqual(newPassword,newPassConf);
     checkOldNewPasswordsEqual(password,newPassword);
 
-    //RequestManager::GetInstance()->UpdatePassword(CurrentUser::GetToken(),password,newPassword);
+    RequestManager::GetInstance()->updatePassword(CurrentUser::getInstance()->getToken(), password, newPassword, this);
 }
 
 void ProfileWindow::checkUsernameSame(const QString& username)
@@ -141,15 +142,33 @@ void ProfileWindow::setErrorLabelColor(QLabel *label)
 void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
     JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        QString resReply = extractor.extractMsg(document);
+        QMessageBox::information(nullptr, "ERROR", resReply);
     }
     else
     {
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        QString resReply = extractor.extractErrorMsg(document);
-        QMessageBox::information(nullptr,"Profile",resReply);
+        if(type == RequestType::UPDATELOGIN)
+        {
+            CurrentUser *user = CurrentUser::getInstance();
+            user->setLogin(ui->lineEdit_Username->text());
+            ui->label_Username->setText(user->getLogin());
+            ui->lineEdit_Username->clear();
+            ui->lineEdit_Username->setPlaceholderText(user->getLogin());
+            QMessageBox::information(nullptr, "Profile", "Login was updated!");
+            Cache::DeleteFile();
+            Cache::CreateIfNotExists(CurrentUser::getInstance()->getLogin());
+        }
+        if(type == RequestType::UPDATEPASSWORD)
+        {
+            QMessageBox::information(nullptr, "Profile", "Password was updated!");
+        }
     }
+}
 
+void ProfileWindow::closeEvent(QCloseEvent * e )
+{
+    emit closing();
 }

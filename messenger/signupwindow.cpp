@@ -114,34 +114,22 @@ bool SignupWindow::isEqualPassword(const QString& pass,const QString& confPass)
 
 void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    if (answer->error())
+    if (type == RequestType::SIGNUP)
     {
-        LOG_FATAL("Sign up server connection is failed");
-        QMessageBox::critical(nullptr, "ERROR", "Smth went wrong!!");
-    }
-    else
-    {
-        LOG_DEBUG("Sign up window successfully connected");
-        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit OpenLoginWindow();
+        if (answer->error())
+        {
+            JsonDeserializer extractor;
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+            QString resReply = extractor.extractMsg(document);
+            LOG_ERROR(resReply.toStdString());
+            QMessageBox::critical(nullptr, "ERROR", resReply);
+        }
+        else
+        {
+            LOG_DEBUG("Sign up success");
+            QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
+            emit OpenLoginWindow();
+        }
     }
 }
 
-void SignupWindow::printReplyStatusInformation(QString &msg)
-{
-    if(msg.isEmpty())
-    {
-        QMessageBox::information(nullptr,"ERROR","Didn't get the reply from server");
-    }
-    else if(msg.contains(STATUS_OK))
-    {
-        LOG_DEBUG("Sign up window successfully connected");
-        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit OpenLoginWindow();
-    }
-    else if(msg.contains(STATUS_BAD_REQUEST))
-    {
-        LOG_VERBOSE("Oops...Something went wrong while connecting to the server");
-        QMessageBox::about(nullptr, "SERVER REPLY", "Oops...Something went wrong");
-    }
-}

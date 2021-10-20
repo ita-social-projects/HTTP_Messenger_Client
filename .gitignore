@@ -6,3 +6,8 @@
 build-messenger*
 messenger/messenger.pro.user
 /Logger
+/release
+/debug
+Makefile*
+ui_*.h
+.qmake.stash

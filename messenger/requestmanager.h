@@ -4,17 +4,23 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
-
 #include "JsonSerializer.h"
 
 enum class RequestType
 {
     LOGIN,
     SIGNUP,
-    SENDMESSAGE,
-    GETMESSAGE,
+    UPDATELOGIN,
+    UPDATEPASSWORD,
+    LOGOUT,
+    SEARCHUSER,
     GETCHATS,
-    GETCORRESPONDENCE
+    CREATECHAT,
+    GETCHATPARTICIPANTS,
+    ADDUSERTOCHAT,
+    LEAVECHAT,
+    SENDMESSAGE,
+    GETMESSAGES
 };
 
 class RequestManager : public QObject
@@ -24,10 +30,10 @@ class RequestManager : public QObject
 private:
     static RequestManager *sharedInstance;
     static std::mutex mutex_;
-
     std::unique_ptr<QNetworkAccessManager> manager;
-public:
+    const QString serverUrl = "http://localhost:8080/restdemo";
 
+public:
     class RequestResultInterface
     {
     public:
@@ -38,31 +44,39 @@ private:
     RequestManager(QObject *parent = 0);
 
     class Requester
-        {
-            RequestResultInterface * interface;
-            RequestType requestType;
-        public:
-            Requester() = default;
-            Requester(RequestResultInterface * interface, RequestType type);
-            RequestResultInterface * getInterface();
-            RequestType getType();
-        };
+    {
+        RequestResultInterface * interface;
+        RequestType requestType;
+    public:
+        Requester() = default;
+        Requester(RequestResultInterface * interface, RequestType type);
+        RequestResultInterface * getInterface();
+        RequestType getType();
+    };
 
 public:
     RequestManager(RequestManager &other) = delete;
     void operator=(const RequestManager &) = delete;
     static RequestManager *GetInstance();
 
-    void login(QString username, QString password, RequestResultInterface *resultInterface);
-    void signUp(QString username, QString password,RequestResultInterface *resultInterface);
-    void sendMessage(QString from, QString to, QString massage, RequestResultInterface *resultInterface);
-    void getMessage(RequestResultInterface *resultInterface);
-    void getChats(RequestResultInterface *resultInterface);
-    void getCorrespondence(QString userID, unsigned long chatID, RequestResultInterface *resultInterface);
+    void login(QString login, QString password, RequestResultInterface *resultInterface);
+    void signUp(QString login, QString password,RequestResultInterface *resultInterface);
+    void updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface);
+    void updatePassword(QString token, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
+    void logOut(QString token, RequestResultInterface *resultInterface);
+    void getChats(QString token, RequestResultInterface *resultInterface);
+    void getChatParticipants(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
+    void createChat(QString token, QString chatName, RequestResultInterface *resultInterface);
+    void searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface);
+    void addUserToChat(QString token, unsigned long chatId, QString memberLogin, RequestResultInterface *resultInterface);
+    void LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
+    void sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface);
+    void getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);
     QNetworkReply* get(QString);
+
     std::map<QNetworkReply *, Requester> resultMap;
 
 public slots:
