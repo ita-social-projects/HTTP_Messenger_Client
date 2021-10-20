@@ -131,7 +131,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 ui->ChatList->addItem(a.second);
             }
         }
-        if(type==RequestType::GETMESSAGES)
+        if(type==RequestType::GET_MESSAGES)
         {
             // parsing json
             std::vector<Message> msgs;
@@ -141,7 +141,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             }
             CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
         }
-        if(type==RequestType::SENDMESSAGE)
+        if(type==RequestType::SEND_MESSAGE)
         {
             // ???
             ui->EnterMessage->clear();

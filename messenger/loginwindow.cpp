@@ -41,7 +41,7 @@ void LoginWindow::on_LoginButton_clicked()
 
 void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    if(type == RequestType::LOGIN)
+    if(type == RequestType::LOG_IN)
     {
         JsonDeserializer extractor;
         QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
