@@ -10,4 +10,4 @@ messenger/messenger.pro.user
 /debug
 Makefile*
 ui_*.h
-
+.qmake.stash
