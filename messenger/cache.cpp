@@ -1,6 +1,7 @@
 #include "cache.h"
 #include "Logger.h"
 #include "loginwindow.h"
+#include "currentUser.h"
 
 Cache::Cache(const std::string& filename)
 {
@@ -31,9 +32,13 @@ std::string Cache::GetCachePath()
 
 QString Cache::OpenByCache(){
     std::string UserName;
+    std::string UserToken;
     if(FileExists(GetCachePath())){
          std::ifstream cache_file(GetCachePath(), std::ios::in );
-         cache_file>>UserName;
+         cache_file>>UserName>>UserToken;
+         CurrentUser::getInstance()->setLogin(QString::fromStdString(UserName));
+         CurrentUser::getInstance()->setToken(QString::fromStdString(UserToken));
+         LOG_DEBUG(UserToken);
          return QString::fromStdString(UserName);
     }
     else
@@ -73,7 +78,9 @@ bool Cache::FileExists(const std::string &filename)
 
 void Cache::DeleteFile()
 {
-    const char* FilePath = GetCachePath().c_str();
+    char* FilePath = new char[GetCachePath().length()+1];
+    std::strcpy(FilePath,GetCachePath().c_str());
+
     if (FileExists(GetCachePath())==false)
     {
         return;
@@ -82,7 +89,7 @@ void Cache::DeleteFile()
     {
         if(remove(FilePath) != 0 )
         {
-            throw "Error deleting file";
+            //throw "Error deleting file";
             LOG_ERROR("Error deleting file");
 
         }
