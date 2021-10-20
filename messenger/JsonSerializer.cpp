@@ -1,14 +1,18 @@
 #include "JsonSerializer.h"
 #include "Logger.h"
 
-#define LOGIN "login"
-#define PASSWORD "pass"
 #define NEW_PASSWORD "new_pass"
+#define PASSWORD "pass"
+#define LOGIN "login"
+#define SEARCH_STRING "search_string"
+#define LAST_MESSAGE_ID "last_message_id"
+#define CHAT_ID "chat_id"
+#define CHAT_TITLE "chat_title"
+
 #define SENDER "sender"
 #define RECEIVER "receiver"
 #define MESSAGE "message"
-#define USER_ID "id"
-
+#define TOKEN "token"
 
 JsonSerializer::JsonSerializer()
 {
@@ -38,24 +42,103 @@ QJsonDocument JsonSerializer::packMsg(const QString& userSender,const QString& u
     return doc;
 }
 
-QJsonDocument JsonSerializer::packUpdateLogin(const QString& userID,const QString& newLogin)
+QJsonDocument JsonSerializer::packToken(const QString& token)
 {
     QJsonObject jsonObject;
 
-    jsonObject[USER_ID] = userID;
+    jsonObject[TOKEN] = token;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packUpdateLogin(const QString& token,const QString& newLogin)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
     jsonObject[LOGIN] = newLogin;
 
     QJsonDocument doc(jsonObject);
     return doc;
 }
 
-QJsonDocument JsonSerializer::packUpdatePassword(const QString& userID,const QString& oldPassword,const QString& newPassword)
+QJsonDocument JsonSerializer::packUpdatePassword(const QString& token,const QString& oldPassword,const QString& newPassword)
 {
     QJsonObject jsonObject;
 
-    jsonObject[USER_ID] = userID;
+    jsonObject[TOKEN] = token;
     jsonObject[PASSWORD] = oldPassword;
     jsonObject[NEW_PASSWORD] = newPassword;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packToFindUsers(const QString& token,const QString& searchString)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[SEARCH_STRING] = searchString;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packToGetChatParticipants(const QString& token,const int chatId)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[CHAT_ID] = chatId;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packToGetMessages(const QString& token,const int lastMsgId, const int chatId)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[LAST_MESSAGE_ID] = lastMsgId;
+    jsonObject[CHAT_ID] = chatId;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packToSendMessage(const QString& token, const QString& message,const int chatId)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[MESSAGE] = message;
+    jsonObject[CHAT_ID] = chatId;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packUserToChat(const QString& token, const int chatId, const QString& login)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[CHAT_ID] = chatId;
+    jsonObject[LOGIN] = login;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& chatTitle)
+{
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[CHAT_TITLE] = chatTitle;
 
     QJsonDocument doc(jsonObject);
     return doc;

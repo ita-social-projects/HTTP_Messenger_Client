@@ -37,7 +37,7 @@ QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
     return vect;
 }
 
-std::map<unsigned long,QString> JsonDeserializer::extractMap(const QJsonDocument &replyInfo)
+std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
@@ -79,7 +79,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
     return user;
 }
 
-QVector<Message> JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
+QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInfo)
 {
     QVector<Message> messages;
     QJsonObject jsonObject = replyInfo.object();
