@@ -114,7 +114,7 @@ bool SignupWindow::isEqualPassword(const QString& pass,const QString& confPass)
 
 void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    if (type == RequestType::SIGNUP)
+    if (type == RequestType::SIGN_UP)
     {
         if (answer->error())
         {

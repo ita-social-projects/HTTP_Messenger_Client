@@ -45,20 +45,23 @@ void CreateChat::on_pushButton_Create_clicked()
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    JsonDeserializer extractor;
-    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-    if (reply->error())
+    if(type == RequestType::CREATE_CHAT)
     {
-        QString resReply = extractor.extractMsg(document);
-        QMessageBox::critical(nullptr, "ERROR", resReply);
-    }
-    else
-    {
-        // повертають id чату і його title
-        unsigned long id;
-        QString title;
-        CurrentUser::getInstance()->addNewChat(id, title);
-        emit addChat();
-        this->close();
+        JsonDeserializer extractor;
+        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+        if (reply->error())
+        {
+            QString resReply = extractor.extractMsg(document);
+            QMessageBox::critical(nullptr, "ERROR", resReply);
+        }
+        else
+        {
+            // повертають id чату і його title
+            unsigned long id;
+            QString title;
+            CurrentUser::getInstance()->addNewChat(id, title);
+            emit addChat();
+            this->close();
+        }
     }
 }

@@ -149,7 +149,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     }
     else
     {
-        if(type == RequestType::UPDATELOGIN)
+        if(type == RequestType::UPDATE_LOGIN)
         {
             CurrentUser *user = CurrentUser::getInstance();
             user->setLogin(ui->lineEdit_Username->text());
@@ -159,7 +159,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             QMessageBox::information(nullptr, "Profile", "Login was updated!");
             // update cache
         }
-        if(type == RequestType::UPDATEPASSWORD)
+        if(type == RequestType::UPDATE_PASSWORD)
         {
             QMessageBox::information(nullptr, "Profile", "Password was updated!");
         }

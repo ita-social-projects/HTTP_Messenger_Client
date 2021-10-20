@@ -30,7 +30,7 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password, login);
     auto reply = post("/user/login", jsonDocument);
-    resultMap.emplace(reply,Requester(resultInterface, RequestType::LOGIN));
+    resultMap.emplace(reply,Requester(resultInterface, RequestType::LOG_IN));
 }
 
 void RequestManager::signUp(QString login, QString password, RequestResultInterface *resultInterface)
@@ -44,7 +44,7 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password, login);
     auto reply = post("/user/sign_up", jsonDocument);
-    resultMap.emplace(reply,Requester(resultInterface, RequestType::SIGNUP));
+    resultMap.emplace(reply,Requester(resultInterface, RequestType::SIGN_UP));
 }
 
 void RequestManager::updateLogin(QString tocken, QString newLogin, RequestResultInterface *resultInterface)
@@ -58,7 +58,7 @@ void RequestManager::updateLogin(QString tocken, QString newLogin, RequestResult
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/update_login", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATELOGIN));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_LOGIN));
 }
 
 void RequestManager::updatePassword(QString tocken, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface)
@@ -72,7 +72,7 @@ void RequestManager::updatePassword(QString tocken, QString oldPassword, QString
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/update_password", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATEPASSWORD));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
 }
 
 void RequestManager::logOut(QString tocken, RequestResultInterface *resultInterface)
@@ -86,7 +86,7 @@ void RequestManager::logOut(QString tocken, RequestResultInterface *resultInterf
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/log_out", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::LOGOUT));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::LOG_OUT));
 }
 
 void RequestManager::getChats(QString tocken, RequestResultInterface *resultInterface)
@@ -100,7 +100,7 @@ void RequestManager::getChats(QString tocken, RequestResultInterface *resultInte
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/get_chats", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATS));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_CHATS));
 }
 
 void RequestManager::getChatParticipants(QString token, unsigned long chatId, RequestResultInterface *resultInterface)
@@ -114,7 +114,7 @@ void RequestManager::getChatParticipants(QString token, unsigned long chatId, Re
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/get_chat_participants", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETCHATPARTICIPANTS));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_CHAT_PARTICIPANTS));
 }
 
 void RequestManager::createChat(QString tocken, QString chatName, RequestResultInterface *resultInterface)
@@ -128,7 +128,7 @@ void RequestManager::createChat(QString tocken, QString chatName, RequestResultI
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/create_chat", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATECHAT));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATE_CHAT));
 }
 
 void RequestManager::searchUser(QString tocken, QString searchingName, RequestResultInterface *resultInterface)
@@ -142,7 +142,7 @@ void RequestManager::searchUser(QString tocken, QString searchingName, RequestRe
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/search_user", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::SEARCHUSER));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::SEARCH_USER));
 }
 
 void RequestManager::addUserToChat(QString token, unsigned long chatId, QString memberLogin, RequestResultInterface *resultInterface)
@@ -156,7 +156,7 @@ void RequestManager::addUserToChat(QString token, unsigned long chatId, QString 
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/add_user_to_chat", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::ADDUSERTOCHAT));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::ADD_USER_TO_CHAT));
 }
 
 void RequestManager::LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface)
@@ -170,7 +170,7 @@ void RequestManager::LeaveChat(QString token, unsigned long chatId, RequestResul
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // parsing
     auto reply = post("/user/leave_chat", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::LEAVECHAT));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::LEAVE_CHAT));
 }
 
 void RequestManager::sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface)
@@ -184,7 +184,7 @@ void RequestManager::sendMessage(QString token, unsigned long chatId, QString ma
     JsonSerializer serializer;
     QJsonDocument jsonDocument;
     auto reply = post("/user/send_message", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::SENDMESSAGE));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::SEND_MESSAGE));
 }
 
 void RequestManager::getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface)
@@ -198,7 +198,7 @@ void RequestManager::getMessages(QString tocken, unsigned long chatId, unsigned 
     JsonSerializer serializer;
     QJsonDocument jsonDocument;
     auto reply = post("/user/get_messages", jsonDocument);
-    resultMap.emplace(reply, Requester(resultInterface, RequestType::GETMESSAGES));
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_MESSAGES));
 }
 
 void RequestManager::OnRequestResult(QNetworkReply *networkReply)
