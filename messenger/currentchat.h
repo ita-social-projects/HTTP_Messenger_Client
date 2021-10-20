@@ -14,6 +14,7 @@ public:
 
     void resetChat(unsigned long id, QString name);
     void setLastMessage(Message message);
+    void closeChat();
 
     unsigned long getId();
     QString getName();
@@ -24,7 +25,7 @@ private:
 
     QString name;
     unsigned long id;
-    Message lastMessages;
+    Message lastMessage;
 
     static CurrentChat* instance;
     static std::mutex mtx;

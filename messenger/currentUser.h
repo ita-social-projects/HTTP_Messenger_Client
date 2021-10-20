@@ -22,6 +22,7 @@ public:
     static CurrentUser* getInstance();
 
     void addNewChat(unsigned long id, QString chatName);
+    void deleteChat(unsigned long id);
 
 private:
     CurrentUser(){};

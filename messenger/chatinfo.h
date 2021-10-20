@@ -21,6 +21,7 @@ public:
 
 signals:
     void closing();
+    void leaveChat();
 
 private slots:
     void on_pushButton_AddMember_clicked();

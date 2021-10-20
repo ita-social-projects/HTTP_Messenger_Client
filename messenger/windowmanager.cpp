@@ -60,6 +60,7 @@ void WindowManager::open_ChatInfoWindow()
 {
     minorWindow.reset(new ChatInfo());
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    connect(minorWindow.get(), SIGNAL(leaveChat()), currentWindow.get(), SLOT(leaveChat()));
     minorWindow->setModal(true);
     minorWindow->show();
 }

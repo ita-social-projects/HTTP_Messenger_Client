@@ -159,7 +159,7 @@ void RequestManager::addUserToChat(QString token, unsigned long chatId, QString 
     resultMap.emplace(reply, Requester(resultInterface, RequestType::ADD_USER_TO_CHAT));
 }
 
-void RequestManager::LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface)
+void RequestManager::leaveChat(QString token, unsigned long chatId, QString login, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
     {

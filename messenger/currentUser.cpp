@@ -43,7 +43,12 @@ const QString& CurrentUser::getToken()
     return accessToken;
 }
 
- void CurrentUser::addNewChat(unsigned long id, QString chatName)
- {
-     chats.emplace(id, chatName);
- }
+void CurrentUser::addNewChat(unsigned long id, QString chatName)
+{
+    chats.emplace(id, chatName);
+}
+
+void CurrentUser::deleteChat(unsigned long id)
+{
+    chats.erase(id);
+}

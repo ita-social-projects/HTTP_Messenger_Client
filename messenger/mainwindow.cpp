@@ -56,7 +56,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_SendButton_clicked()
 {
-    if(CheckMessage())
+    if(CheckMessage() && ui->ChatInfo->text() != "")
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
@@ -128,10 +128,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             // parsing json
             std::map<unsigned long, QString> chats;
             CurrentUser::getInstance()->setChats(chats);
-            for(auto a: chats)
-            {
-                ui->ChatList->addItem(a.second);
-            }
+            showChats();
         }
         if(type==RequestType::GET_MESSAGES)
         {
@@ -139,13 +136,19 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             std::vector<Message> msgs;
             for(auto msg: msgs)
             {
-                showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
+                if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
+                {
+                    showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime());
+                }
+                else
+                {
+                    showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
+                }
             }
             CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
         }
         if(type==RequestType::SEND_MESSAGE)
         {
-            // ???
             ui->EnterMessage->clear();
         }
     }
@@ -241,6 +244,20 @@ void MainWindow::on_ChatInfo_clicked()
 }
 
 void MainWindow::addNewChat()
+{
+    showChats();
+}
+
+void MainWindow::leaveChat()
+{
+    CurrentUser::getInstance()->deleteChat(CurrentChat::getInstance()->getId());
+    CurrentChat::getInstance()->closeChat();
+    ui->ChatInfo->setText("");
+    ui->Messages->clear();
+    showChats();
+}
+
+void MainWindow::showChats()
 {
     ui->ChatList->clear();
     std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();

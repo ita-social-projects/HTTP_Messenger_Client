@@ -19,6 +19,7 @@ public:
 
     void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
+    void showChats();
 
 private:
     bool CheckMessage();
@@ -42,6 +43,7 @@ private slots:
     void on_ChatInfo_clicked();
     void on_SearchChat_textEdited(const QString &arg1);
     void addNewChat();
+    void leaveChat();
 
 private:
     Ui::MainWindow *ui;

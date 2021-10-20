@@ -69,7 +69,7 @@ public:
     void createChat(QString token, QString chatName, RequestResultInterface *resultInterface);
     void searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface);
     void addUserToChat(QString token, unsigned long chatId, QString memberLogin, RequestResultInterface *resultInterface);
-    void LeaveChat(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
+    void leaveChat(QString token, unsigned long chatId, QString login, RequestResultInterface *resultInterface);
     void sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface);
     void getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
 private:

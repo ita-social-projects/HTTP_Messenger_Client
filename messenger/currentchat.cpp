@@ -17,12 +17,19 @@ void CurrentChat::resetChat(unsigned long id, QString name)
 {
     this->id = id;
     this->name = name;
-    lastMessages.clear();
+    lastMessage.clear();
 }
 
 void CurrentChat::setLastMessage(Message message)
 {
-    this->lastMessages = message;
+    this->lastMessage = message;
+}
+
+void CurrentChat::closeChat()
+{
+    name = "";
+    id = 0;
+    lastMessage.clear();
 }
 
 unsigned long CurrentChat::getId()
@@ -37,6 +44,6 @@ QString CurrentChat::getName()
 
 Message CurrentChat::getLastMessage()
 {
-    return lastMessages;
+    return lastMessage;
 }
 

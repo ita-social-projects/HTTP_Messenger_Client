@@ -1,5 +1,6 @@
 #include "chatinfo.h"
 #include "ui_chatinfo.h"
+#include "currentchat.h"
 
 ChatInfo::ChatInfo(QWidget *parent) :
     QDialog(parent),
@@ -14,7 +15,6 @@ ChatInfo::ChatInfo(QWidget *parent) :
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit_SearchUser->setValidator(validator);
 }
-
 ChatInfo::~ChatInfo()
 {
     delete ui;
@@ -38,7 +38,8 @@ void ChatInfo::on_pushButton_AddMember_clicked()
 
 void ChatInfo::on_pushButton_LeaveChat_clicked()
 {
-    //RequestManager::GetInstance()->leaveChat(CurrentUser::getInstance()->getToken(),CHAT-ID,userLogin);
+    CurrentUser* user = CurrentUser::getInstance();
+    RequestManager::GetInstance()->leaveChat(user->getToken(), CurrentChat::getInstance()->getId(), user->getLogin(), this);
 }
 
 void ChatInfo::on_pushButton_SearchUser_clicked()
@@ -48,7 +49,7 @@ void ChatInfo::on_pushButton_SearchUser_clicked()
     {
         return;
     }
-    //RequestManager::GetInstance()->searchUser(CurrentUser::getInstance()->getToken(),userLogin);
+    RequestManager::GetInstance()->searchUser(CurrentUser::getInstance()->getToken(), userLogin, this);
 }
 
 void ChatInfo::on_pushButton_Add_clicked()
@@ -58,31 +59,41 @@ void ChatInfo::on_pushButton_Add_clicked()
     {
         return;
     }
-    //RequestManager::GetInstance()->addUserToChar(CurrentUser::getInstance()->getToken(),CHAT-ID,memberLogin);
-    ui->listWidget_Members->addItem(memberLogin);
+    RequestManager::GetInstance()->addUserToChat(CurrentUser::getInstance()->getToken(), CurrentChat::getInstance()->getId(), memberLogin, this);
 }
 
 void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
     JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-         return;
+        if(type == RequestType::ADD_USER_TO_CHAT)
+        {
+            ui->label_MemberLogin->clear();
+        }
+        QString replyMsg = extractor.extractErrorMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", replyMsg);
     }
-
-    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-    //if(type == RequestType::SEARCH_USER)
-    //{
-    //    QVector<QString> users = extractor.extractVector(document);
-    //    ui->listWidget_Users->addItems(users);
-    //}
-    //else if(type == RequestType::ADD_USER_TO_CHAT)
-    //{
-    //    QString replyMsg = extractor.extractErrorMsg(document);
-    //    ui->listWidget_Members->deleteItem(ui->label_MemberLogin->text());
-    //    QMessageBox::information(nullptr,"Chat Information",replyMsg);
-    //}
+    else
+    {
+        if(type == RequestType::SEARCH_USER)
+        {
+            QVector<QString> users = extractor.extractVector(document);
+            ui->listWidget_Users->clear();
+            ui->listWidget_Users->addItems(users);
+        }
+        if(type == RequestType::ADD_USER_TO_CHAT)
+        {
+            ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
+            ui->label_MemberLogin->clear();
+        }
+        if(type == RequestType::LEAVE_CHAT)
+        {
+            emit leaveChat();
+            this->close();
+        }
+    }
 }
 
 void ChatInfo::on_pushButton_Cancel_clicked()
