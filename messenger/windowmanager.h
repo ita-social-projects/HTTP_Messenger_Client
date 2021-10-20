@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QWidget>
-#include "cache.h"
+#include <QDialog>
+#include "mainwindow.h"
 
 class WindowManager : public QObject
 {
@@ -15,10 +16,16 @@ public:
 private slots:
     void open_LoginWindow();
     void open_SignupWindow();
-    void open_MainWindow(QString user_name);
+    void open_MainWindow();
+    void open_ProfileWindow();
+    void open_CreateChatWindow(MainWindow* ptr);
+    void open_ChatInfoWindow();
+
     void close_Window();
+    void close_MinorWindow();
 
 private:
-    std::unique_ptr<QWidget> current_window;
+    std::unique_ptr<QWidget> currentWindow;
+    std::unique_ptr<QDialog> minorWindow;
 };
 #endif // WINDOWMANAGER_H

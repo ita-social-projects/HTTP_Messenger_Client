@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include <QMessageBox>
 #include "Logger.h"
+#include "cache.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -45,7 +46,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
     {
         if (answer->error())
         {
-            LOG_ERROR("Connection failed!");
+            LOG_ERROR("Invalid login or password!");
             QMessageBox::critical(nullptr, "ERROR", "Invalid login or password!");
         }
         else
@@ -54,8 +55,8 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
             JsonDeserializer userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
             CurrentUser* user = userInfo.extractUserInfo(document);
-            QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
-            emit LoginSuccess(ui->EnterLogin->text());
+            Cache::CreateIfNotExists(user->getLogin());
+            emit LoginSuccess();
         }
     }
 }

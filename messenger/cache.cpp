@@ -89,7 +89,6 @@ void Cache::DeleteFile()
     {
         if(remove(FilePath) != 0 )
         {
-            //throw "Error deleting file";
             LOG_ERROR("Error deleting file");
 
         }

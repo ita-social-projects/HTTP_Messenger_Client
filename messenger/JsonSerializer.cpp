@@ -19,10 +19,8 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
 {
     LOG_DEBUG("Packing user info into json");
     QJsonObject jsonInfo;
-
     jsonInfo[LOGIN] = userLogin;
     jsonInfo[PASSWORD] = pass;
-
     QJsonDocument document(jsonInfo);
     return document;
 }

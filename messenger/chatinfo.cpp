@@ -13,3 +13,8 @@ ChatInfo::~ChatInfo()
 {
     delete ui;
 }
+
+void ChatInfo::closeEvent(QCloseEvent * e)
+{
+    emit closing();
+}

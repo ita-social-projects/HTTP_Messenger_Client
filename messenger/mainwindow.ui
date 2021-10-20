@@ -517,6 +517,9 @@ QPushButton:hover {
                  <height>20</height>
                 </size>
                </property>
+               <property name="shortcut">
+                <string>Return</string>
+               </property>
                <property name="checkable">
                 <bool>false</bool>
                </property>

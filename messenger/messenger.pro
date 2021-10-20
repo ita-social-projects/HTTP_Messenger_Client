@@ -23,9 +23,11 @@ SOURCES += \
     createchat.cpp \
     cache.cpp \
     currentUser.cpp \
+    currentchat.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    message.cpp \
     profilewindow.cpp \
     requestmanager.cpp \
     signupwindow.cpp \
@@ -39,8 +41,10 @@ HEADERS += \
     createchat.h \
     cache.h \
     currentUser.h \
+    currentchat.h \
     loginwindow.h \
     mainwindow.h \
+    message.h \
     profilewindow.h \
     requestmanager.h \
     signupwindow.h \

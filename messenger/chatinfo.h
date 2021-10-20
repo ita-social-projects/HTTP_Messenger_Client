@@ -15,6 +15,12 @@ public:
     explicit ChatInfo(QWidget *parent = nullptr);
     ~ChatInfo();
 
+signals:
+    void closing();
+
+private slots:
+    void closeEvent(QCloseEvent * e) override;
+
 private:
     Ui::ChatInfo *ui;
 };
