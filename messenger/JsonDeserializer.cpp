@@ -38,7 +38,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
     if(!replyInfo.isNull() && replyInfo.toJson().contains(ID))
     {
-       user->setId(replyInfo.object().value(ID).toString());
+       user->setToken(replyInfo.object().value(ID).toString());
     }
 
     if(replyInfo.toJson().contains(LOGIN))

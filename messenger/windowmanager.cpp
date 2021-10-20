@@ -1,11 +1,13 @@
 #include "windowmanager.h"
 #include "loginwindow.h"
 #include "signupwindow.h"
-#include "mainwindow.h"
 #include "Logger.h"
+#include "profilewindow.h"
+#include "cache.h"
+#include "createchat.h"
+#include "chatinfo.h"
 
-
-WindowManager::WindowManager(QObject *parent) : QObject(parent), current_window(nullptr)
+WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(nullptr), minorWindow(nullptr)
 {
     if(Cache::OpenByCache() == "")
     {
@@ -13,42 +15,75 @@ WindowManager::WindowManager(QObject *parent) : QObject(parent), current_window(
     }
     else
     {
-        open_MainWindow(Cache::OpenByCache());
+        open_MainWindow();
     }
 }
 void WindowManager::open_LoginWindow()
 {
     LOG_DEBUG("Opening login window");
     close_Window();
-    current_window.reset(new LoginWindow());
-    connect(current_window.get(), SIGNAL(OpenSignupWindow()), this, SLOT(open_SignupWindow()));
-    connect(current_window.get(), SIGNAL(LoginSuccess(QString)), this, SLOT(open_MainWindow(QString)));
+    currentWindow.reset(new LoginWindow());
+    connect(currentWindow.get(), SIGNAL(OpenSignupWindow()), this, SLOT(open_SignupWindow()));
+    connect(currentWindow.get(), SIGNAL(LoginSuccess()), this, SLOT(open_MainWindow()));
 
-    current_window->show();
+    currentWindow->show();
 }
 void WindowManager::open_SignupWindow()
 {
     LOG_DEBUG("Opening sign up window");
     close_Window();
-    current_window.reset(new SignupWindow());
-    connect(current_window.get(), SIGNAL(OpenLoginWindow()), this, SLOT(open_LoginWindow()));
-    current_window->show();
+    currentWindow.reset(new SignupWindow());
+    connect(currentWindow.get(), SIGNAL(OpenLoginWindow()), this, SLOT(open_LoginWindow()));
+    currentWindow->show();
 }
-void WindowManager::open_MainWindow(QString user_name)
+void WindowManager::open_MainWindow()
 {
     LOG_DEBUG("Opening main window");
     close_Window();
-    Cache::CreateIfNotExists(user_name);
-    current_window.reset(new MainWindow(user_name));
-    connect(current_window.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
-    current_window->show();
+    currentWindow.reset(new MainWindow());
+    connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
+    connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
+    connect(currentWindow.get(), SIGNAL(openCreateChatWindow(MainWindow *)), this, SLOT(open_CreateChatWindow(MainWindow *)));
+    connect(currentWindow.get(), SIGNAL(openChatInfo()), this, SLOT(open_ChatInfoWindow()));
+    currentWindow->show();
 }
+
+void WindowManager::open_ProfileWindow()
+{
+    minorWindow.reset(new ProfileWindow());
+    connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    minorWindow->setModal(true);
+    minorWindow->show();
+}
+
+void WindowManager::open_ChatInfoWindow()
+{
+    minorWindow.reset(new ChatInfo());
+    connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    minorWindow->setModal(true);
+    minorWindow->show();
+}
+
+void WindowManager::open_CreateChatWindow(MainWindow *ptr)
+{
+    minorWindow.reset(new CreateChat(ptr));
+    connect(minorWindow.get(), SIGNAL(addChat()), currentWindow.get(), SLOT(addNewChat()));
+    connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    minorWindow->setModal(true);
+    minorWindow->show();
+}
+
+void WindowManager::close_MinorWindow()
+{
+    minorWindow.reset(nullptr);
+}
+
 void WindowManager::close_Window()
 {
-    if(current_window)
+    if(currentWindow)
     {
         LOG_DEBUG("Closing current window");
-        current_window->close();
+        currentWindow->close();
     }
     else
     {
