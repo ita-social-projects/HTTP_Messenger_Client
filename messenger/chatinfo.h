@@ -24,6 +24,10 @@ private slots:
     void on_pushButton_LeaveChat_clicked();
     void on_pushButton_Add_clicked();
 
+    void on_pushButton_Cancel_clicked();
+
+    void on_pushButton_SearchUser_clicked();
+
 private:
     Ui::ChatInfo *ui;
 };

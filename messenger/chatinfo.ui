@@ -391,6 +391,35 @@ QPushButton:hover {
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="pushButton_Cancel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: black;
+border-radius: 10px;
+}
+QPushButton:hover { 
+background-color:rgb(200, 192, 207);
+ }</string>
+               </property>
+               <property name="text">
+                <string>  Cancel  </string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="pushButton_Add">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
