@@ -83,7 +83,6 @@ void Cache::DeleteFile()
 
     if (FileExists(GetCachePath())==false)
     {
-        delete[] FilePath;
         return;
     }
     else
