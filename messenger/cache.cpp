@@ -1,6 +1,7 @@
 #include "cache.h"
 #include "Logger.h"
 #include "loginwindow.h"
+#include "currentUser.h"
 
 Cache::Cache(const std::string& filename)
 {
@@ -31,9 +32,13 @@ std::string Cache::GetCachePath()
 
 QString Cache::OpenByCache(){
     std::string UserName;
+    std::string UserToken;
     if(FileExists(GetCachePath())){
          std::ifstream cache_file(GetCachePath(), std::ios::in );
-         cache_file>>UserName;
+         cache_file>>UserName>>UserToken;
+         CurrentUser::getInstance()->setLogin(QString::fromStdString(UserName));
+         CurrentUser::getInstance()->setToken(QString::fromStdString(UserToken));
+         LOG_DEBUG(UserToken);
          return QString::fromStdString(UserName);
     }
     else
