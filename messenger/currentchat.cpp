@@ -13,6 +13,12 @@ CurrentChat* CurrentChat::getInstance()
     return instance;
 }
 
+CurrentChat::CurrentChat(QObject *parent):QObject(parent)
+{
+    name = "";
+    id = 0;
+};
+
 void CurrentChat::resetChat(unsigned long id, QString name)
 {
     this->id = id;
