@@ -16,7 +16,7 @@ class CreateChat : public QDialog, public RequestManager::RequestResultInterface
     Q_OBJECT
 
 public:
-    explicit CreateChat(MainWindow* mainPtr);
+    explicit CreateChat();
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 
     void setUsers(const QVector<QString> users);
@@ -36,7 +36,6 @@ private slots:
 private:
     QVector<QString> users;
     Ui::CreateChat *ui;
-    MainWindow *mainPtr;
 };
 
 #endif // CREATECHAT_H

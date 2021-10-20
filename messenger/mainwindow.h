@@ -26,7 +26,7 @@ private:
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
-    void openCreateChatWindow(MainWindow *ptr);
+    void openCreateChatWindow();
     void openChatInfo();
 
 private slots:

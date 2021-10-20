@@ -73,7 +73,9 @@ bool Cache::FileExists(const std::string &filename)
 
 void Cache::DeleteFile()
 {
-    const char* FilePath = GetCachePath().c_str();
+    char* FilePath = new char[GetCachePath().length()+1];
+    std::strcpy(FilePath,GetCachePath().c_str());
+
     if (FileExists(GetCachePath())==false)
     {
         return;

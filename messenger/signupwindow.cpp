@@ -114,16 +114,22 @@ bool SignupWindow::isEqualPassword(const QString& pass,const QString& confPass)
 
 void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
 {
-    if (answer->error())
+    if (type == RequestType::SIGNUP)
     {
-        LOG_FATAL("Sign up server connection is failed");
-        QMessageBox::critical(nullptr, "ERROR", "Smth went wrong!!");
-    }
-    else
-    {
-        LOG_DEBUG("Sign up window successfully connected");
-        QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
-        emit OpenLoginWindow();
+        if (answer->error())
+        {
+            JsonDeserializer extractor;
+            QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
+            QString resReply = extractor.extractMsg(document);
+            LOG_ERROR(resReply.toStdString());
+            QMessageBox::critical(nullptr, "ERROR", resReply);
+        }
+        else
+        {
+            LOG_DEBUG("Sign up success");
+            QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
+            emit OpenLoginWindow();
+        }
     }
 }
 

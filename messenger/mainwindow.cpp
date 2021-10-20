@@ -112,9 +112,13 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
 
 void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+        QString resReply = extractor.extractMsg(document);
+        LOG_ERROR(resReply.toStdString());
+        QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
     {
@@ -228,7 +232,7 @@ void MainWindow::on_actionSign_out_triggered()
 
 void MainWindow::on_CreateChat_clicked()
 {
-    emit openCreateChatWindow(this);
+    emit openCreateChatWindow();
 }
 
 void MainWindow::on_ChatInfo_clicked()
