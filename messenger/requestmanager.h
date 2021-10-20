@@ -8,10 +8,10 @@
 
 enum class RequestType
 {
-    LOGIN, // +
-    SIGNUP, // +
-    UPDATELOGIN, // +
-    UPDATEPASSWORD, // +
+    LOGIN,
+    SIGNUP,
+    UPDATELOGIN,
+    UPDATEPASSWORD,
     LOGOUT,
     SEARCHUSER,
     GETCHATS,

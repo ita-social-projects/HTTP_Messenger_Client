@@ -67,6 +67,7 @@ void WindowManager::open_ChatInfoWindow()
 void WindowManager::open_CreateChatWindow(MainWindow *ptr)
 {
     minorWindow.reset(new CreateChat(ptr));
+    connect(minorWindow.get(), SIGNAL(addChat()), currentWindow.get(), SLOT(addNewChat()));
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     minorWindow->setModal(true);
     minorWindow->show();

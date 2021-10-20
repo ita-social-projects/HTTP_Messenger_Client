@@ -9,7 +9,6 @@ CreateChat::CreateChat(MainWindow* mainPtr) :
     ui->setupUi(this);
     this->setWindowTitle("Create Chat");
     this->mainPtr = mainPtr;
-    connect(this, SIGNAL(addChat()), mainPtr, SLOT(addNewChat()));
 }
 
 CreateChat::~CreateChat()
@@ -52,7 +51,7 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
     if (reply->error())
     {
         QString resReply = extractor.extractMsg(document);
-         QMessageBox::critical(nullptr, "ERROR", resReply);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
     {
