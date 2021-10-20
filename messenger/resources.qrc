@@ -10,7 +10,5 @@
         <file>icons/image9.ico</file>
         <file>icons/photo.ico</file>
         <file>icons/addUser.ico</file>
-        <file>icons/members.ico</file>
-        <file>icons/signOut.ico</file>
     </qresource>
 </RCC>

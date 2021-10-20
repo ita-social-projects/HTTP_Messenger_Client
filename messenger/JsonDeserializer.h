@@ -13,9 +13,8 @@
 class JsonDeserializer
 {
 public:
-    std::map<unsigned long,QString> extractMap(const QJsonDocument &replyInfo);
-    QVector<QString> extractVector(const QJsonDocument &replyInfo);
-    QString extractErrorMsg(const QJsonDocument &replyInfo);
+    QMap<int,QString> extractMap(const QJsonDocument &replyInfo);
+    QString extractMsg(const QJsonDocument &replyInfo);
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
 };
 
