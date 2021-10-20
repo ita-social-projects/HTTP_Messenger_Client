@@ -8,7 +8,12 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#include <QRegularExpression>
+#include <QStringList>
+#include <QString>
+
 #include "currentUser.h"
+#include "message.h"
 
 class JsonDeserializer
 {
@@ -17,6 +22,8 @@ public:
     std::map<unsigned long,QString> extractMap(const QJsonDocument &replyInfo);
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
     QVector<QString> extractVector(const QJsonDocument &replyInfo);
+    QVector<Message> extractMessage(const QJsonDocument &replyInfo);
+
 };
 
 #endif // JSONDESERIALIZER_H

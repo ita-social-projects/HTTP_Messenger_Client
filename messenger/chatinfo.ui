@@ -177,7 +177,7 @@ color: black;
           </property>
           <property name="minimumSize">
            <size>
-            <width>30</width>
+            <width>0</width>
             <height>30</height>
            </size>
           </property>
@@ -258,7 +258,7 @@ background-color:rgb(200, 192, 207);
            <string>  Leave chat  </string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="resources.qrc">
             <normaloff>:/icons/icons/signOut.ico</normaloff>:/icons/icons/signOut.ico</iconset>
           </property>
          </widget>

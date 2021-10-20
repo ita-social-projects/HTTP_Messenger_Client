@@ -91,6 +91,12 @@
                <height>35</height>
               </size>
              </property>
+             <property name="maximumSize">
+              <size>
+               <width>35</width>
+               <height>35</height>
+              </size>
+             </property>
              <property name="mouseTracking">
               <bool>true</bool>
              </property>
@@ -139,7 +145,7 @@ QPushButton:hover {
            <item>
             <widget class="QLabel" name="MessengerTitle">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -619,7 +625,7 @@ QPushButton:hover {
   </action>
   <action name="actionSign_out">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/icons/icons/signOut.ico</normaloff>:/icons/icons/signOut.ico</iconset>
    </property>
    <property name="text">

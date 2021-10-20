@@ -2,11 +2,23 @@
 
 #define LOGIN "Login"
 #define TOKEN "token"
+
 #define CHATS "chats"
 #define CHAT_ID "id"
 #define CHAT_TITLE "title"
+
+#define TIMESTAMP "timestamp"
+#define DATE 0
+#define TIME 1
+
 #define USERS "users"
-#define MESSAGE "what"
+#define MESSAGES "messages"
+#define SENDER "sender"
+#define TEXT "text"
+#define MESSAGE_ID "message_id"
+#define ERROR_MESSAGE "what"
+
+bool checkAllMessageFields(const QJsonObject& obj);
 
 QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
 {
@@ -44,9 +56,9 @@ std::map<unsigned long,QString> JsonDeserializer::extractMap(const QJsonDocument
 
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
-    if(replyInfo.toJson().contains(MESSAGE))
+    if(replyInfo.toJson().contains(ERROR_MESSAGE))
     {
-        return replyInfo.object().value(MESSAGE).toString();
+        return replyInfo.object().value(ERROR_MESSAGE).toString();
     }
     return " ";
 }
@@ -64,6 +76,42 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
     {
         user->setLogin(replyInfo.object().value(LOGIN).toString());
     }
-
     return user;
+}
+
+QVector<Message> JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
+{
+    QVector<Message> messages;
+    QJsonObject jsonObject = replyInfo.object();
+    if(!jsonObject.empty() && jsonObject.contains(MESSAGES))
+    {
+        QJsonArray jsonArray = jsonObject[MESSAGES].toArray();
+        foreach (const QJsonValue & value, jsonArray)
+        {
+            QJsonObject obj = value.toObject();
+            if(checkAllMessageFields(obj))
+            {
+                QStringList list = obj[TIMESTAMP].toString().split("\\s");
+                Message msg(obj[MESSAGE_ID].toInt(),obj[SENDER].toString(),
+                            obj[TEXT].toString(),list.at(DATE),list.at(TIME));
+                messages.append(msg);
+            }
+        }
+    }
+    return messages;
+}
+
+bool checkAllMessageFields(const QJsonObject& obj)
+{
+    if(obj.contains(MESSAGE_ID) &&
+       obj.contains(SENDER) &&
+       obj.contains(TEXT) &&
+       obj.contains(TIMESTAMP))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

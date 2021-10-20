@@ -11,7 +11,6 @@ Cache::Cache(const std::string& filename)
             LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
             throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
         }
-    
 }
 
 std::string Cache::GetCachePath()
@@ -25,16 +24,23 @@ std::string Cache::GetCachePath()
         }
         else
         {
-        return std::string( HomeDirectory) + "\\Cache.txt";
+            return std::string( HomeDirectory) + "\\Cache.txt";
         }
 }
 
-QString Cache::OpenByCache(){
+QString Cache::OpenByCache()
+{
     std::string UserName;
-    if(FileExists(GetCachePath())){
-         std::ifstream cache_file(GetCachePath(), std::ios::in );
-         cache_file>>UserName;
-         return QString::fromStdString(UserName);
+    std::string UserToken;
+    if(FileExists(GetCachePath()))
+    {
+        std::ifstream cache_file(GetCachePath(), std::ios::in );
+        cache_file>>UserName>>UserToken;
+        CurrentUser::getInstance()->setLogin(QString::fromStdString(UserName));
+        CurrentUser::getInstance()->setToken(QString::fromStdString(UserToken));
+        LOG_DEBUG(UserToken);
+
+        return QString::fromStdString(UserName);
     }
     else
     {
@@ -85,9 +91,7 @@ void Cache::DeleteFile()
     {
         if(remove(FilePath) != 0 )
         {
-            //throw "Error deleting file";
             LOG_ERROR("Error deleting file");
-
         }
         else
         {
