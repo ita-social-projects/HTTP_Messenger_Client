@@ -57,7 +57,7 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
             // повертають id чату і його title
-            QString resReply = extractor.extractMsg(document);
+            QString resReply = extractor.extractErrorMsg(document);
             QMessageBox::information(nullptr,"Profile",resReply);
         }
     }

@@ -4,7 +4,7 @@
 #include "profilewindow.h"
 #include "createchat.h"
 #include "Logger.h"
-//#include "cache.h"
+#include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
 #include <QThread>
@@ -127,6 +127,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     else
     {
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+        JsonDeserializer extractor;
         if(type==RequestType::SENDMESSAGE)
         {
             // parsing json
@@ -140,8 +141,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         if(type==RequestType::GETCHATS)
         {
-            // parsing json
-            std::map<unsigned long, QString> chats;
+            std::map<unsigned long, QString> chats = extractor.extractMap(document);
             CurrentUser::getInstance()->setChats(chats);
             for(auto a: chats)
             {
@@ -219,8 +219,8 @@ void MainWindow::showMessage(QString from, QString message, QString time)
 
 void MainWindow::on_actionSign_out_triggered()
 {
-    //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getId());
-    // Cache::DeleteFile();
+    //RequestManager::GetInstance()->signOut(CurrentUser::getInstance()->getToken());
+    Cache::DeleteFile();
     emit SignoutButtonClicked();
 }
 
@@ -234,6 +234,10 @@ void MainWindow::on_CreateChat_clicked()
 
 void MainWindow::on_ChatInfo_clicked()
 {
+    if(ui->ChatInfo->text().isEmpty())
+    {
+        return;
+    }
     ChatInfo *window = new ChatInfo();
     window->setModal(true);
     window->show();

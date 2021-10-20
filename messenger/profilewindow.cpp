@@ -148,7 +148,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     else
     {
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        QString resReply = extractor.extractMsg(document);
+        QString resReply = extractor.extractErrorMsg(document);
         QMessageBox::information(nullptr,"Profile",resReply);
     }
 
