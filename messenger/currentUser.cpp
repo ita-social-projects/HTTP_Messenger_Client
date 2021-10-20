@@ -28,6 +28,11 @@ void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
     this->chats = chats;
 }
 
+void CurrentUser::setToken(const QString& token)
+{
+    accessToken = token;
+}
+
 void CurrentUser::setCurrentChat(const unsigned long currentChat)
 {
     this->currentChat = currentChat;
@@ -48,8 +53,12 @@ const QString& CurrentUser::getId()
     return id;
 }
 
+const QString& CurrentUser::getToken()
+{
+    return accessToken;
+}
+
 const unsigned long CurrentUser::getCurrentChat()
 {
     return currentChat;
 }
-

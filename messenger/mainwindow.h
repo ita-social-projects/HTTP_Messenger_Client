@@ -31,11 +31,14 @@ signals:
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
     void on_SendButton_clicked();
+    void on_UserImg_clicked();
+    void on_CreateChat_clicked();
     void on_actionAbout_triggered();
     void on_actionAbout_Qt_triggered();
     void on_actionExit_triggered();
     void on_actionProfile_triggered();
-    void on_UserImg_clicked();
+    void on_actionSign_out_triggered();
+    void on_ChatInfo_clicked();
     void on_SearchChat_textEdited(const QString &arg1);
 
 private:

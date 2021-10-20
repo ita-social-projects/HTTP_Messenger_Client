@@ -51,9 +51,9 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         else
         {
             LOG_DEBUG("Connection success");
-            UserInfoExtractor userInfo;
+            JsonDeserializer userInfo;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            CurrentUser* user = userInfo.extract(document); //document
+            CurrentUser* user = userInfo.extractUserInfo(document);
             QMessageBox::about(nullptr, "SUCCESS", "Congratulations! Everything is ok!");
             emit LoginSuccess(ui->EnterLogin->text());
         }

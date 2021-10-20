@@ -83,7 +83,7 @@ void ProfileWindow::on_pushButton_SaveLogin_clicked()
 
     hideInfoFields();
     checkUsernameSame(newLogin);
-    //RequestManager::GetInstance()->UpdateLogin(newLogin);
+    //RequestManager::GetInstance()->UpdateLogin(CurrentUser::GetToken(),newLogin);
 }
 
 void ProfileWindow::on_pushButton_SavePassword_clicked()
@@ -96,7 +96,7 @@ void ProfileWindow::on_pushButton_SavePassword_clicked()
     checkPasswordEqual(newPassword,newPassConf);
     checkOldNewPasswordsEqual(password,newPassword);
 
-    //RequestManager::GetInstance()->UpdatePassword(password,newPassword);
+    //RequestManager::GetInstance()->UpdatePassword(CurrentUser::GetToken(),password,newPassword);
 }
 
 void ProfileWindow::checkUsernameSame(const QString& username)
@@ -140,23 +140,16 @@ void ProfileWindow::setErrorLabelColor(QLabel *label)
 
 void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    ReplyMsgExtractor extractor;
-    if (reply == nullptr)
+    JsonDeserializer extractor;
+    if (reply->error())
     {
-        QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
+         QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
     }
     else
     {
-        if (reply->error())
-        {
-             QMessageBox::critical(nullptr, "ERROR", "Connection failed! Please, try again!");
-        }
-        else
-        {
-            QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-            QString resReply = extractor.extract(document);
-            QMessageBox::information(nullptr,"Profile",resReply);
-        }
+        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+        QString resReply = extractor.extractMsg(document);
+        QMessageBox::information(nullptr,"Profile",resReply);
     }
-}
 
+}
