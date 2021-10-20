@@ -4,8 +4,6 @@
 #include <QMessageBox>
 
 #define MIN_PASS_LENGTH 5
-#define STATUS_OK "200"
-#define STATUS_BAD_REQUEST "400"
 
 SignupWindow::SignupWindow(QWidget *parent) :
     QWidget(parent),
@@ -120,7 +118,7 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         {
             JsonDeserializer extractor;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
-            QString resReply = extractor.extractMsg(document);
+            QString resReply = extractor.extractErrorMsg(document);
             LOG_ERROR(resReply.toStdString());
             QMessageBox::critical(nullptr, "ERROR", resReply);
         }
@@ -132,4 +130,3 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         }
     }
 }
-

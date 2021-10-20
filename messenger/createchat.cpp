@@ -51,7 +51,7 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         if (reply->error())
         {
-            QString resReply = extractor.extractMsg(document);
+            QString resReply = extractor.extractErrorMsg(document);
             QMessageBox::critical(nullptr, "ERROR", resReply);
         }
         else

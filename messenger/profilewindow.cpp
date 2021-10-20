@@ -1,6 +1,5 @@
 #include "profilewindow.h"
 #include "ui_profilewindow.h"
-#include "cache.h"
 
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
@@ -84,7 +83,8 @@ void ProfileWindow::on_pushButton_SaveLogin_clicked()
 
     hideInfoFields();
     checkUsernameSame(newLogin);
-    RequestManager::GetInstance()->updateLogin(CurrentUser::getInstance()->getToken(), newLogin, this);
+
+    RequestManager::GetInstance()->updateLogin(CurrentUser::getInstance()->getToken(),newLogin,this);
 }
 
 void ProfileWindow::on_pushButton_SavePassword_clicked()
@@ -97,7 +97,7 @@ void ProfileWindow::on_pushButton_SavePassword_clicked()
     checkPasswordEqual(newPassword,newPassConf);
     checkOldNewPasswordsEqual(password,newPassword);
 
-    RequestManager::GetInstance()->updatePassword(CurrentUser::getInstance()->getToken(), password, newPassword, this);
+    RequestManager::GetInstance()->updatePassword(CurrentUser::getInstance()->getToken(),password,newPassword,this);
 }
 
 void ProfileWindow::checkUsernameSame(const QString& username)
@@ -145,7 +145,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         JsonDeserializer extractor;
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        QString resReply = extractor.extractMsg(document);
+        QString resReply = extractor.extractErrorMsg(document);
         QMessageBox::information(nullptr, "ERROR", resReply);
     }
     else

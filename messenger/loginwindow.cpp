@@ -28,7 +28,7 @@ LoginWindow::~LoginWindow()
 }
 
 void LoginWindow::on_LoginButton_clicked()
-{   
+{
     LOG_DEBUG("Login button clicked");
     ClearInfoFields();
     if(CheckInput())
@@ -47,7 +47,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
         if (answer->error())
         {
-            QString resReply = extractor.extractMsg(document);
+            QString resReply = extractor.extractErrorMsg(document);
             LOG_ERROR(resReply.toStdString());
             QMessageBox::critical(nullptr, "ERROR", resReply);
         }

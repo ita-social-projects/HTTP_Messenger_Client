@@ -116,7 +116,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-        QString resReply = extractor.extractMsg(document);
+        QString resReply = extractor.extractErrorMsg(document);
         LOG_ERROR(resReply.toStdString());
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
@@ -249,4 +249,3 @@ void MainWindow::addNewChat()
         ui->ChatList->addItem(a.second);
     }
 }
-

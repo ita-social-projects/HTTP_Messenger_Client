@@ -6,6 +6,7 @@
 #include "currentUser.h"
 #include "requestmanager.h"
 #include "JsonDeserializer.h"
+#include "cache.h"
 
 namespace Ui {
 class ProfileWindow;

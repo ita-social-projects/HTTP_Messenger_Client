@@ -358,7 +358,7 @@ border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
              </property>
              <property name="text">
-              <string/>
+              <string>chat name</string>
              </property>
             </widget>
            </item>
@@ -574,12 +574,24 @@ QPushButton:hover {
     </property>
     <addaction name="actionProfile"/>
     <addaction name="separator"/>
-    <addaction name="actionSign_out"/>
     <addaction name="actionExit"/>
     <addaction name="separator"/>
    </widget>
    <addaction name="menuMessenger"/>
    <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionProfile"/>
+   <addaction name="actionSign_out"/>
   </widget>
   <action name="actionAbout">
    <property name="text">
@@ -592,6 +604,10 @@ QPushButton:hover {
    </property>
   </action>
   <action name="actionProfile">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/profile.svg</normaloff>:/icons/icons/profile.svg</iconset>
+   </property>
    <property name="text">
     <string>Profile</string>
    </property>
@@ -602,6 +618,10 @@ QPushButton:hover {
    </property>
   </action>
   <action name="actionSign_out">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/signOut.ico</normaloff>:/icons/icons/signOut.ico</iconset>
+   </property>
    <property name="text">
     <string>Sign out</string>
    </property>
