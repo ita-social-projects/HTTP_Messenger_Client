@@ -1,5 +1,6 @@
 #include "profilewindow.h"
 #include "ui_profilewindow.h"
+#include "cache.h"
 
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
@@ -157,7 +158,8 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             ui->lineEdit_Username->clear();
             ui->lineEdit_Username->setPlaceholderText(user->getLogin());
             QMessageBox::information(nullptr, "Profile", "Login was updated!");
-            // update cache
+            Cache::DeleteFile();
+            Cache::CreateIfNotExists(CurrentUser::getInstance()->getLogin());
         }
         if(type == RequestType::UPDATEPASSWORD)
         {
