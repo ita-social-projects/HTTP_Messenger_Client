@@ -122,11 +122,9 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     }
     else
     {
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        if(type==RequestType::GET_CHATS)
+        if(type==RequestType::GETCHATS)
         {
-            // parsing json
-            std::map<unsigned long, QString> chats;
+            std::map<unsigned long, QString> chats = extractor.extractMap(document);
             CurrentUser::getInstance()->setChats(chats);
             for(auto a: chats)
             {
@@ -237,6 +235,10 @@ void MainWindow::on_CreateChat_clicked()
 
 void MainWindow::on_ChatInfo_clicked()
 {
+    if(ui->ChatInfo->text().isEmpty())
+    {
+        return;
+    }
     emit openChatInfo();
 }
 

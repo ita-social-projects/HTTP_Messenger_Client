@@ -1,29 +1,48 @@
 #include "JsonDeserializer.h"
 
-#define ID "id"
 #define LOGIN "Login"
+#define TOKEN "token"
+#define CHATS "chats"
+#define CHAT_ID "id"
+#define CHAT_TITLE "title"
+#define USERS "users"
 #define MESSAGE "what"
 
-QMap<int,QString> JsonDeserializer::extractMap(const QJsonDocument &replyInfo)
+QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
 {
-    QMap<int,QString> map;
-
-    QVector<int> chatIDs;
-    QVector<QString> chatTitles;
-
+    QVector<QString> vect;
     QJsonObject jsonObject = replyInfo.object();
-    QJsonArray jsonArray = jsonObject["chats"].toArray();
 
-    foreach (const QJsonValue & value, jsonArray) {
-        QJsonObject obj = value.toObject();
-        chatIDs.append(obj["id"].toInt());
-        chatTitles.append(obj["title"].toString());
+    if(replyInfo.toJson().contains(USERS))
+    {
+        QJsonArray jsonArray = jsonObject[USERS].toArray();
+        foreach (const QJsonValue & value, jsonArray)
+        {
+            QJsonObject obj = value.toObject();
+            vect.append(obj[LOGIN].toString());
+        }
     }
+    return vect;
+}
 
+std::map<unsigned long,QString> JsonDeserializer::extractMap(const QJsonDocument &replyInfo)
+{
+    std::map<unsigned long,QString> map;
+    QJsonObject jsonObject = replyInfo.object();
+
+    if(replyInfo.toJson().contains(CHATS))
+    {
+        QJsonArray jsonArray = jsonObject[CHATS].toArray();
+        foreach (const QJsonValue & value, jsonArray)
+        {
+            QJsonObject obj = value.toObject();
+            map.insert(std::pair<int,QString>(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString()));
+        }
+    }
     return map;
 }
 
-QString JsonDeserializer::extractMsg(const QJsonDocument &replyInfo)
+QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
     if(replyInfo.toJson().contains(MESSAGE))
     {
@@ -36,9 +55,9 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 {
     CurrentUser* user = CurrentUser::getInstance();
 
-    if(!replyInfo.isNull() && replyInfo.toJson().contains(ID))
+    if(!replyInfo.isNull() && replyInfo.toJson().contains(TOKEN))
     {
-       user->setToken(replyInfo.object().value(ID).toString());
+       user->setToken(replyInfo.object().value(TOKEN).toString());
     }
 
     if(replyInfo.toJson().contains(LOGIN))

@@ -45,6 +45,11 @@ void CreateChat::on_pushButton_Create_clicked()
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    if (reply->error())
+    {
+        QString resReply = extractor.extractMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
+    }
     if(type == RequestType::CREATE_CHAT)
     {
         JsonDeserializer extractor;

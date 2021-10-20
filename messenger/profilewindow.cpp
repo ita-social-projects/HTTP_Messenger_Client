@@ -141,10 +141,10 @@ void ProfileWindow::setErrorLabelColor(QLabel *label)
 
 void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-        JsonDeserializer extractor;
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         QString resReply = extractor.extractMsg(document);
         QMessageBox::information(nullptr, "ERROR", resReply);
     }
