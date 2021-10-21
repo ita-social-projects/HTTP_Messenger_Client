@@ -3,6 +3,9 @@
 
 #define LOGIN "login"
 
+
+#define LOGIN "login"
+
 #define TOKEN "token"
 
 #define CHATS "chats"
@@ -56,7 +59,6 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-
             map.insert(std::pair<int,QString>(obj[CHAT_ID].toString().toULong(),obj[CHAT_TITLE].toString()));
         }
     }

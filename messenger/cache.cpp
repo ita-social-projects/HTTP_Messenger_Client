@@ -38,9 +38,7 @@ QString Cache::OpenByCache()
         std::ifstream cache_file(GetCachePath(), std::ios::in );
         cache_file>>UserName>>UserToken;
         CurrentUser::getInstance()->setLogin(QString::fromStdString(UserName));
-        CurrentUser::getInstance()->setToken(QString::fromStdString(UserToken));
-        LOG_DEBUG(UserToken);
-
+        CurrentUser::getInstance()->setToken((QString::fromStdString(UserToken)));
         return QString::fromStdString(UserName);
     }
     else
@@ -48,6 +46,7 @@ QString Cache::OpenByCache()
         return "";
     }
 }
+
 
 void Cache::CreateIfNotExists(QString UserName)
 {
@@ -62,7 +61,7 @@ void Cache::CreateIfNotExists(QString UserName)
     if (cache_file.is_open())
 	{
         LOG_DEBUG("File is opened");
-        cache_file << UserName.toStdString()<<"\n";
+        cache_file << UserName.toStdString() << "\n";
         cache_file << CurrentUser::getInstance()->getToken().toStdString();
         cache_file.close();
 	}
