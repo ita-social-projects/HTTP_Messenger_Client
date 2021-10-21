@@ -99,7 +99,7 @@ void RequestManager::getChats(QString token, RequestResultInterface *resultInter
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
-    auto reply = post("/user/get_chats", jsonDocument);
+    auto reply = post("/user/get_user_chats", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_CHATS));
 }
 
@@ -127,7 +127,7 @@ void RequestManager::createChat(QString token, QString chatName, RequestResultIn
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packChatInfo(token,chatName);
-    auto reply = post("/chat/create", jsonDocument);
+    auto reply = post("/chat/create_new", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATE_CHAT));
 }
 
@@ -141,7 +141,7 @@ void RequestManager::searchUser(QString token, QString searchingName, RequestRes
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToFindUsers(token,searchingName);
-    auto reply = post("/user/find_user", jsonDocument);
+    auto reply = post("/user/find_users", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SEARCH_USER));
 }
 

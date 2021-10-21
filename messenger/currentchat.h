@@ -21,7 +21,7 @@ public:
     Message getLastMessage();
 
 private:
-    CurrentChat(){};
+    CurrentChat();
 
     QString name;
     unsigned long id;

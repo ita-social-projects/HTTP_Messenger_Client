@@ -13,7 +13,7 @@ CurrentChat* CurrentChat::getInstance()
     return instance;
 }
 
-CurrentChat::CurrentChat(QObject *parent):QObject(parent)
+CurrentChat::CurrentChat()
 {
     name = "";
     id = 0;
