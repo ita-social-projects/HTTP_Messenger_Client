@@ -2,13 +2,12 @@
 #include "ui_createchat.h"
 #include <QMessageBox>
 
-CreateChat::CreateChat(MainWindow* mainPtr) :
+CreateChat::CreateChat() :
     QDialog(nullptr),
     ui(new Ui::CreateChat)
 {
     ui->setupUi(this);
     this->setWindowTitle("Create Chat");
-    this->mainPtr = mainPtr;
 }
 
 CreateChat::~CreateChat()
