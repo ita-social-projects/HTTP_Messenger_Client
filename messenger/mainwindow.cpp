@@ -22,14 +22,9 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchChat->setPlaceholderText(" Search chat...");
 
-    QPixmap pixmap(":/icons/icons/profile.svg");
-    QIcon ButtonIcon(pixmap);
-
-    ui->UserImg->setIcon(ButtonIcon);
-    ui->UserImg->setIconSize(ui->UserImg->size());
-
     this->setWindowTitle("Toretto");
     ui->MessengerTitle->setText(this->windowTitle());
+
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
 
@@ -256,6 +251,10 @@ void MainWindow::on_CreateChat_clicked()
 
 void MainWindow::on_ChatInfo_clicked()
 {
+    if(ui->ChatInfo->text().isEmpty())
+    {
+        return;
+    }
     emit openChatInfo();
 }
 
@@ -277,7 +276,7 @@ void MainWindow::showChats()
 {
     ui->ChatList->clear();
     std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();
-    for(auto a: chats)
+    for(auto &a: chats)
     {
         ui->ChatList->addItem(a.second);
     }

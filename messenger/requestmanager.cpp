@@ -24,7 +24,6 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
     if(resultInterface == nullptr)
     {
         LOG_ERROR("No result from login");
-        // DO nothing if result will not be used
         return;
     }
     JsonSerializer serializer;
@@ -38,7 +37,6 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
     if(resultInterface == nullptr)
     {
         LOG_ERROR("No result from sign up");
-        // DO nothing if result will not be used
         return;
     }
     JsonSerializer serializer;
@@ -52,7 +50,6 @@ void RequestManager::updateLogin(QString token, QString newLogin, RequestResultI
     if(resultInterface == nullptr)
     {
         LOG_ERROR("No result from sendMessage");
-        // DO nothing if result will not be used
         return;
     }
     JsonSerializer serializer;
@@ -65,8 +62,7 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from updatePassword");
         return;
     }
     JsonSerializer serializer;
@@ -80,7 +76,6 @@ void RequestManager::logOut(QString token, RequestResultInterface *resultInterfa
     if(resultInterface == nullptr)
     {
         LOG_ERROR("No result from getMessage");
-        // DO nothing if result will not be used
         return;
     }
     JsonSerializer serializer;
@@ -94,7 +89,6 @@ void RequestManager::getChats(QString token, RequestResultInterface *resultInter
     if(resultInterface == nullptr)
     {
         LOG_ERROR("No result from getChats");
-        // DO nothing if result will not be used
         return;
     }
     JsonSerializer serializer;
@@ -107,8 +101,7 @@ void RequestManager::getChatParticipants(QString token, unsigned long chatId, Re
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from getChatParticipants");
         return;
     }
     JsonSerializer serializer;
@@ -121,8 +114,7 @@ void RequestManager::createChat(QString token, QString chatName, RequestResultIn
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from createChat");
         return;
     }
     JsonSerializer serializer;
@@ -135,8 +127,7 @@ void RequestManager::searchUser(QString token, QString searchingName, RequestRes
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from searchUser");
         return;
     }
     JsonSerializer serializer;
@@ -149,8 +140,7 @@ void RequestManager::addUserToChat(QString token, unsigned long chatId, QString 
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from addUserToChat");
         return;
     }
     JsonSerializer serializer;
@@ -163,8 +153,7 @@ void RequestManager::leaveChat(QString token, unsigned long chatId, QString logi
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from leaveChat");
         return;
     }
     JsonSerializer serializer;
@@ -177,8 +166,7 @@ void RequestManager::sendMessage(QString token, unsigned long chatId, QString me
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from sendMessage");
         return;
     }
     JsonSerializer serializer;
@@ -191,8 +179,7 @@ void RequestManager::getMessages(QString token, unsigned long chatId, unsigned l
 {
     if(resultInterface == nullptr)
     {
-        // TODO: add log.
-        // DO nothing if result will not be used
+        LOG_ERROR("No result from getMessages");
         return;
     }
     JsonSerializer serializer;

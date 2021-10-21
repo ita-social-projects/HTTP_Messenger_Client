@@ -1,12 +1,14 @@
 #include "message.h"
+#define DEFAULT_ID 0
+#define DEFAULT_STR ""
 
 Message::Message()
 {
-    id = 0;
-    writer = "";
-    message = "";
-    date = "";
-    time = "";
+    id = DEFAULT_ID;
+    writer = DEFAULT_STR;
+    message = DEFAULT_STR;
+    date = DEFAULT_STR;
+    time = DEFAULT_STR;
 }
 
 Message::Message(unsigned long id,QString writer, QString message, QString date, QString time)
@@ -45,11 +47,11 @@ void Message::setTime(QString time)
 
 void Message::clear()
 {
-    id = 0;
-    writer = "";
-    message = "";
-    date = "";
-    time = "";
+    id = DEFAULT_ID;
+    writer = DEFAULT_STR;
+    message = DEFAULT_STR;
+    date = DEFAULT_STR;
+    time = DEFAULT_STR;
 }
 
 unsigned long Message::getId()
