@@ -24,8 +24,10 @@ private slots:
     void close_Window();
     void close_MinorWindow();
 
+    void setIcon();
 private:
     std::unique_ptr<QWidget> currentWindow;
     std::unique_ptr<QDialog> minorWindow;
+    QIcon icon;
 };
 #endif // WINDOWMANAGER_H

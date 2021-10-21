@@ -11,5 +11,6 @@
         <file>icons/photo.ico</file>
         <file>icons/addUser.ico</file>
         <file>icons/signOut.ico</file>
+        <file>icons/group.ico</file>
     </qresource>
 </RCC>

@@ -9,6 +9,7 @@
 
 WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(nullptr), minorWindow(nullptr)
 {
+    setIcon();
     if(Cache::OpenByCache() == "")
     {
         open_LoginWindow();
@@ -18,6 +19,12 @@ WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(n
         open_MainWindow();
     }
 }
+
+void WindowManager::setIcon()
+{
+    this->icon = QIcon(":/icons/icons/messenger1.ico");
+}
+
 void WindowManager::open_LoginWindow()
 {
     LOG_DEBUG("Opening login window");
@@ -50,7 +57,6 @@ void WindowManager::open_MainWindow()
 
 void WindowManager::open_ProfileWindow()
 {
-    LOG_DEBUG("Opening profile window");
     minorWindow.reset(new ProfileWindow());
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     minorWindow->setModal(true);
@@ -59,7 +65,6 @@ void WindowManager::open_ProfileWindow()
 
 void WindowManager::open_ChatInfoWindow()
 {
-    LOG_DEBUG("Opening chat info window");
     minorWindow.reset(new ChatInfo());
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     connect(minorWindow.get(), SIGNAL(leaveChat()), currentWindow.get(), SLOT(leaveChat()));
@@ -69,7 +74,6 @@ void WindowManager::open_ChatInfoWindow()
 
 void WindowManager::open_CreateChatWindow()
 {
-    LOG_DEBUG("Opening create chat window");
     minorWindow.reset(new CreateChat());
     connect(minorWindow.get(), SIGNAL(addChat()), currentWindow.get(), SLOT(addNewChat()));
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
@@ -79,7 +83,6 @@ void WindowManager::open_CreateChatWindow()
 
 void WindowManager::close_MinorWindow()
 {
-    LOG_DEBUG("Closing minor window");
     minorWindow.reset(nullptr);
 }
 

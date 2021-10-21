@@ -6,33 +6,32 @@ Cache::Cache(const std::string& filename)
 {
     const char* home_dir = std::getenv(USER_HOME_DIR);
     
-        if (home_dir == nullptr)
-        {
-            LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
-            throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
-        }
+    if (home_dir == nullptr)
+    {
+        LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+        throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+    }
 }
 
 std::string Cache::GetCachePath()
 {
     const char* HomeDirectory = std::getenv(USER_HOME_DIR);
 
-        if ( HomeDirectory == nullptr)
-        {
-            LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
-            throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
-        }
-        else
-        {
-            return std::string( HomeDirectory) + "\\Cache.txt";
-        }
+    if ( HomeDirectory == nullptr)
+    {
+        LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+        throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+    }
+    else
+    {
+        return std::string( HomeDirectory) + "\\Cache.txt";
+    }
 }
 
 QString Cache::OpenByCache()
 {
     std::string UserName;
     std::string UserToken;
-
     if(FileExists(GetCachePath()))
     {
         std::ifstream cache_file(GetCachePath(), std::ios::in );
@@ -99,5 +98,5 @@ void Cache::DeleteFile()
              LOG_DEBUG("File deleted");
         }
     }
-    delete FilePath;
+    delete[] FilePath;
 }

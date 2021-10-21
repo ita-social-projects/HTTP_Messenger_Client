@@ -329,6 +329,9 @@ background-color:rgb(111, 91, 113);
             <property name="text">
              <string>Log In</string>
             </property>
+            <property name="shortcut">
+             <string>Return</string>
+            </property>
            </widget>
           </item>
           <item>

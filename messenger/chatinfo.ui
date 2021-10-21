@@ -382,6 +382,22 @@ QPushButton:hover {
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>10</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QLabel" name="label_MemberLogin">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -394,6 +410,11 @@ QPushButton:hover {
                  <width>0</width>
                  <height>30</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string/>
@@ -526,8 +547,8 @@ border-radius: 15px;</string>
               <string/>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/icons/icons/members.ico</normaloff>:/icons/icons/members.ico</iconset>
+              <iconset resource="resources.qrc">
+               <normaloff>:/icons/icons/group.ico</normaloff>:/icons/icons/group.ico</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -553,7 +574,7 @@ border-radius: 15px;</string>
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="styleSheet">

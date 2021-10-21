@@ -280,9 +280,17 @@ border-color: rgb(174, 143, 177);</string>
          </item>
          <item>
           <widget class="QListWidget" name="ChatList">
+           <property name="font">
+            <font>
+             <family>MS Shell Dlg 2</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(255, 255, 255);
-font: 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
 border-style: solid;
 border-width: 1px;
@@ -292,13 +300,22 @@ border-color: rgb(174, 143, 177);</string>
             <set>QAbstractItemView::DoubleClicked</set>
            </property>
            <property name="dragEnabled">
-            <bool>true</bool>
+            <bool>false</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::NoDragDrop</enum>
            </property>
            <property name="movement">
-            <enum>QListView::Free</enum>
+            <enum>QListView::Static</enum>
            </property>
            <property name="resizeMode">
             <enum>QListView::Adjust</enum>
+           </property>
+           <property name="layoutMode">
+            <enum>QListView::SinglePass</enum>
+           </property>
+           <property name="spacing">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -356,9 +373,17 @@ color: rgb(161, 156, 169);</string>
                <height>45</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);
-font: 10pt &quot;MS Shell Dlg 2&quot;;
 border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>

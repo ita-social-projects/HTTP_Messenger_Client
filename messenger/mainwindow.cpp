@@ -56,7 +56,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_SendButton_clicked()
 {
-    if(CheckMessage())
+    if(CheckMessage() && ui->ChatInfo->text() != "")
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
@@ -126,24 +126,26 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             std::map<unsigned long, QString> chats = extractor.extractChats(document);
             CurrentUser::getInstance()->setChats(chats);
-            for(auto a: chats)
-            {
-                ui->ChatList->addItem(a.second);
-            }
+            showChats();
         }
         if(type==RequestType::GET_MESSAGES)
         {
             QVector<Message> msgs = extractor.extractMessages(document);
             for(auto msg: msgs)
-            {
-                showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
-            }
-            CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
+           {
+                if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
+                {
+                    showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime());
+                }
+                else
+                {
+                    showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
+                }
+           }
+           CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
         }
         if(type==RequestType::SEND_MESSAGE)
         {
-            QVector<Message> msg = extractor.extractMessages(document);
-            showMessage(msg[0].getWriter(), msg[0].getMessage(), msg[0].getDate(), msg[0].getTime());
             ui->EnterMessage->clear();
         }
     }
@@ -235,21 +237,12 @@ void MainWindow::on_CreateChat_clicked()
 
 void MainWindow::on_ChatInfo_clicked()
 {
-    if(ui->ChatInfo->text().isEmpty())
-    {
-        return;
-    }
     emit openChatInfo();
 }
 
 void MainWindow::addNewChat()
 {
-    ui->ChatList->clear();
-    std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();
-    for(auto a: chats)
-    {
-        ui->ChatList->addItem(a.second);
-    }
+    showChats();
 }
 
 void MainWindow::leaveChat()

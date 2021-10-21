@@ -19,10 +19,10 @@ public:
     QJsonDocument packUpdatePassword(const QString& token,const QString& oldPassword,const QString& newPassword);
 
     QJsonDocument packToFindUsers(const QString& token,const QString& searchString);
-    QJsonDocument packToGetChatParticipants(const QString& token,const unsigned long chatId);
-    QJsonDocument packToGetMessages(const QString& token,const unsigned long lastMsgId, const unsigned long chatId);
-    QJsonDocument packToSendMessage(const QString& token, const QString& message,const unsigned long chatId);
-    QJsonDocument packUserToChat(const QString& token, const unsigned long chatId, const QString& login);
+    QJsonDocument packToGetChatParticipants(const QString& token,const int chatId);
+    QJsonDocument packToGetMessages(const QString& token,const int lastMsgId, const int chatId);
+    QJsonDocument packToSendMessage(const QString& token, const QString& message,const int chatId);
+    QJsonDocument packUserToChat(const QString& token, const int chatId, const QString& login);
     QJsonDocument packChatInfo(const QString& token, const QString& chatTitle);
 };
 

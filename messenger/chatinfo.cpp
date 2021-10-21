@@ -1,7 +1,6 @@
 #include "chatinfo.h"
 #include "ui_chatinfo.h"
 #include "currentchat.h"
-#include "Logger.h"
 
 ChatInfo::ChatInfo(QWidget *parent) :
     QDialog(parent),
@@ -9,13 +8,15 @@ ChatInfo::ChatInfo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Chat Information");
-    ui->label_ChatName->setText(CurrentChat::getInstance()->getName());
     ui->lineEdit_SearchUser->setPlaceholderText("Search user...");
     ui->verticalWidget_FindUsers->hide();
 
     QRegularExpression rx("[a-zA-Z0-9]+");
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit_SearchUser->setValidator(validator);
+    ui->label_ChatName->setText(CurrentChat::getInstance()->getName());
+
+    RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), CurrentChat::getInstance()->getId(), this);
 }
 ChatInfo::~ChatInfo()
 {
@@ -24,7 +25,8 @@ ChatInfo::~ChatInfo()
 
 void ChatInfo::on_pushButton_AddMember_clicked()
 {
-    if(ui->pushButton_AddMember->isChecked())
+    static bool mode = false;
+    if(!mode)
     {
         ui->verticalWidget_FindUsers->show();
         ui->verticalWidget_Members->hide();
@@ -34,6 +36,7 @@ void ChatInfo::on_pushButton_AddMember_clicked()
         ui->verticalWidget_FindUsers->hide();
         ui->verticalWidget_Members->show();
     }
+    mode = !mode;
 }
 
 void ChatInfo::on_pushButton_LeaveChat_clicked()
@@ -74,7 +77,6 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         QString replyMsg = extractor.extractErrorMsg(document);
         QMessageBox::critical(nullptr, "ERROR", replyMsg);
-        LOG_ERROR("Server error");
     }
     else
     {
@@ -83,19 +85,21 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
             QVector<QString> users = extractor.extractVector(document);
             ui->listWidget_Users->clear();
             ui->listWidget_Users->addItems(users);
-            LOG_DEBUG("Search user reply operated");
         }
         if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
             ui->label_MemberLogin->clear();
-            LOG_DEBUG("Add user reply operated");
         }
         if(type == RequestType::LEAVE_CHAT)
         {
             emit leaveChat();
             this->close();
-            LOG_DEBUG("Leave chat reply operated");
+        }
+        if(type == RequestType::GET_CHAT_PARTICIPANTS)
+        {
+            QVector<QString> users = extractor.extractVector(document);
+            ui->listWidget_Members->addItems(users);
         }
     }
 }
@@ -105,14 +109,7 @@ void ChatInfo::on_pushButton_Cancel_clicked()
     ui->label_MemberLogin->clear();
 }
 
-void ChatInfo::closeEvent(QCloseEvent * e)
+void ChatInfo::closeEvent(QCloseEvent * e )
 {
     emit closing();
 }
-
-void ChatInfo::on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item)
-{
-    QString user = ui->listWidget_Users->currentItem()->text();
-    ui->label_MemberLogin->setText(user);
-}
-

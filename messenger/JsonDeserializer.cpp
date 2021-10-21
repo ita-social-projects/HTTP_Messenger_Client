@@ -1,11 +1,6 @@
 #include "JsonDeserializer.h"
-#include "Logger.h"
 
 #define LOGIN "login"
-
-
-#define LOGIN "login"
-
 #define TOKEN "token"
 
 #define CHATS "chats"
@@ -27,9 +22,6 @@ bool checkAllMessageFields(const QJsonObject& obj);
 
 QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
 {
-
-    LOG_DEBUG("Extracting list of users");
-
     QVector<QString> vect;
     QJsonObject jsonObject = replyInfo.object();
 
@@ -45,11 +37,16 @@ QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
     return vect;
 }
 
+std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
+{
+    std::map<unsigned long,QString> map;
+    QJsonObject jsonObject = replyInfo.object();
+    map.insert(std::pair<int,QString>(jsonObject[CHAT_ID].toString().toULong(),jsonObject[CHAT_TITLE].toString()));
+    return map;
+}
+
 std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
-
-    LOG_DEBUG("Extracting list of chats");
-
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
 
@@ -65,19 +62,8 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
     return map;
 }
 
-std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
-{
-    std::map<unsigned long,QString> map;
-    QJsonObject jsonObject = replyInfo.object();
-    map.insert(std::pair<int,QString>(jsonObject[CHAT_ID].toString().toULong(),jsonObject[CHAT_TITLE].toString()));
-    return map;
-}
-
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
-
-    LOG_DEBUG("Extracting error message");
-
     if(replyInfo.toJson().contains(ERROR_MESSAGE))
     {
         return replyInfo.object().value(ERROR_MESSAGE).toString();
@@ -87,7 +73,6 @@ QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 
 CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 {
-    LOG_DEBUG("Extracting user`s info");
     CurrentUser* user = CurrentUser::getInstance();
 
     if(!replyInfo.isNull() && replyInfo.toJson().contains(TOKEN))
@@ -104,9 +89,6 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
 QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInfo)
 {
-
-    LOG_DEBUG("Extracting list of messages");
-
     QVector<Message> messages;
     QJsonObject jsonObject = replyInfo.object();
     if(!jsonObject.empty() && jsonObject.contains(MESSAGES))
