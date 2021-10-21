@@ -30,6 +30,7 @@ void WindowManager::open_LoginWindow()
     LOG_DEBUG("Opening login window");
     close_Window();
     currentWindow.reset(new LoginWindow());
+    currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(OpenSignupWindow()), this, SLOT(open_SignupWindow()));
     connect(currentWindow.get(), SIGNAL(LoginSuccess()), this, SLOT(open_MainWindow()));
 
@@ -40,6 +41,7 @@ void WindowManager::open_SignupWindow()
     LOG_DEBUG("Opening sign up window");
     close_Window();
     currentWindow.reset(new SignupWindow());
+    currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(OpenLoginWindow()), this, SLOT(open_LoginWindow()));
     currentWindow->show();
 }
@@ -48,6 +50,7 @@ void WindowManager::open_MainWindow()
     LOG_DEBUG("Opening main window");
     close_Window();
     currentWindow.reset(new MainWindow());
+    currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
     connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
     connect(currentWindow.get(), SIGNAL(openCreateChatWindow()), this, SLOT(open_CreateChatWindow()));
@@ -58,6 +61,7 @@ void WindowManager::open_MainWindow()
 void WindowManager::open_ProfileWindow()
 {
     minorWindow.reset(new ProfileWindow());
+    minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     minorWindow->setModal(true);
     minorWindow->show();
@@ -66,6 +70,7 @@ void WindowManager::open_ProfileWindow()
 void WindowManager::open_ChatInfoWindow()
 {
     minorWindow.reset(new ChatInfo());
+    minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     connect(minorWindow.get(), SIGNAL(leaveChat()), currentWindow.get(), SLOT(leaveChat()));
     minorWindow->setModal(true);
@@ -75,6 +80,7 @@ void WindowManager::open_ChatInfoWindow()
 void WindowManager::open_CreateChatWindow()
 {
     minorWindow.reset(new CreateChat());
+    minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(addChat()), currentWindow.get(), SLOT(addNewChat()));
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     minorWindow->setModal(true);

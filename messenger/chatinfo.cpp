@@ -25,8 +25,7 @@ ChatInfo::~ChatInfo()
 
 void ChatInfo::on_pushButton_AddMember_clicked()
 {
-    static bool mode = false;
-    if(!mode)
+    if(ui->pushButton_AddMember->isChecked())
     {
         ui->verticalWidget_FindUsers->show();
         ui->verticalWidget_Members->hide();
@@ -36,7 +35,6 @@ void ChatInfo::on_pushButton_AddMember_clicked()
         ui->verticalWidget_FindUsers->hide();
         ui->verticalWidget_Members->show();
     }
-    mode = !mode;
 }
 
 void ChatInfo::on_pushButton_LeaveChat_clicked()
@@ -113,3 +111,10 @@ void ChatInfo::closeEvent(QCloseEvent * e )
 {
     emit closing();
 }
+
+void ChatInfo::on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item)
+{
+    QString user = ui->listWidget_Users->currentItem()->text();
+    ui->label_MemberLogin->setText(user);
+}
+
