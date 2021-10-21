@@ -364,7 +364,7 @@ border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
              </property>
              <property name="text">
-              <string>chat name</string>
+              <string/>
              </property>
             </widget>
            </item>

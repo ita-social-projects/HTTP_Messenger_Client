@@ -86,47 +86,53 @@ QJsonDocument JsonSerializer::packToFindUsers(const QString& token,const QString
     return doc;
 }
 
-QJsonDocument JsonSerializer::packToGetChatParticipants(const QString& token,const int chatId)
+QJsonDocument JsonSerializer::packToGetChatParticipants(const QString& token,const unsigned long chatId)
 {
     QJsonObject jsonObject;
+    QString chatIdStr = QString::number(chatId);
 
     jsonObject[TOKEN] = token;
-    jsonObject[CHAT_ID] = chatId;
+    jsonObject[CHAT_ID] = chatIdStr;
 
     QJsonDocument doc(jsonObject);
     return doc;
 }
 
-QJsonDocument JsonSerializer::packToGetMessages(const QString& token,const int lastMsgId, const int chatId)
+QJsonDocument JsonSerializer::packToGetMessages(const QString& token,const unsigned long lastMsgId, const unsigned long chatId)
 {
     QJsonObject jsonObject;
 
+    QString chatIdStr = QString::number(chatId);
+    QString lastMsgIdStr = QString::number(lastMsgId);
+
     jsonObject[TOKEN] = token;
-    jsonObject[LAST_MESSAGE_ID] = lastMsgId;
-    jsonObject[CHAT_ID] = chatId;
+    jsonObject[LAST_MESSAGE_ID] = lastMsgIdStr;
+    jsonObject[CHAT_ID] = chatIdStr;
 
     QJsonDocument doc(jsonObject);
     return doc;
 }
 
-QJsonDocument JsonSerializer::packToSendMessage(const QString& token, const QString& message,const int chatId)
+QJsonDocument JsonSerializer::packToSendMessage(const QString& token, const QString& message,const unsigned long chatId)
 {
     QJsonObject jsonObject;
+    QString chatIdStr = QString::number(chatId);
 
     jsonObject[TOKEN] = token;
     jsonObject[MESSAGE] = message;
-    jsonObject[CHAT_ID] = chatId;
+    jsonObject[CHAT_ID] = chatIdStr;
 
     QJsonDocument doc(jsonObject);
     return doc;
 }
 
-QJsonDocument JsonSerializer::packUserToChat(const QString& token, const int chatId, const QString& login)
+QJsonDocument JsonSerializer::packUserToChat(const QString& token, const unsigned long chatId, const QString& login)
 {
     QJsonObject jsonObject;
+    QString chatIdStr = QString::number(chatId);
 
     jsonObject[TOKEN] = token;
-    jsonObject[CHAT_ID] = chatId;
+    jsonObject[CHAT_ID] = chatIdStr;
     jsonObject[LOGIN] = login;
 
     QJsonDocument doc(jsonObject);

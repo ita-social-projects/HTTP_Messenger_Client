@@ -56,10 +56,8 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else
         {
-            // повертають id чату і його title
-            unsigned long id;
-            QString title;
-            CurrentUser::getInstance()->addNewChat(id, title);
+            std::map<unsigned long, QString> map = extractor.extractChats(document);
+            CurrentUser::getInstance()->addNewChat(map.begin()->first,map.begin()->second);
             emit addChat();
             this->close();
         }
