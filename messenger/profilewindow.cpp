@@ -51,9 +51,15 @@ void ProfileWindow::hidePasswordFields()
 
 void ProfileWindow::on_pushButton_ChangeUsername_clicked()
 {
-    hidePasswordFields();
-    hideInfoFields();
-    showLoginFields();
+    if(ui->pushButton_ChangeUsername->isChecked())
+    {
+        hideInfoFields();
+        showLoginFields();
+    }
+    else
+    {
+        hideLoginFields();
+    }
 }
 
 void ProfileWindow::showLoginFields()
@@ -64,9 +70,15 @@ void ProfileWindow::showLoginFields()
 
 void ProfileWindow::on_pushButton_ChangePassword_clicked()
 {
-    hideLoginFields();
-    hideInfoFields();
-    showPasswordFields();
+    if(ui->pushButton_ChangePassword->isChecked())
+    {
+        hideInfoFields();
+        showPasswordFields();
+    }
+    else
+    {
+        hidePasswordFields();
+    }
 }
 
 void ProfileWindow::showPasswordFields()

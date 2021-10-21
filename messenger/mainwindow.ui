@@ -405,15 +405,15 @@ font: 10pt MS Shell Dlg 2;</string>
              </property>
              <item>
               <property name="text">
-               <string>Bro:</string>
+               <string>Select or Create new chat</string>
               </property>
-              <property name="flags">
-               <set>NoItemFlags</set>
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
               </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Let`s go to the party!</string>
+              <property name="textAlignment">
+               <set>AlignCenter</set>
               </property>
              </item>
             </widget>

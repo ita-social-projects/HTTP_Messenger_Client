@@ -56,7 +56,7 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else
         {
-            std::map<unsigned long, QString> map = extractor.extractChats(document);
+            std::map<unsigned long, QString> map = extractor.extractChat(document);
             CurrentUser::getInstance()->addNewChat(map.begin()->first,map.begin()->second);
             emit addChat();
             this->close();

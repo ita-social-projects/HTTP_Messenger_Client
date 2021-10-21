@@ -155,7 +155,7 @@ void RequestManager::addUserToChat(QString token, unsigned long chatId, QString 
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserToChat(token,chatId,memberLogin);
-    auto reply = post("/user/add_user", jsonDocument);
+    auto reply = post("/chat/add_user", jsonDocument);
     resultMap.emplace(reply, Requester(resultInterface, RequestType::ADD_USER_TO_CHAT));
 }
 
