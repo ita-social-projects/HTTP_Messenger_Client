@@ -1,14 +1,14 @@
 #include "createchat.h"
 #include "ui_createchat.h"
 #include <QMessageBox>
-#include "Logger.h"
 
-CreateChat::CreateChat() :
+CreateChat::CreateChat(MainWindow* mainPtr) :
     QDialog(nullptr),
     ui(new Ui::CreateChat)
 {
     ui->setupUi(this);
     this->setWindowTitle("Create Chat");
+    this->mainPtr = mainPtr;
 }
 
 CreateChat::~CreateChat()
@@ -46,24 +46,18 @@ void CreateChat::on_pushButton_Create_clicked()
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    if(type == RequestType::CREATE_CHAT)
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+    if (reply->error())
     {
-        JsonDeserializer extractor;
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-        if (reply->error())
-        {
-            QString resReply = extractor.extractErrorMsg(document);
-            QMessageBox::critical(nullptr, "ERROR", resReply);
-            LOG_ERROR("Server error");
-        }
-        else
-        {
-            unsigned long id;
-            QString title;
-            CurrentUser::getInstance()->addNewChat(id, title);
-            emit addChat();
-            LOG_DEBUG("Handled create chat reply");
-            this->close();
-        }
+        QString resReply = extractor.extractErrorMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
+    }
+    else
+    {
+        std::map<unsigned long, QString> map = extractor.extractChats(document);
+        CurrentUser::getInstance()->addNewChat(map.begin()->first,map.begin()->second);
+        emit addChat();
+        this->close();
     }
 }
