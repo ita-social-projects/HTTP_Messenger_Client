@@ -50,15 +50,13 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
-        QString resReply = extractor.extractMsg(document);
+        QString resReply = extractor.extractErrorMsg(document);
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
     {
-        // повертають id чату і його title
-        unsigned long id;
-        QString title;
-        CurrentUser::getInstance()->addNewChat(id, title);
+        std::map<unsigned long, QString> map = extractor.extractChats(document);
+        CurrentUser::getInstance()->addNewChat(map.begin()->first,map.begin()->second);
         emit addChat();
         this->close();
     }
