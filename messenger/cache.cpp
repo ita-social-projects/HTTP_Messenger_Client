@@ -32,6 +32,7 @@ QString Cache::OpenByCache()
 {
     std::string UserName;
     std::string UserToken;
+
     if(FileExists(GetCachePath()))
     {
         std::ifstream cache_file(GetCachePath(), std::ios::in );
@@ -98,4 +99,5 @@ void Cache::DeleteFile()
              LOG_DEBUG("File deleted");
         }
     }
+    delete FilePath;
 }

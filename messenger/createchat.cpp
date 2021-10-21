@@ -45,7 +45,9 @@ void CreateChat::on_pushButton_Create_clicked()
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
-    if(type == RequestType::CREATE_CHAT)
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+    if (reply->error())
     {
         JsonDeserializer extractor;
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());

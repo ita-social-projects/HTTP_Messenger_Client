@@ -1,6 +1,7 @@
 #include "chatinfo.h"
 #include "ui_chatinfo.h"
 #include "currentchat.h"
+#include "Logger.h"
 
 ChatInfo::ChatInfo(QWidget *parent) :
     QDialog(parent),
@@ -73,6 +74,7 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         QString replyMsg = extractor.extractErrorMsg(document);
         QMessageBox::critical(nullptr, "ERROR", replyMsg);
+        LOG_ERROR("Server error");
     }
     else
     {
@@ -81,16 +83,19 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
             QVector<QString> users = extractor.extractVector(document);
             ui->listWidget_Users->clear();
             ui->listWidget_Users->addItems(users);
+            LOG_DEBUG("Search user reply operated");
         }
         if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
             ui->label_MemberLogin->clear();
+            LOG_DEBUG("Add user reply operated");
         }
         if(type == RequestType::LEAVE_CHAT)
         {
             emit leaveChat();
             this->close();
+            LOG_DEBUG("Leave chat reply operated");
         }
     }
 }
