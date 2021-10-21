@@ -59,9 +59,17 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            map.insert(std::pair<int,QString>(obj[CHAT_ID].toString().toULong(),obj[CHAT_TITLE].toString()));
+            map.emplace(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString());
         }
     }
+    return map;
+}
+
+std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
+{
+    std::map<unsigned long,QString> map;
+    QJsonObject jsonObject = replyInfo.object();
+    map.insert(std::pair<int,QString>(jsonObject[CHAT_ID].toString().toULong(),jsonObject[CHAT_TITLE].toString()));
     return map;
 }
 

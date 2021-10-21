@@ -618,16 +618,6 @@ border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
            </property>
-           <item>
-            <property name="text">
-             <string>Romeo</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Juliette</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>

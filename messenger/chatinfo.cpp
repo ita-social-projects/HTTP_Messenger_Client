@@ -9,6 +9,7 @@ ChatInfo::ChatInfo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Chat Information");
+    ui->label_ChatName->setText(CurrentChat::getInstance()->getName());
     ui->lineEdit_SearchUser->setPlaceholderText("Search user...");
     ui->verticalWidget_FindUsers->hide();
 
@@ -108,3 +109,10 @@ void ChatInfo::closeEvent(QCloseEvent * e)
 {
     emit closing();
 }
+
+void ChatInfo::on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item)
+{
+    QString user = ui->listWidget_Users->currentItem()->text();
+    ui->label_MemberLogin->setText(user);
+}
+

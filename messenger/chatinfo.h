@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include <QListWidgetItem>
 #include "requestmanager.h"
 #include "JsonDeserializer.h"
 
@@ -30,6 +31,7 @@ private slots:
     void on_pushButton_Cancel_clicked();
     void on_pushButton_SearchUser_clicked();
     void closeEvent(QCloseEvent * e ) override;
+    void on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::ChatInfo *ui;

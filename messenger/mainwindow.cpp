@@ -122,7 +122,6 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     }
     else
     {
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         if(type==RequestType::GET_CHATS)
         {
             std::map<unsigned long, QString> chats = extractor.extractChats(document);
