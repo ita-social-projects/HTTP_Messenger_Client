@@ -9,17 +9,18 @@ ChatInfo::ChatInfo(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Chat Information");
     ui->lineEdit_SearchUser->setPlaceholderText("Search user...");
-    ui->verticalWidget_FindUsers->hide();
 
     QRegularExpression rx("[a-zA-Z0-9]+");
-    QValidator *validator = new QRegularExpressionValidator(rx, this);
+    validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit_SearchUser->setValidator(validator);
     ui->label_ChatName->setText(CurrentChat::getInstance()->getName());
+    ui->verticalWidget_FindUsers->hide();
 
     RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), CurrentChat::getInstance()->getId(), this);
 }
 ChatInfo::~ChatInfo()
 {
+    delete validator;
     delete ui;
 }
 
@@ -80,7 +81,7 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         if(type == RequestType::SEARCH_USER)
         {
-            QVector<QString> users = extractor.extractVector(document);
+            QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Users->clear();
             ui->listWidget_Users->addItems(users);
         }
@@ -96,7 +97,7 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         if(type == RequestType::GET_CHAT_PARTICIPANTS)
         {
-            QVector<QString> users = extractor.extractVector(document);
+            QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Members->addItems(users);
         }
     }

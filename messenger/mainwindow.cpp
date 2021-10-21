@@ -52,6 +52,11 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
+
+    RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
+                                               CurrentChat::getInstance()->getId(),
+                                               CurrentChat::getInstance()->getLastMessage().getId(),
+                                               this);
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -128,9 +133,13 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             CurrentUser::getInstance()->setChats(chats);
             showChats();
         }
-        if(type==RequestType::GET_MESSAGES)
+        else if(type==RequestType::GET_MESSAGES)
         {
             QVector<Message> msgs = extractor.extractMessages(document);
+            if(msgs.isEmpty())
+            {
+                return;
+            }
             for(auto msg: msgs)
            {
                 if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
@@ -141,12 +150,21 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 {
                     showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
                 }
+                CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
            }
-           CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
+
         }
-        if(type==RequestType::SEND_MESSAGE)
+        else if(type==RequestType::SEND_MESSAGE)
         {
             ui->EnterMessage->clear();
+            RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
+                                                       CurrentChat::getInstance()->getId(),
+                                                       CurrentChat::getInstance()->getLastMessage().getId(),
+                                                       this);
+        }
+        else if(type == RequestType::LOG_OUT)
+        {
+            emit SignoutButtonClicked();
         }
     }
 }
@@ -190,7 +208,8 @@ void MainWindow::on_UserImg_clicked()
 
 void MainWindow::showMessage(QString from, QString message, QString date, QString time)
 {
-    if(CurrentChat::getInstance()->getLastMessage().getDate() != date)
+    QString msgDate = CurrentChat::getInstance()->getLastMessage().getDate();
+    if(msgDate != date)
     {
         QListWidgetItem* itemDate = new QListWidgetItem(date);
         itemDate->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
@@ -220,13 +239,13 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
     ui->Messages->addItem(itemTime);
     ui->Messages->addItem("");
     mtx.unlock();
+
 }
 
 void MainWindow::on_actionSign_out_triggered()
 {
     RequestManager::GetInstance()->logOut(CurrentUser::getInstance()->getToken(), this);
     Cache::DeleteFile();
-    emit SignoutButtonClicked();
 }
 
 

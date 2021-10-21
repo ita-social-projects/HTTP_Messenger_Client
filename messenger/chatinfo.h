@@ -35,6 +35,7 @@ private slots:
     void on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item);
 
 private:
+    QValidator *validator;
     Ui::ChatInfo *ui;
 };
 

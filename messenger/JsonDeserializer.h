@@ -22,9 +22,8 @@ public:
     std::map<unsigned long,QString> extractChats(const QJsonDocument &replyInfo);
     std::map<unsigned long,QString> extractChat(const QJsonDocument &replyInfo);
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
-    QVector<QString> extractVector(const QJsonDocument &replyInfo);
+    QVector<QString> extractUsersLogin(const QJsonDocument &replyInfo);
     QVector<Message> extractMessages(const QJsonDocument &replyInfo);
-
 };
 
 #endif // JSONDESERIALIZER_H

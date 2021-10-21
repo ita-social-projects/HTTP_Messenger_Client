@@ -32,6 +32,7 @@ private slots:
     void on_SignupButton_clicked();
 
 private:
+    QValidator *validator;
     Ui::LoginWindow *ui;
 };
 

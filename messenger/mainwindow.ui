@@ -267,6 +267,11 @@ border-color: rgb(174, 143, 177);</string>
          </item>
          <item>
           <widget class="QLabel" name="FoundMessage">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>

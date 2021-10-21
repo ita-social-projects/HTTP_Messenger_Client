@@ -83,4 +83,5 @@ void Message::operator=(const Message& other)
     message = other.message;
     date = other.date;
     time = other.time;
+    writer = other.writer;
 }

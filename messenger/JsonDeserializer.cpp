@@ -1,4 +1,5 @@
 #include "JsonDeserializer.h"
+#include <QRegularExpression>
 
 #define LOGIN "login"
 #define TOKEN "token"
@@ -14,13 +15,13 @@
 #define USERS "users"
 #define MESSAGES "messages"
 #define SENDER "sender"
-#define TEXT "text"
+#define CONTENT "content"
 #define MESSAGE_ID "message_id"
 #define ERROR_MESSAGE "what"
 
 bool checkAllMessageFields(const QJsonObject& obj);
 
-QVector<QString> JsonDeserializer::extractVector(const QJsonDocument &replyInfo)
+QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyInfo)
 {
     QVector<QString> vect;
     QJsonObject jsonObject = replyInfo.object();
@@ -99,9 +100,9 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
             QJsonObject obj = value.toObject();
             if(checkAllMessageFields(obj))
             {
-                QStringList list = obj[TIMESTAMP].toString().split("\\s");
+                QStringList list = obj[TIMESTAMP].toString().split(QRegularExpression("\\s+"));
                 Message msg(obj[MESSAGE_ID].toInt(),obj[SENDER].toString(),
-                            obj[TEXT].toString(),list.at(DATE),list.at(TIME));
+                            obj[CONTENT].toString(),list.at(DATE),list.at(TIME));
                 messages.append(msg);
             }
         }
@@ -113,7 +114,7 @@ bool checkAllMessageFields(const QJsonObject& obj)
 {
     if(obj.contains(MESSAGE_ID) &&
        obj.contains(SENDER) &&
-       obj.contains(TEXT) &&
+       obj.contains(CONTENT) &&
        obj.contains(TIMESTAMP))
     {
         return true;
