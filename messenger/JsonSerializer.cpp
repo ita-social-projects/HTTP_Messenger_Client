@@ -44,6 +44,7 @@ QJsonDocument JsonSerializer::packMsg(const QString& userSender,const QString& u
 
 QJsonDocument JsonSerializer::packToken(const QString& token)
 {
+    LOG_DEBUG("Packing token into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -54,6 +55,7 @@ QJsonDocument JsonSerializer::packToken(const QString& token)
 
 QJsonDocument JsonSerializer::packUpdateLogin(const QString& token,const QString& newLogin)
 {
+    LOG_DEBUG("Packing updated login into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -65,6 +67,7 @@ QJsonDocument JsonSerializer::packUpdateLogin(const QString& token,const QString
 
 QJsonDocument JsonSerializer::packUpdatePassword(const QString& token,const QString& oldPassword,const QString& newPassword)
 {
+    LOG_DEBUG("Packing updated password into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -77,6 +80,7 @@ QJsonDocument JsonSerializer::packUpdatePassword(const QString& token,const QStr
 
 QJsonDocument JsonSerializer::packToFindUsers(const QString& token,const QString& searchString)
 {
+    LOG_DEBUG("Packing list of needed users into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -88,6 +92,7 @@ QJsonDocument JsonSerializer::packToFindUsers(const QString& token,const QString
 
 QJsonDocument JsonSerializer::packToGetChatParticipants(const QString& token,const int chatId)
 {
+    LOG_DEBUG("Packing request for getting chat participants into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -99,6 +104,7 @@ QJsonDocument JsonSerializer::packToGetChatParticipants(const QString& token,con
 
 QJsonDocument JsonSerializer::packToGetMessages(const QString& token,const int lastMsgId, const int chatId)
 {
+    LOG_DEBUG("Packing request for getting messages into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -111,6 +117,7 @@ QJsonDocument JsonSerializer::packToGetMessages(const QString& token,const int l
 
 QJsonDocument JsonSerializer::packToSendMessage(const QString& token, const QString& message,const int chatId)
 {
+    LOG_DEBUG("Packing request for sending message into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -123,6 +130,7 @@ QJsonDocument JsonSerializer::packToSendMessage(const QString& token, const QStr
 
 QJsonDocument JsonSerializer::packUserToChat(const QString& token, const int chatId, const QString& login)
 {
+    LOG_DEBUG("Packing request for change user state in chat into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -135,6 +143,7 @@ QJsonDocument JsonSerializer::packUserToChat(const QString& token, const int cha
 
 QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& chatTitle)
 {
+    LOG_DEBUG("Packing chat information into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;

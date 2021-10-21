@@ -1,6 +1,7 @@
 #include "createchat.h"
 #include "ui_createchat.h"
 #include <QMessageBox>
+#include "Logger.h"
 
 CreateChat::CreateChat() :
     QDialog(nullptr),
@@ -53,14 +54,15 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             QString resReply = extractor.extractErrorMsg(document);
             QMessageBox::critical(nullptr, "ERROR", resReply);
+            LOG_ERROR("Server error");
         }
         else
         {
-            // повертають id чату і його title
             unsigned long id;
             QString title;
             CurrentUser::getInstance()->addNewChat(id, title);
             emit addChat();
+            LOG_DEBUG("Handled create chat reply");
             this->close();
         }
     }
