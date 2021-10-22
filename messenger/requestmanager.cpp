@@ -23,6 +23,7 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
 {
     if(resultInterface == nullptr)
     {
+
         LOG_DEBUG("Asnwer don't needed anymore");
         return;
     }
@@ -37,6 +38,7 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
 {
     if(resultInterface == nullptr)
     {
+
         LOG_DEBUG("Asnwer don't needed anymore");
         return;
     }

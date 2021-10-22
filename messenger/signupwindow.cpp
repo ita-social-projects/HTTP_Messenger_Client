@@ -14,7 +14,7 @@ SignupWindow::SignupWindow(QWidget *parent) :
     ui->ConfirmPassword->setEchoMode(QLineEdit::EchoMode::Password);
 
     QRegularExpression rx("[a-zA-Z0-9]+");
-    QValidator *validator = new QRegularExpressionValidator(rx, this);
+    validator = new QRegularExpressionValidator(rx, this);
     ui->Login->setValidator(validator);
 
     ui->Login->setPlaceholderText(" Enter login:");
@@ -26,6 +26,7 @@ SignupWindow::SignupWindow(QWidget *parent) :
 
 SignupWindow::~SignupWindow()
 {
+    delete validator;
     delete ui;
 }
 

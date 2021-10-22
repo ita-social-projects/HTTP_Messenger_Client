@@ -485,8 +485,8 @@ background-color:rgb(111, 91, 113);
             </property>
             <property name="font">
              <font>
-              <family>Segoe UI Emoji</family>
-              <pointsize>11</pointsize>
+              <family>MS Shell Dlg 2</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="styleSheet">
@@ -508,7 +508,7 @@ background-color:rgb(111, 91, 113);
             <property name="font">
              <font>
               <family>Segoe UI Emoji</family>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="styleSheet">

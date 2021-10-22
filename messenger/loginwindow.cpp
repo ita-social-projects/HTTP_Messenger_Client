@@ -11,19 +11,19 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->EnterPassword->setEchoMode(QLineEdit::EchoMode::Password);
 
-    QRegularExpression rx("[a-zA-Z]+");
-    QValidator *validator = new QRegularExpressionValidator(rx, this);
+    QRegularExpression rx("[a-zA-Z0-9]+");
+    validator = new QRegularExpressionValidator(rx, this);
     ui->EnterLogin->setValidator(validator);
 
     ui->EnterLogin->setPlaceholderText(" Enter login:");
     ui->EnterPassword->setPlaceholderText(" Enter password:");
 
     this->setWindowTitle("Log In");
-    delete validator;
 }
 
 LoginWindow::~LoginWindow()
 {
+    delete validator;
     delete ui;
 }
 

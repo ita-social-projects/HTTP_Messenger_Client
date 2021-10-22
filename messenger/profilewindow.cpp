@@ -158,7 +158,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         JsonDeserializer extractor;
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         QString resReply = extractor.extractErrorMsg(document);
-        QMessageBox::information(nullptr, "ERROR", resReply);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
     {

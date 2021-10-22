@@ -398,6 +398,13 @@ QPushButton:hover {
               </spacer>
              </item>
              <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Selected user:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label_MemberLogin">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -495,14 +502,21 @@ background-color:rgb(200, 192, 207);
                <height>100</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255);
 color:black;
-font: 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
 border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
+             </property>
+             <property name="spacing">
+              <number>3</number>
              </property>
             </widget>
            </item>
@@ -630,14 +644,21 @@ border-radius: 15px;</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(255, 255, 255);
 color:black;
-font: 10pt &quot;MS Shell Dlg 2&quot;;
 border-radius: 10px;
 border-style: solid;
 border-width: 1px;
 border-color: rgb(174, 143, 177);</string>
+           </property>
+           <property name="spacing">
+            <number>3</number>
            </property>
           </widget>
          </item>

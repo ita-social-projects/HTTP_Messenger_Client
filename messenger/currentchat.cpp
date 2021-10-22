@@ -1,5 +1,8 @@
 #include "currentchat.h"
 
+#define DEFAULT_ID 0
+#define DEFAULT_STR ""
+
 CurrentChat* CurrentChat::instance{nullptr};
 std::mutex CurrentChat::mtx;
 
@@ -15,8 +18,8 @@ CurrentChat* CurrentChat::getInstance()
 
 CurrentChat::CurrentChat()
 {
-    name = "";
-    id = 0;
+    name = DEFAULT_STR;
+    id = DEFAULT_ID;
 };
 
 void CurrentChat::resetChat(unsigned long id, QString name)
@@ -33,8 +36,8 @@ void CurrentChat::setLastMessage(Message message)
 
 void CurrentChat::closeChat()
 {
-    name = "";
-    id = 0;
+    name = DEFAULT_STR;
+    id = DEFAULT_ID;
     lastMessage.clear();
 }
 

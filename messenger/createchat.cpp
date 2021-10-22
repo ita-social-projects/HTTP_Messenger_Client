@@ -37,9 +37,11 @@ void CreateChat::closeEvent(QCloseEvent * e)
 
 void CreateChat::on_pushButton_Create_clicked()
 {
-    QString selectedMember;
     QString chatName = ui->lineEdit_ChatName->text();
-
+    if(chatName.isEmpty())
+    {
+        return;
+    }
     RequestManager::GetInstance()->createChat(CurrentUser::getInstance()->getToken(), chatName, this);
 }
 

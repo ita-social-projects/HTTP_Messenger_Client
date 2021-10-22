@@ -267,6 +267,11 @@ border-color: rgb(174, 143, 177);</string>
          </item>
          <item>
           <widget class="QLabel" name="FoundMessage">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -419,6 +424,9 @@ font: 10pt MS Shell Dlg 2;</string>
              <property name="lineWidth">
               <number>0</number>
              </property>
+             <property name="autoScroll">
+              <bool>true</bool>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -427,6 +435,12 @@ font: 10pt MS Shell Dlg 2;</string>
              </property>
              <property name="selectionMode">
               <enum>QAbstractItemView::NoSelection</enum>
+             </property>
+             <property name="textElideMode">
+              <enum>Qt::ElideRight</enum>
+             </property>
+             <property name="horizontalScrollMode">
+              <enum>QAbstractItemView::ScrollPerItem</enum>
              </property>
              <item>
               <property name="text">
@@ -457,7 +471,7 @@ font: 10pt MS Shell Dlg 2;</string>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0">
              <property name="spacing">
               <number>5</number>
              </property>
