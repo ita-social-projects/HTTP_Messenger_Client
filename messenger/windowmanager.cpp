@@ -12,6 +12,7 @@ WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(n
     setIcon();
     if(Cache::OpenByCache() == "")
     {
+        LOG_DEBUG("No cache");
         open_LoginWindow();
     }
     else

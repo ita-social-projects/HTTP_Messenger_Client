@@ -1,4 +1,5 @@
 #include "JsonDeserializer.h"
+#include "Logger.h"
 #include <QRegularExpression>
 
 #define LOGIN "login"
@@ -23,6 +24,7 @@ bool checkAllMessageFields(const QJsonObject& obj);
 
 QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting vector");
     QVector<QString> vect;
     QJsonObject jsonObject = replyInfo.object();
 
@@ -40,6 +42,7 @@ QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyI
 
 std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting chat");
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
     map.insert(std::pair<int,QString>(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString()));
@@ -48,6 +51,7 @@ std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocumen
 
 std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting chats");
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
 
@@ -65,6 +69,7 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
 
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting error message");
     if(replyInfo.toJson().contains(ERROR_MESSAGE))
     {
         return replyInfo.object().value(ERROR_MESSAGE).toString();
@@ -74,6 +79,7 @@ QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 
 CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting user info");
     CurrentUser* user = CurrentUser::getInstance();
 
     if(!replyInfo.isNull() && replyInfo.toJson().contains(TOKEN))
@@ -90,6 +96,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
 QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInfo)
 {
+    LOG_DEBUG("Extracting messages");
     QVector<Message> messages;
     QJsonObject jsonObject = replyInfo.object();
     if(!jsonObject.empty() && jsonObject.contains(MESSAGES))
