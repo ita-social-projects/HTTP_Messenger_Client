@@ -30,7 +30,7 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password, login);
     auto reply = post("/user/login", jsonDocument);
-    LOG_DEBUG("Login request sended")
+    LOG_DEBUG("Login request sended");
     resultMap.emplace(reply,Requester(resultInterface, RequestType::LOG_IN));
 }
 
