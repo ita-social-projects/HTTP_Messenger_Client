@@ -143,7 +143,7 @@ QPushButton:hover {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="MessengerTitle">
+            <widget class="QLabel" name="UserName">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -162,7 +162,7 @@ QPushButton:hover {
               </font>
              </property>
              <property name="text">
-              <string>Msg Name</string>
+              <string>User Name</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>

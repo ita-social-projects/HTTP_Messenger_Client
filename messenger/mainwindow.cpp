@@ -23,7 +23,7 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->SearchChat->setPlaceholderText(" Search chat...");
 
     this->setWindowTitle("Toretto");
-    ui->MessengerTitle->setText(this->windowTitle());
+    ui->UserName->setText(CurrentUser::getInstance()->getLogin());
 
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }

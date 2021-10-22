@@ -30,7 +30,7 @@ void RequestManager::login(QString login, QString password, RequestResultInterfa
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUserInfo(password, login);
     auto reply = post("/user/login", jsonDocument);
-    LOG_DEBUG("Login request sended")
+    LOG_DEBUG("Login request sended");
     resultMap.emplace(reply,Requester(resultInterface, RequestType::LOG_IN));
 }
 
@@ -57,7 +57,7 @@ void RequestManager::updateLogin(QString token, QString newLogin, RequestResultI
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdateLogin(token,newLogin);
+    QJsonDocument jsonDocument = serializer.packUpdatedLogin(token,newLogin);
     auto reply = post("/user/change_login", jsonDocument);
     LOG_DEBUG("Update login request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_LOGIN));
@@ -71,7 +71,7 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdatePassword(token,oldPassword,newPassword);
+    QJsonDocument jsonDocument = serializer.packUpdatedPassword(token,oldPassword,newPassword);
     auto reply = post("/user/change_password", jsonDocument);
     LOG_DEBUG("Update password request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
