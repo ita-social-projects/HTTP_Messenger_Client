@@ -30,13 +30,13 @@ enum TYPE_OF_LOG{
 
 const int BUFFER_FOR_TYPE = 7;
 const int BUFFER_FOR_TIME = 17;
-const int BUFFER_FOR_FILE = 40;
-const int BUFFER_FOR_FUNCTION = 70;
+const int BUFFER_FOR_FILE = 30;
+const int BUFFER_FOR_FUNCTION = 50;
 const int BUFFER_FOR_MESSAGE = 60;
 
 /* colors for linux */
 
-#if defined(QT_VERSION) || defined(linux)
+#if defined(QT_VERSION) || defined(__linux__)
     #define RESET_COLOR         std::cout << "\033[0m"
 
     #define SET_VERBOSE_COLOR   std::cout << "\033[1m\033[36m" 
@@ -81,7 +81,7 @@ public:
     TYPE_OF_LOG GetType();
     std::string GetTime();
     std::string GetFile();
-    std::string GetMessage();
+    std::string GetLogMessage();
     std::string GetFunction();
 };
 
