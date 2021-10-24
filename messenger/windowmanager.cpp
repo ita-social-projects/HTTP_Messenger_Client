@@ -55,7 +55,7 @@ void WindowManager::open_MainWindow()
     connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
     connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
     connect(currentWindow.get(), SIGNAL(openCreateChatWindow()), this, SLOT(open_CreateChatWindow()));
-    connect(currentWindow.get(), SIGNAL(openChatInfo()), this, SLOT(open_ChatInfoWindow()));
+    connect(currentWindow.get(), SIGNAL(openChatInfo(CurrentChat)), this, SLOT(open_ChatInfoWindow(CurrentChat)));
     currentWindow->show();
 }
 
@@ -68,9 +68,9 @@ void WindowManager::open_ProfileWindow()
     minorWindow->show();
 }
 
-void WindowManager::open_ChatInfoWindow()
+void WindowManager::open_ChatInfoWindow(CurrentChat chat)
 {
-    minorWindow.reset(new ChatInfo());
+    minorWindow.reset(new ChatInfo(chat));
     minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     connect(minorWindow.get(), SIGNAL(leaveChat()), currentWindow.get(), SLOT(leaveChat()));

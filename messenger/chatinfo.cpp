@@ -1,10 +1,10 @@
 #include "chatinfo.h"
 #include "ui_chatinfo.h"
-#include "currentchat.h"
 
-ChatInfo::ChatInfo(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ChatInfo)
+ChatInfo::ChatInfo(CurrentChat chat) :
+    QDialog(nullptr),
+    ui(new Ui::ChatInfo),
+    currentChat(chat)
 {
     ui->setupUi(this);
     this->setWindowTitle("Chat Information");
@@ -13,10 +13,10 @@ ChatInfo::ChatInfo(QWidget *parent) :
     QRegularExpression rx("[a-zA-Z0-9]+");
     validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit_SearchUser->setValidator(validator);
-    ui->label_ChatName->setText(CurrentChat::getInstance()->getName());
+    ui->label_ChatName->setText(currentChat.getName());
     ui->verticalWidget_FindUsers->hide();
 
-    RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), CurrentChat::getInstance()->getId(), this);
+    RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), currentChat.getId(), this);
 }
 ChatInfo::~ChatInfo()
 {
@@ -41,7 +41,7 @@ void ChatInfo::on_pushButton_AddMember_clicked()
 void ChatInfo::on_pushButton_LeaveChat_clicked()
 {
     CurrentUser* user = CurrentUser::getInstance();
-    RequestManager::GetInstance()->leaveChat(user->getToken(), CurrentChat::getInstance()->getId(), user->getLogin(), this);
+    RequestManager::GetInstance()->leaveChat(user->getToken(), currentChat.getId(), user->getLogin(), this);
 }
 
 void ChatInfo::on_pushButton_SearchUser_clicked()
@@ -61,7 +61,7 @@ void ChatInfo::on_pushButton_Add_clicked()
     {
         return;
     }
-    RequestManager::GetInstance()->addUserToChat(CurrentUser::getInstance()->getToken(), CurrentChat::getInstance()->getId(), memberLogin, this);
+    RequestManager::GetInstance()->addUserToChat(CurrentUser::getInstance()->getToken(), currentChat.getId(), memberLogin, this);
 }
 
 void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
@@ -70,12 +70,12 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if (reply->error())
     {
+        QString replyMsg = extractor.extractErrorMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", replyMsg);
         if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->label_MemberLogin->clear();
         }
-        QString replyMsg = extractor.extractErrorMsg(document);
-        QMessageBox::critical(nullptr, "ERROR", replyMsg);
     }
     else
     {
