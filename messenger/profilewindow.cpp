@@ -1,6 +1,7 @@
 #include "profilewindow.h"
 #include "ui_profilewindow.h"
 
+
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ProfileWindow)
@@ -13,6 +14,30 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     hideInfoFields();
     hideLoginFields();
     hidePasswordFields();
+
+    QPropertyAnimation *UserNameLineAnimation = new QPropertyAnimation(ui->lineEdit_Username,"geometry");
+    UserNameLineAnimation->setEasingCurve(QEasingCurve::InBounce);
+
+    QStateMachine *UserNameMachine = new QStateMachine(this);
+    UserNameMachine->setGlobalRestorePolicy(QStateMachine::DontRestoreProperties);
+
+    QState *UserNameStartState= new QState();
+    UserNameStartState->assignProperty(ui->lineEdit_Username,"geometry",QRect(-100,0,374,40));
+
+    QState *UserNameEndState= new QState();
+
+    QEventTransition *FromStartToEndTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
+    FromStartToEndTransition->setTargetState(UserNameEndState);
+    FromStartToEndTransition->addAnimation(UserNameLineAnimation);
+    UserNameStartState->addTransition(FromStartToEndTransition);
+
+    QEventTransition *FromEndToStartTransition = new QEventTransition(ui->pushButton_SaveLogin,QEvent::MouseButtonPress);
+    FromEndToStartTransition->setTargetState(UserNameStartState);
+    FromEndToStartTransition->addAnimation(UserNameLineAnimation);
+    UserNameEndState->addTransition(FromEndToStartTransition);
+
+    UserNameMachine->setInitialState(UserNameStartState);
+    UserNameMachine->start();
 }
 
 ProfileWindow::~ProfileWindow()
