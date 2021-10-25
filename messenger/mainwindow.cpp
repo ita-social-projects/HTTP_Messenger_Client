@@ -7,9 +7,6 @@
 #include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
-#include "currentchat.h"
-
-std::mutex MainWindow::mtx;
 
 MainWindow::MainWindow(QMainWindow* parent)
     : QMainWindow(parent)
@@ -42,15 +39,15 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
         ++iterator;
     }
     unsigned long chatId = iterator->first;
-    CurrentChat::getInstance()->resetChat(chatId, item->text());
+    currentChat.resetChat(chatId, item->text());
     ui->ChatInfo->setText(item->text());
 
     ui->Messages->clear();
     ui->EnterMessage->clear();
 
     RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
-                                               CurrentChat::getInstance()->getId(),
-                                               CurrentChat::getInstance()->getLastMessage().getId(),
+                                               currentChat.getId(),
+                                               currentChat.getLastMessage().getId(),
                                                this);
 }
 
@@ -60,8 +57,7 @@ void MainWindow::on_SendButton_clicked()
     {
         LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
-        CurrentChat *chat = CurrentChat::getInstance();
-        RequestManager::GetInstance()->sendMessage(user->getToken(), chat->getId(), ui->EnterMessage->text(), this);
+        RequestManager::GetInstance()->sendMessage(user->getToken(), currentChat.getId(), ui->EnterMessage->text(), this);
     }
 }
 
@@ -145,7 +141,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 {
                     showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
                 }
-                CurrentChat::getInstance()->setLastMessage(msgs[msgs.size() - 1]);
+                currentChat.setLastMessage(msgs[msgs.size() - 1]);
            }
 
         }
@@ -153,8 +149,8 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             ui->EnterMessage->clear();
             RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
-                                                       CurrentChat::getInstance()->getId(),
-                                                       CurrentChat::getInstance()->getLastMessage().getId(),
+                                                       currentChat.getId(),
+                                                       currentChat.getLastMessage().getId(),
                                                        this);
         }
         else if(type == RequestType::LOG_OUT)
@@ -203,15 +199,13 @@ void MainWindow::on_UserImg_clicked()
 
 void MainWindow::showMessage(QString from, QString message, QString date, QString time)
 {
-    QString msgDate = CurrentChat::getInstance()->getLastMessage().getDate();
+    QString msgDate = currentChat.getLastMessage().getDate();
     if(msgDate != date)
     {
         QListWidgetItem* itemDate = new QListWidgetItem(date);
         itemDate->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
         itemDate->setForeground(Qt::gray);
-        mtx.lock();
         ui->Messages->addItem(itemDate);
-        mtx.unlock();
     }
     QListWidgetItem* itemFrom = new QListWidgetItem(from);
     QListWidgetItem* itemMessage = new QListWidgetItem(message);
@@ -228,13 +222,10 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
     {
         itemFrom->setForeground(Qt::blue);
     }
-    mtx.lock();
     ui->Messages->addItem(itemFrom);
     ui->Messages->addItem(itemMessage);
     ui->Messages->addItem(itemTime);
     ui->Messages->addItem("");
-    mtx.unlock();
-
 }
 
 void MainWindow::on_actionSign_out_triggered()
@@ -255,7 +246,7 @@ void MainWindow::on_ChatInfo_clicked()
     {
         return;
     }
-    emit openChatInfo();
+    emit openChatInfo(currentChat);
 }
 
 void MainWindow::addNewChat()
@@ -265,8 +256,8 @@ void MainWindow::addNewChat()
 
 void MainWindow::leaveChat()
 {
-    CurrentUser::getInstance()->deleteChat(CurrentChat::getInstance()->getId());
-    CurrentChat::getInstance()->closeChat();
+    CurrentUser::getInstance()->deleteChat(currentChat.getId());
+    currentChat.closeChat();
     ui->ChatInfo->setText("");
     ui->Messages->clear();
     showChats();
