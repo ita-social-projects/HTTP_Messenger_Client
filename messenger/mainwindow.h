@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "requestmanager.h"
-#include <mutex>
+#include "currentchat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +28,7 @@ signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow();
-    void openChatInfo();
+    void openChatInfo(CurrentChat);
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -47,7 +47,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    static std::mutex mtx;
+    CurrentChat currentChat;
 };
 #endif // MAINWINDOW_H
 
