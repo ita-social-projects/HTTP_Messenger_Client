@@ -16,19 +16,21 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
 public:
     MainWindow(QMainWindow* parent = nullptr);
     ~MainWindow();
-
+    CurrentChat currentChat;
     void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
     void showChats();
-
+public slots:
+    void doRequdest();
 private:
     bool CheckMessage();
-
+    bool notFirstLoad;
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
+    void finished();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -45,9 +47,13 @@ private slots:
     void addNewChat();
     void leaveChat();
 
+    void closeEvent(QCloseEvent * e) override;
+
+
 private:
     Ui::MainWindow *ui;
-    CurrentChat currentChat;
+
+
 };
 #endif // MAINWINDOW_H
 

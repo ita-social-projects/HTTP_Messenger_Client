@@ -7,7 +7,7 @@
 #include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
-
+#include <QScrollBar>
 MainWindow::MainWindow(QMainWindow* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,6 +23,8 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->MessengerTitle->setText(this->windowTitle());
 
     ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
+
+
 }
 
 MainWindow::~MainWindow()
@@ -41,14 +43,9 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     unsigned long chatId = iterator->first;
     currentChat.resetChat(chatId, item->text());
     ui->ChatInfo->setText(item->text());
-
     ui->Messages->clear();
     ui->EnterMessage->clear();
 
-    RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
-                                               currentChat.getId(),
-                                               currentChat.getLastMessage().getId(),
-                                               this);
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -94,6 +91,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
                 item->setHidden(false);
             }
         }
+
         if(activedElements == 0)
         {
             ui->FoundMessage->setText("Not Found");
@@ -132,7 +130,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 return;
             }
             for(auto msg: msgs)
-           {
+            {
                 if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
                 {
                     showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime());
@@ -142,16 +140,19 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                     showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
                 }
                 currentChat.setLastMessage(msgs[msgs.size() - 1]);
-           }
 
+            }
+            if (!notFirstLoad)
+            {
+                ui->Messages->scrollToBottom();
+                notFirstLoad = true;
+            }
+            if (ui->Messages->verticalScrollBar()->value() == ui->Messages->verticalScrollBar()->maximum())
+                ui->Messages->scrollToBottom();
         }
         else if(type==RequestType::SEND_MESSAGE)
         {
             ui->EnterMessage->clear();
-            RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
-                                                       currentChat.getId(),
-                                                       currentChat.getLastMessage().getId(),
-                                                       this);
         }
         else if(type == RequestType::LOG_OUT)
         {
@@ -272,3 +273,17 @@ void MainWindow::showChats()
         ui->ChatList->addItem(a.second);
     }
 }
+
+
+void MainWindow::doRequdest()
+{
+    RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
+                                               currentChat.getId(),
+                                               currentChat.getLastMessage().getId(),
+                                               this);
+}
+void MainWindow::closeEvent(QCloseEvent * e)
+{
+    emit finished();
+}
+
