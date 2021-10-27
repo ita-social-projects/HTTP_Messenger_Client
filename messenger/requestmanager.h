@@ -12,10 +12,12 @@ enum class RequestType
     SIGN_UP,
     UPDATE_LOGIN,
     UPDATE_PASSWORD,
+    DELETE_ACCOUNT,
     LOG_OUT,
     SEARCH_USER,
     GET_CHATS,
     CREATE_CHAT,
+    UPDATE_CHAT_NAME,
     GET_CHAT_PARTICIPANTS,
     ADD_USER_TO_CHAT,
     LEAVE_CHAT,
@@ -63,15 +65,18 @@ public:
     void signUp(QString login, QString password,RequestResultInterface *resultInterface);
     void updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface);
     void updatePassword(QString token, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
+    void deleteAccount(QString token, RequestResultInterface *resultInterface);
     void logOut(QString token, RequestResultInterface *resultInterface);
     void getChats(QString token, RequestResultInterface *resultInterface);
     void getChatParticipants(QString token, unsigned long chatId, RequestResultInterface *resultInterface);
     void createChat(QString token, QString chatName, RequestResultInterface *resultInterface);
+    void updateChatName(QString token, unsigned long chatId, QString newName, RequestResultInterface *resultInterface);
     void searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface);
     void addUserToChat(QString token, unsigned long chatId, QString memberLogin, RequestResultInterface *resultInterface);
     void leaveChat(QString token, unsigned long chatId, QString login, RequestResultInterface *resultInterface);
     void sendMessage(QString token, unsigned long chatId, QString massage, RequestResultInterface *resultInterface);
-    void getMessages(QString tocken, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
+    void getMessages(QString token, unsigned long chatId, unsigned long lastMessageId, RequestResultInterface *resultInterface);
+
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);

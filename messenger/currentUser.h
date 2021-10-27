@@ -22,6 +22,7 @@ public:
 
     void addNewChat(unsigned long id, QString chatName);
     void deleteChat(unsigned long id);
+    void updateChat(unsigned long id, QString name);
 
 private:
     CurrentUser(){};

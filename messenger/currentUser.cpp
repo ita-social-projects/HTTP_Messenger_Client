@@ -52,3 +52,8 @@ void CurrentUser::deleteChat(unsigned long id)
 {
     chats.erase(id);
 }
+
+void CurrentUser::updateChat(unsigned long id, QString name)
+{
+    chats[id] = name;
+}

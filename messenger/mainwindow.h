@@ -44,6 +44,7 @@ private slots:
     void on_SearchChat_textEdited(const QString &arg1);
     void addNewChat();
     void leaveChat();
+    void updateChatName(QString newName);
 
 private:
     Ui::MainWindow *ui;

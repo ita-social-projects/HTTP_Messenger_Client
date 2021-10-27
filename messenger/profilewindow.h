@@ -38,6 +38,7 @@ private:
 
 signals:
     void closing();
+    void accountDeleted();
 
 private slots:
     void on_pushButton_ChangeUsername_clicked();

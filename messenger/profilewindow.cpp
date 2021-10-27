@@ -177,6 +177,11 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             QMessageBox::information(nullptr, "Profile", "Password was updated!");
         }
+        if(type == RequestType::DELETE_ACCOUNT)
+        {
+            emit accountDeleted();
+            this->close();
+        }
     }
 }
 

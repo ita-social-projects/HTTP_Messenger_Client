@@ -77,6 +77,21 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
 }
 
+void RequestManager::deleteAccount(QString token, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packToken(token);
+    auto reply = post("/chat/delete_account", jsonDocument); // url???
+    LOG_DEBUG("Delete account sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
+}
+
+
 void RequestManager::logOut(QString token, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -131,6 +146,20 @@ void RequestManager::createChat(QString token, QString chatName, RequestResultIn
     auto reply = post("/chat/create_new", jsonDocument);
     LOG_DEBUG("Create chat sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATE_CHAT));
+}
+
+void RequestManager::updateChatName(QString token, unsigned long chatId, QString newName, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // parser
+    auto reply = post("/chat/update_title", jsonDocument); // url???
+    LOG_DEBUG("Update chat name sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));
 }
 
 void RequestManager::searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface)
