@@ -275,15 +275,15 @@ void MainWindow::showChats()
 }
 
 
-void MainWindow::doRequdest()
+void MainWindow::CheckNewMessages()
 {
     RequestManager::GetInstance()->getMessages(CurrentUser::getInstance()->getToken(),
                                                currentChat.getId(),
                                                currentChat.getLastMessage().getId(),
                                                this);
 }
-void MainWindow::closeEvent(QCloseEvent * e)
-{
-    emit finished();
-}
 
+CurrentChat MainWindow::getCurrentChat()
+{
+    return currentChat;
+}

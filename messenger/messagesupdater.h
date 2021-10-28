@@ -33,7 +33,7 @@ public:
 
 private:
 signals:
-    void doReq();
+    void CheckNewMessagesSig();
 };
 
 #endif // MESSAGESUPDATER_H

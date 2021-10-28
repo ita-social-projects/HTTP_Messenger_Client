@@ -19,19 +19,19 @@ M_Thread::M_Thread(MainWindow* mW, MessagesUpdater* mU)
 {
     mainWindow = mW;
     messagesUpdater = mU;
-    connect(this, &M_Thread::doReq, mainWindow, &MainWindow::doRequdest);
+    connect(this, &M_Thread::CheckNewMessagesSig, mainWindow, &MainWindow::CheckNewMessages);
 }
 void M_Thread::run()
 {
     while (true)
     {
 
-        if (mainWindow->currentChat.getId() == 0)
+        if (mainWindow->getCurrentChat().getId() == 0)
         {
             LOG_DEBUG("Doing update");
             continue;
         }
-        emit doReq();
+        emit CheckNewMessagesSig();
         QThread::sleep(1);
         LOG_DEBUG("Messages Update");
     }
