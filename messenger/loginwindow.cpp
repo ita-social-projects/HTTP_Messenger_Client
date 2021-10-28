@@ -1,7 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include <QMessageBox>
-#include "Logger.h"
 #include "cache.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
@@ -29,7 +28,7 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_LoginButton_clicked()
 {
-    LOG_DEBUG("Login button clicked");
+    //LOG_DEBUG("Login button clicked");
     ClearInfoFields();
     if(CheckInput())
     {
@@ -48,12 +47,12 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         if (answer->error())
         {
             QString resReply = extractor.extractErrorMsg(document);
-            LOG_ERROR(resReply.toStdString());
+            //LOG_ERROR(resReply.toStdString());
             QMessageBox::critical(nullptr, "ERROR", resReply);
         }
         else
         {
-            LOG_DEBUG("Login success");
+            //LOG_DEBUG("Login success");
             CurrentUser* user = extractor.extractUserInfo(document);
             Cache::CreateIfNotExists(user->getLogin());
             emit LoginSuccess();
@@ -80,7 +79,7 @@ bool LoginWindow::CheckInput()
     if(login.isEmpty() ||
        password.isEmpty())
     {
-       LOG_ERROR("Some of lines are empty");
+       //LOG_ERROR("Some of lines are empty");
         palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);

@@ -1,7 +1,7 @@
 #include "windowmanager.h"
 #include "loginwindow.h"
 #include "signupwindow.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include "profilewindow.h"
 #include "cache.h"
 #include "createchat.h"
@@ -12,7 +12,7 @@ WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(n
     setIcon();
     if(Cache::OpenByCache() == "")
     {
-        LOG_DEBUG("No cache");
+        //LOG_DEBUG("No cache");
         open_LoginWindow();
     }
     else
@@ -28,7 +28,7 @@ void WindowManager::setIcon()
 
 void WindowManager::open_LoginWindow()
 {
-    LOG_DEBUG("Opening login window");
+    //LOG_DEBUG("Opening login window");
     close_Window();
     currentWindow.reset(new LoginWindow());
     currentWindow->setWindowIcon(this->icon);
@@ -39,7 +39,7 @@ void WindowManager::open_LoginWindow()
 }
 void WindowManager::open_SignupWindow()
 {
-    LOG_DEBUG("Opening sign up window");
+    //LOG_DEBUG("Opening sign up window");
     close_Window();
     currentWindow.reset(new SignupWindow());
     currentWindow->setWindowIcon(this->icon);
@@ -48,7 +48,7 @@ void WindowManager::open_SignupWindow()
 }
 void WindowManager::open_MainWindow()
 {
-    LOG_DEBUG("Opening main window");
+    //LOG_DEBUG("Opening main window");
     close_Window();
     MainWindow* mW = new MainWindow();
     currentWindow.reset(mW);
@@ -100,11 +100,11 @@ void WindowManager::close_Window()
 {
     if(currentWindow)
     {
-        LOG_DEBUG("Closing current window");
+        //LOG_DEBUG("Closing current window");
         currentWindow->close();
     }
     else
     {
-        LOG_ERROR("Current window pointer is empty");
+        //LOG_ERROR("Current window pointer is empty");
     }
 }

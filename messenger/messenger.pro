@@ -3,9 +3,9 @@ QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-DEPENDPATH += . $$PWD/Logger/
-INCLUDEPATH += $$PWD/Logger/
-LIBS += -L$$PWD/Logger -lLogger
+#DEPENDPATH += . $$PWD/Logger/
+#INCLUDEPATH += $$PWD/Logger/
+#LIBS += -L$$PWD/Logger -lLogger
 
 CONFIG += c++11
 TEMPLATE = app

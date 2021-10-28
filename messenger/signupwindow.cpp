@@ -1,6 +1,6 @@
 #include "signupwindow.h"
 #include "ui_signupwindow.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include <QMessageBox>
 
 #define MIN_PASS_LENGTH 5
@@ -48,7 +48,7 @@ void SignupWindow::on_SignUp_clicked()
 
 void SignupWindow::clearInfoFields()
 {
-    LOG_DEBUG("Clearing fields");
+    ////LOG_DEBUG("Clearing fields");
     ui->Info->clear();
     ui->ConfPassInfo->clear();
     ui->PasswordInfo->clear();
@@ -62,21 +62,21 @@ bool SignupWindow::checkInput()
 
     if(isEmptyFields())
     {
-       LOG_ERROR("Sign up fields is empty");
+       //LOG_ERROR("Sign up fields is empty");
        printErrorText(ui->Info,"Some of registration lines are empty. Fill empty lines.");
        return false;
     }
 
     if(password.size() < MIN_PASS_LENGTH)
     {
-        LOG_ERROR("Sign up password is too short");
+        //LOG_ERROR("Sign up password is too short");
         printErrorText(ui->PasswordInfo,"Your password should be at least 5 characters.");
         return false;
     }
 
     if(!isEqualPassword(password,confPassword))
     {
-        LOG_ERROR("Sign up password inputs isn`t equals");
+        //LOG_ERROR("Sign up password inputs isn`t equals");
         printErrorText(ui->ConfPassInfo,"Your password inputs are not equal. Try again.");
         return false;
     }
@@ -120,12 +120,12 @@ void SignupWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
             JsonDeserializer extractor;
             QJsonDocument document = QJsonDocument::fromJson(answer->readAll());
             QString resReply = extractor.extractErrorMsg(document);
-            LOG_ERROR(resReply.toStdString());
+            //LOG_ERROR(resReply.toStdString());
             QMessageBox::critical(nullptr, "ERROR", resReply);
         }
         else
         {
-            LOG_DEBUG("Sign up success");
+            //LOG_DEBUG("Sign up success");
             QMessageBox::information(nullptr,"SUCCESS","You successfully registered");
             emit OpenLoginWindow();
         }

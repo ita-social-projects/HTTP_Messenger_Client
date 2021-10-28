@@ -1,5 +1,5 @@
 #include "cache.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include "loginwindow.h"
 
 Cache::Cache(const std::string& filename)
@@ -8,7 +8,7 @@ Cache::Cache(const std::string& filename)
     
     if (home_dir == nullptr)
     {
-        LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+        //LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
         throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
     }
 }
@@ -19,7 +19,7 @@ std::string Cache::GetCachePath()
 
     if ( HomeDirectory == nullptr)
     {
-        LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
+        //LOG_ERROR("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
         throw std::runtime_error("The environment variable \"" + std::string(USER_HOME_DIR) + "\" not set");
     }
     else
@@ -51,7 +51,7 @@ void Cache::CreateIfNotExists(QString UserName)
 {
     if (FileExists(GetCachePath()))
 	{
-        LOG_ERROR("File exists");
+        //LOG_ERROR("File exists");
         return;
 	}
 
@@ -59,14 +59,14 @@ void Cache::CreateIfNotExists(QString UserName)
 
     if (cache_file.is_open())
 	{
-        LOG_DEBUG("File is opened");
+        //LOG_DEBUG("File is opened");
         cache_file << UserName.toStdString() << "\n";
         cache_file << CurrentUser::getInstance()->getToken().toStdString();
         cache_file.close();
 	}
 	else
 	{
-        LOG_ERROR("Cannot open file \\ Cache.txt \\ for writing");
+        //LOG_ERROR("Cannot open file \\ Cache.txt \\ for writing");
         throw std::runtime_error("Cannot open file \\ Cache.txt \\ for writing");
 	}
 }
@@ -91,11 +91,11 @@ void Cache::DeleteFile()
     {
         if(remove(FilePath) != 0 )
         {
-            LOG_ERROR("Error deleting file");
+            //LOG_ERROR("Error deleting file");
         }
         else
         {
-             LOG_DEBUG("File deleted");
+             //LOG_DEBUG("File deleted");
         }
     }
     delete[] FilePath;

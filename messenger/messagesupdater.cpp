@@ -1,7 +1,7 @@
 #include "messagesupdater.h"
 
 #include "JsonDeserializer.h"
-#include "Logger.h"
+//#include "Logger.h"
 
 MessagesUpdater::MessagesUpdater(MainWindow& mW)
     :QObject(nullptr)
@@ -28,11 +28,11 @@ void M_Thread::run()
 
         if (mainWindow->getCurrentChat().getId() == 0)
         {
-            LOG_DEBUG("Doing update");
+            //LOG_DEBUG("Doing update");
             continue;
         }
         emit CheckNewMessagesSig();
         QThread::sleep(1);
-        LOG_DEBUG("Messages Update");
+        //LOG_DEBUG("Messages Update");
     }
 }

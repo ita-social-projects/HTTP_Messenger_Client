@@ -3,7 +3,7 @@
 #include "currentUser.h"
 #include "profilewindow.h"
 #include "createchat.h"
-#include "Logger.h"
+//#include "Logger.h"
 #include "cache.h"
 #include "chatinfo.h"
 #include <QMessageBox>
@@ -52,7 +52,7 @@ void MainWindow::on_SendButton_clicked()
 {
     if(CheckMessage() && ui->ChatInfo->text() != "")
     {
-        LOG_DEBUG("Send button clicked");
+        //LOG_DEBUG("Send button clicked");
         CurrentUser *user = CurrentUser::getInstance();
         RequestManager::GetInstance()->sendMessage(user->getToken(), currentChat.getId(), ui->EnterMessage->text(), this);
     }
@@ -111,7 +111,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     if (reply->error())
     {
         QString resReply = extractor.extractErrorMsg(document);
-        LOG_ERROR(resReply.toStdString());
+        //LOG_ERROR(resReply.toStdString());
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
@@ -172,14 +172,14 @@ bool MainWindow::CheckMessage()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    LOG_DEBUG("About project button clicked");
+    //LOG_DEBUG("About project button clicked");
     QMessageBox::about(nullptr,"Project Team","Hello!\nWe are the team Lv.617-C++, and we are glad to see "
     "that you`re using our project messenger!\nGood luck and have fun!!!");
 }
 
 void MainWindow::on_actionAbout_Qt_triggered()
 {
-    LOG_DEBUG("About QT button clicked");
+    //LOG_DEBUG("About QT button clicked");
     QApplication::aboutQt();
 }
 
