@@ -4,9 +4,6 @@
 
 #include <QObject>
 #include "requestmanager.h"
-//#include "CurrentChat.h"
-//#include "Message.h"
-//#include <QThread>
 #include "mainwindow.h"
 class M_Thread;
 class MessagesUpdater :  public QObject
