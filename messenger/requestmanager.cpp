@@ -49,6 +49,21 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
     resultMap.emplace(reply,Requester(resultInterface, RequestType::SIGN_UP));
 }
 
+void RequestManager::checkToken(QString token, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packToken(token);
+    auto reply = post("/user/check_token", jsonDocument); // url???
+    LOG_DEBUG("Check token request sended");
+    resultMap.emplace(reply,Requester(resultInterface, RequestType::CHECK_TOKEN));
+}
+
 void RequestManager::updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -86,7 +101,7 @@ void RequestManager::deleteAccount(QString token, RequestResultInterface *result
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
-    auto reply = post("/chat/delete_account", jsonDocument); // url???
+    auto reply = post("/user/delete_account", jsonDocument); // url???
     LOG_DEBUG("Delete account sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
 }

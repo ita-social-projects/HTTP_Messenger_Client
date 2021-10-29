@@ -10,6 +10,7 @@ enum class RequestType
 {
     LOG_IN,
     SIGN_UP,
+    CHECK_TOKEN,
     UPDATE_LOGIN,
     UPDATE_PASSWORD,
     DELETE_ACCOUNT,
@@ -62,7 +63,8 @@ public:
     static RequestManager *GetInstance();
 
     void login(QString login, QString password, RequestResultInterface *resultInterface);
-    void signUp(QString login, QString password,RequestResultInterface *resultInterface);
+    void signUp(QString login, QString password, RequestResultInterface *resultInterface);
+    void checkToken(QString token, RequestResultInterface *resultInterface);
     void updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface);
     void updatePassword(QString token, QString oldPassword, QString newPassword, RequestResultInterface *resultInterface);
     void deleteAccount(QString token, RequestResultInterface *resultInterface);
