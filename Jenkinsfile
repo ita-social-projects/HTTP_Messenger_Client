@@ -22,9 +22,9 @@ pipeline{
         stage('Building the project'){
             steps{
                 dir(env.REPO_NAME){
-                    bat "ls"
                     bat "echo '======================BUILDING THE PRIOJECT========================='"
                     bat 'cd ${PROJECT_FOLDER_NAME}'
+                    bat 'ls'
                     bat "${QMAKE_PATH} -config debug"
                 }
             }
