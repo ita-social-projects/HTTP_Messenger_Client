@@ -17,13 +17,13 @@ TEMPLATE = app
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    JsonDeserializer.cpp \
-    JsonSerializer.cpp \
     chatinfo.cpp \
     createchat.cpp \
     cache.cpp \
-    currentUser.cpp \
     currentchat.cpp \
+    currentuser.cpp \
+    jsondeserializer.cpp \
+    jsonserializer.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -35,13 +35,13 @@ SOURCES += \
 
 
 HEADERS += \
-    JsonDeserializer.h \
-    JsonSerializer.h \
     chatinfo.h \
     createchat.h \
     cache.h \
-    currentUser.h \
     currentchat.h \
+    currentuser.h \
+    jsondeserializer.h \
+    jsonserializer.h \
     loginwindow.h \
     mainwindow.h \
     message.h \

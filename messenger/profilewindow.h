@@ -3,9 +3,9 @@
 
 #include <QDialog>
 #include <QMessageBox>
-#include "currentUser.h"
+#include "currentuser.h"
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 #include "cache.h"
 
 namespace Ui {

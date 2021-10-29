@@ -5,7 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 
 namespace Ui {
 class SignupWindow;

@@ -4,7 +4,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
-#include "JsonSerializer.h"
+#include <QUrl>
+#include "jsonserializer.h"
 
 enum class RequestType
 {
@@ -31,7 +32,7 @@ private:
     static RequestManager *sharedInstance;
     static std::mutex mutex_;
     std::unique_ptr<QNetworkAccessManager> manager;
-    const QString serverUrl = "http://localhost:8080/restdemo";
+    QUrl serverUrl; //"http://localhost:8080/restdemo";
 
 public:
     class RequestResultInterface
@@ -59,6 +60,8 @@ public:
     void operator=(const RequestManager &) = delete;
     static RequestManager *GetInstance();
 
+    const QUrl& getServerURL();
+    void setServerURL(const QUrl&);
     void login(QString login, QString password, RequestResultInterface *resultInterface);
     void signUp(QString login, QString password,RequestResultInterface *resultInterface);
     void updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface);

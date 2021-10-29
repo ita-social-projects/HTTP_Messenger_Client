@@ -19,6 +19,16 @@ RequestManager::RequestManager(QObject *parent) : QObject(parent), manager(new Q
     connect(manager.get(), SIGNAL(finished(QNetworkReply*)), this, SLOT(OnRequestResult(QNetworkReply*)));
 }
 
+const QUrl& RequestManager::getServerURL()
+{
+    return serverUrl;
+}
+
+void RequestManager::setServerURL(const QUrl& url)
+{
+    serverUrl = url;
+}
+
 void RequestManager::login(QString login, QString password, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -236,7 +246,7 @@ QNetworkReply* RequestManager::get(QString header)
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl + header));
+    request.setUrl(QUrl(serverUrl.toString() + header)); //
     return request;
 }
 

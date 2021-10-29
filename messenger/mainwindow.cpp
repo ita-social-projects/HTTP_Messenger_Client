@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "currentUser.h"
+#include "currentuser.h"
 #include "profilewindow.h"
 #include "createchat.h"
 #include "Logger.h"

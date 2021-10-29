@@ -13,8 +13,11 @@ ChatInfo::ChatInfo(CurrentChat chat) :
     QRegularExpression rx("[a-zA-Z0-9]+");
     validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit_SearchUser->setValidator(validator);
-    ui->label_ChatName->setText(currentChat.getName());
     ui->verticalWidget_FindUsers->hide();
+
+    ui->lineEdit_ChatName->setText(currentChat.getName());
+    ui->lineEdit_ChatName->setReadOnly(true);
+    ui->lineEdit_ChatName->blockSignals(true);
 
     RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), currentChat.getId(), this);
 }
@@ -85,17 +88,17 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
             ui->listWidget_Users->clear();
             ui->listWidget_Users->addItems(users);
         }
-        if(type == RequestType::ADD_USER_TO_CHAT)
+        else if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
             ui->label_MemberLogin->clear();
         }
-        if(type == RequestType::LEAVE_CHAT)
+        else if(type == RequestType::LEAVE_CHAT)
         {
             emit leaveChat();
             this->close();
         }
-        if(type == RequestType::GET_CHAT_PARTICIPANTS)
+        else if(type == RequestType::GET_CHAT_PARTICIPANTS)
         {
             QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Members->addItems(users);
@@ -119,3 +122,16 @@ void ChatInfo::on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item)
     ui->label_MemberLogin->setText(user);
 }
 
+void ChatInfo::on_pushButton_EditChatName_clicked()
+{
+    ui->lineEdit_ChatName->blockSignals(false);
+    ui->lineEdit_ChatName->setReadOnly(false);
+    ui->lineEdit_ChatName->setFocus();
+}
+
+void ChatInfo::on_lineEdit_ChatName_editingFinished()
+{
+    QMessageBox::information(nullptr,"Smth","Nice you changed text"); // заглушка
+    // request
+    currentChat.setName(ui->lineEdit_ChatName->text());
+}
