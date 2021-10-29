@@ -26,15 +26,6 @@ pipeline{
                 }
             }
         }
-        stage('Copying logger to the project'){
-            steps{
-                dir(env.REPO_NAME){
-                    bat "echo '======================COPYING LOGGER TO THE DIRECTORY========================='"
-                    bat "mkdir Logger"
-                    bat "echo D | Xcopy ${env.LOGGER_PATH} .\\Logger  /E /H /C /I"
-                }
-            }
-        }
     }
     
     post{
