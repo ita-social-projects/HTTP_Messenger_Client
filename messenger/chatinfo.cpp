@@ -131,7 +131,5 @@ void ChatInfo::on_pushButton_EditChatName_clicked()
 
 void ChatInfo::on_lineEdit_ChatName_editingFinished()
 {
-    QMessageBox::information(nullptr,"Smth","Nice you changed text"); // заглушка
-    // request
-    currentChat.setName(ui->lineEdit_ChatName->text());
+    //RequestManager::GetInstance()->updateServerName(CurrentUser::getInstance()->getToken(),currentChat.getId(),ui->lineEdit_ChatName->text());
 }
