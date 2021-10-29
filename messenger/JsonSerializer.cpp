@@ -78,6 +78,19 @@ QJsonDocument JsonSerializer::packUpdatePassword(const QString& token,const QStr
     return doc;
 }
 
+QJsonDocument JsonSerializer::packUpdateChatName(const QString& token,const int chatId,const QString& newName)
+{
+    LOG_DEBUG("Packing updated chat name into json");
+    QJsonObject jsonObject;
+
+    jsonObject[TOKEN] = token;
+    jsonObject[CHAT_ID] = chatId;
+    jsonObject[CHAT_TITLE] = newName;
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
 QJsonDocument JsonSerializer::packToFindUsers(const QString& token,const QString& searchString)
 {
     LOG_DEBUG("Packing list of needed users into json");

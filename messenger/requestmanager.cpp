@@ -171,7 +171,7 @@ void RequestManager::updateChatName(QString token, unsigned long chatId, QString
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument; // parser
+    QJsonDocument jsonDocument = serializer.packUpdateChatName(token,chatId,newName);
     auto reply = post("/chat/update_title", jsonDocument); // url???
     LOG_DEBUG("Update chat name sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));

@@ -17,6 +17,7 @@ public:
     QJsonDocument packToken(const QString& token);
     QJsonDocument packUpdateLogin(const QString& token,const QString& newLogin);
     QJsonDocument packUpdatePassword(const QString& token,const QString& oldPassword,const QString& newPassword);
+    QJsonDocument packUpdateChatName(const QString& token,const int chatId,const QString& newName);
 
     QJsonDocument packToFindUsers(const QString& token,const QString& searchString);
     QJsonDocument packToGetChatParticipants(const QString& token,const int chatId);

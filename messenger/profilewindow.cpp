@@ -180,6 +180,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         if(type == RequestType::DELETE_ACCOUNT)
         {
             emit accountDeleted();
+            // Delete user`s cache but save url
             this->close();
         }
     }
