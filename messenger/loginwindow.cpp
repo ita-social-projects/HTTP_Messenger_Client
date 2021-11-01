@@ -15,6 +15,7 @@ LoginWindow::LoginWindow(QWidget *parent) :
     validator = new QRegularExpressionValidator(rx, this);
     ui->EnterLogin->setValidator(validator);
 
+    ui->EnterURL->setPlaceholderText(" Enter URL to connect:");
     ui->EnterLogin->setPlaceholderText(" Enter login:");
     ui->EnterPassword->setPlaceholderText(" Enter password:");
 
@@ -33,6 +34,11 @@ void LoginWindow::on_LoginButton_clicked()
     ClearInfoFields();
     if(CheckInput())
     {
+        QUrl url = ui->EnterURL->text();
+        if(url.isValid())
+        {
+            RequestManager::GetInstance()->setServerURL(url);
+        }
         QString password = ui->EnterPassword->text();
         QString login = ui->EnterLogin->text();
         RequestManager::GetInstance()->login(login, password, this);
@@ -49,7 +55,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         {
             QString resReply = extractor.extractErrorMsg(document);
             LOG_ERROR(resReply.toStdString());
-            QMessageBox::critical(nullptr, "ERROR", resReply);
+            QMessageBox::critical(nullptr, "ERROR", "Can`t connect to server\n" + resReply);
         }
         else
         {
@@ -60,6 +66,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         }
     }
 }
+
 void LoginWindow::on_SignupButton_clicked()
 {
     emit OpenSignupWindow();
@@ -76,12 +83,13 @@ bool LoginWindow::CheckInput()
 
     QString password = ui->EnterPassword->text();
     QString login = ui->EnterLogin->text();
+    QUrl url = ui->EnterURL->text();
 
     if(login.isEmpty() ||
-       password.isEmpty())
+       password.isEmpty() || url.isEmpty())
     {
        LOG_ERROR("Some of lines are empty");
-        palette.setColor(ui->Info->backgroundRole(), Qt::white);
+       palette.setColor(ui->Info->backgroundRole(), Qt::white);
        palette.setColor(ui->Info->foregroundRole(), Qt::red);
        ui->Info->setPalette(palette);
        ui->Info->setText("Some of lines are empty. Fill empty lines.");

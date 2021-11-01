@@ -50,13 +50,16 @@ void WindowManager::open_MainWindow()
 {
     LOG_DEBUG("Opening main window");
     close_Window();
-    currentWindow.reset(new MainWindow());
+    MainWindow* mW = new MainWindow();
+    currentWindow.reset(mW);
     currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
     connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
     connect(currentWindow.get(), SIGNAL(openCreateChatWindow()), this, SLOT(open_CreateChatWindow()));
     connect(currentWindow.get(), SIGNAL(openChatInfo(CurrentChat)), this, SLOT(open_ChatInfoWindow(CurrentChat)));
     currentWindow->show();
+    MessagesUpdater mU(*mW);
+    mU.StartThread();
 }
 
 void WindowManager::open_ProfileWindow()

@@ -19,6 +19,16 @@ RequestManager::RequestManager(QObject *parent) : QObject(parent), manager(new Q
     connect(manager.get(), SIGNAL(finished(QNetworkReply*)), this, SLOT(OnRequestResult(QNetworkReply*)));
 }
 
+const QUrl& RequestManager::getServerURL()
+{
+    return serverUrl;
+}
+
+void RequestManager::setServerURL(const QUrl& url)
+{
+    serverUrl = url;
+}
+
 void RequestManager::login(QString login, QString password, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -72,7 +82,7 @@ void RequestManager::updateLogin(QString token, QString newLogin, RequestResultI
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdateLogin(token,newLogin);
+    QJsonDocument jsonDocument = serializer.packUpdatedLogin(token,newLogin);
     auto reply = post("/user/change_login", jsonDocument);
     LOG_DEBUG("Update login request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_LOGIN));
@@ -86,7 +96,7 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdatePassword(token,oldPassword,newPassword);
+    QJsonDocument jsonDocument = serializer.packUpdatedPassword(token,oldPassword,newPassword);
     auto reply = post("/user/change_password", jsonDocument);
     LOG_DEBUG("Update password request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
@@ -280,7 +290,7 @@ QNetworkReply* RequestManager::get(QString header)
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl + header));
+    request.setUrl(QUrl(serverUrl.toString() + header)); //
     return request;
 }
 

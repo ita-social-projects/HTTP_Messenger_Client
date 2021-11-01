@@ -1,4 +1,4 @@
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 #include "Logger.h"
 #include <QRegularExpression>
 
@@ -34,7 +34,10 @@ QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyI
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            vect.append(obj[LOGIN].toString());
+            if(obj.contains(LOGIN))
+            {
+                vect.append(obj[LOGIN].toString());
+            }
         }
     }
     return vect;
@@ -45,7 +48,10 @@ std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocumen
     LOG_DEBUG("Extracting chat");
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
-    map.insert(std::pair<int,QString>(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString()));
+    if(jsonObject.contains(CHAT_ID) && jsonObject.contains(CHAT_TITLE))
+    {
+        map.emplace(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString());
+    }
     return map;
 }
 
@@ -61,7 +67,10 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            map.emplace(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString());
+            if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE))
+            {
+                map.emplace(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString());
+            }
         }
     }
     return map;

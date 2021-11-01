@@ -143,7 +143,7 @@ QPushButton:hover {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="MessengerTitle">
+            <widget class="QLabel" name="UserName">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -162,7 +162,7 @@ QPushButton:hover {
               </font>
              </property>
              <property name="text">
-              <string>Msg Name</string>
+              <string>User Name</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -419,10 +419,17 @@ border-color: rgb(174, 143, 177);</string>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(255, 255, 255); 
 border-radius: 10px; 
-font: 10pt MS Shell Dlg 2;</string>
+font: 10pt MS Shell Dlg 2;
+</string>
              </property>
              <property name="lineWidth">
               <number>0</number>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOn</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
              </property>
              <property name="autoScroll">
               <bool>true</bool>
@@ -441,6 +448,9 @@ font: 10pt MS Shell Dlg 2;</string>
              </property>
              <property name="horizontalScrollMode">
               <enum>QAbstractItemView::ScrollPerItem</enum>
+             </property>
+             <property name="selectionRectVisible">
+              <bool>false</bool>
              </property>
              <item>
               <property name="text">
@@ -471,7 +481,7 @@ font: 10pt MS Shell Dlg 2;</string>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0,0">
              <property name="spacing">
               <number>5</number>
              </property>
@@ -511,6 +521,16 @@ border-color: rgb(174, 143, 177);</string>
                </property>
                <property name="clearButtonEnabled">
                 <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="ScrollBot">
+               <property name="styleSheet">
+                <string notr="true">background-color:rgb(255, 237, 42)</string>
+               </property>
+               <property name="text">
+                <string>ScrollBottom</string>
                </property>
               </widget>
              </item>

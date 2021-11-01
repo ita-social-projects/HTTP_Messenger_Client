@@ -12,7 +12,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "currentUser.h"
+#include "currentuser.h"
 #include "message.h"
 
 class JsonDeserializer

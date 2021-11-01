@@ -32,12 +32,14 @@ QString Cache::OpenByCache()
 {
     std::string UserName;
     std::string UserToken;
+    std::string serverURL;
     if(FileExists(GetCachePath()))
     {
         std::ifstream cache_file(GetCachePath(), std::ios::in );
-        cache_file>>UserName>>UserToken;
+        cache_file>>UserName>>UserToken>>serverURL;
         CurrentUser::getInstance()->setLogin(QString::fromStdString(UserName));
         CurrentUser::getInstance()->setToken((QString::fromStdString(UserToken)));
+        RequestManager::GetInstance()->setServerURL(QString::fromStdString(serverURL));
         return QString::fromStdString(UserName);
     }
     else
@@ -61,7 +63,8 @@ void Cache::CreateIfNotExists(QString UserName)
 	{
         LOG_DEBUG("File is opened");
         cache_file << UserName.toStdString() << "\n";
-        cache_file << CurrentUser::getInstance()->getToken().toStdString();
+        cache_file << CurrentUser::getInstance()->getToken().toStdString() << "\n";
+        cache_file << RequestManager::GetInstance()->getServerURL().toString().toStdString();
         cache_file.close();
 	}
 	else
@@ -89,7 +92,7 @@ void Cache::DeleteFile()
     }
     else
     {
-        if(remove(FilePath) != 0 )
+        if(remove(FilePath) != 0)
         {
             LOG_ERROR("Error deleting file");
         }

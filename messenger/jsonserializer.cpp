@@ -1,4 +1,4 @@
-#include "JsonSerializer.h"
+#include "jsonserializer.h"
 #include "Logger.h"
 
 #define NEW_PASSWORD "new_pass"
@@ -23,23 +23,12 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
 {
     LOG_DEBUG("Packing user info into json");
     QJsonObject jsonInfo;
+
     jsonInfo[LOGIN] = userLogin;
     jsonInfo[PASSWORD] = pass;
+
     QJsonDocument document(jsonInfo);
     return document;
-}
-
-QJsonDocument JsonSerializer::packMsg(const QString& userSender,const QString& userReceiverLogin,const QString& msg)
-{
-    LOG_DEBUG("Packing message into json");
-    QJsonObject jsonObject;
-
-    jsonObject[SENDER] = userSender;
-    jsonObject[RECEIVER] = userReceiverLogin;
-    jsonObject[MESSAGE] = msg;
-
-    QJsonDocument doc(jsonObject);
-    return doc;
 }
 
 QJsonDocument JsonSerializer::packToken(const QString& token)
@@ -53,7 +42,7 @@ QJsonDocument JsonSerializer::packToken(const QString& token)
     return doc;
 }
 
-QJsonDocument JsonSerializer::packUpdateLogin(const QString& token,const QString& newLogin)
+QJsonDocument JsonSerializer::packUpdatedLogin(const QString& token,const QString& newLogin)
 {
     LOG_DEBUG("Packing updated login into json");
     QJsonObject jsonObject;
@@ -65,7 +54,7 @@ QJsonDocument JsonSerializer::packUpdateLogin(const QString& token,const QString
     return doc;
 }
 
-QJsonDocument JsonSerializer::packUpdatePassword(const QString& token,const QString& oldPassword,const QString& newPassword)
+QJsonDocument JsonSerializer::packUpdatedPassword(const QString& token,const QString& oldPassword,const QString& newPassword)
 {
     LOG_DEBUG("Packing updated password into json");
     QJsonObject jsonObject;

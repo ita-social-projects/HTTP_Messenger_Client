@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QListWidgetItem>
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 #include "currentchat.h"
 
 namespace Ui {
@@ -34,6 +34,8 @@ private slots:
     void on_pushButton_SearchUser_clicked();
     void closeEvent(QCloseEvent * e ) override;
     void on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item);
+    void on_pushButton_EditChatName_clicked();
+    void on_lineEdit_ChatName_editingFinished();
 
 private:
     QValidator *validator;
@@ -41,4 +43,4 @@ private:
     CurrentChat currentChat;
 };
 
-#endif // CHATINFO_H
+#endif
