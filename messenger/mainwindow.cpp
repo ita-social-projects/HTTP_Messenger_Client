@@ -18,13 +18,12 @@ MainWindow::MainWindow(QMainWindow* parent)
 
     ui->EnterMessage->setPlaceholderText(" Send a message...");
     ui->SearchChat->setPlaceholderText(" Search chat...");
-
+    ScrollBar = ui->Messages->verticalScrollBar();
+    connect(ScrollBar, &QScrollBar::valueChanged, this, &MainWindow::SetScrollBotButtonVisible);
     this->setWindowTitle("Toretto");
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
 
-    ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
-
-
+//    ui->Messages->viewport()->setAttribute( Qt::WA_TransparentForMouseEvents );
 }
 
 MainWindow::~MainWindow()
@@ -147,8 +146,11 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 ui->Messages->scrollToBottom();
                 notFirstLoad = true;
             }
-            if (ui->Messages->verticalScrollBar()->value() == ui->Messages->verticalScrollBar()->maximum())
+            if (ScrollBar->value() == ScrollBar->maximum())
+            {
                 ui->Messages->scrollToBottom();
+                ui->ScrollBot->setVisible(false);
+            }
         }
         else if(type==RequestType::SEND_MESSAGE)
         {
@@ -286,4 +288,19 @@ void MainWindow::CheckNewMessages()
 CurrentChat MainWindow::getCurrentChat()
 {
     return currentChat;
+}
+
+void MainWindow::on_ScrollBot_clicked()
+{
+     ui->Messages->scrollToBottom();
+     ui->ScrollBot->setVisible(false);
+}
+
+void MainWindow::SetScrollBotButtonVisible()
+{
+    if (ScrollBar->value() != ScrollBar->maximum())
+        ui->ScrollBot->setVisible(true);
+    else
+        ui->ScrollBot->setVisible(false);
+
 }

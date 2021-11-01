@@ -21,6 +21,7 @@ public:
     void showChats();
     CurrentChat getCurrentChat();
 private:
+    QScrollBar *ScrollBar;
     CurrentChat currentChat;
     bool CheckMessage();
     bool notFirstLoad;
@@ -46,6 +47,8 @@ private slots:
     void on_SearchChat_textEdited(const QString &arg1);
     void addNewChat();
     void leaveChat();
+    void SetScrollBotButtonVisible();
+    void on_ScrollBot_clicked();
 
 
 private:
