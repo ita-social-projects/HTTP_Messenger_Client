@@ -276,6 +276,13 @@ void MainWindow::showChats()
     }
 }
 
+void MainWindow::updateChatName(QString newName)
+{
+    CurrentUser::getInstance()->updateChat(currentChat.getId(), newName);
+    currentChat.setName(newName);
+    ui->ChatInfo->setText(newName);
+    showChats();
+}
 
 void MainWindow::CheckNewMessages()
 {

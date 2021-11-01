@@ -14,9 +14,9 @@ public:
     JsonSerializer();
     QJsonDocument packUserInfo(const QString& pass,const QString& userLogin);
     QJsonDocument packToken(const QString& token);
+    QJsonDocument packUpdateChatName(const QString& token,const int chatId,const QString& newName);
     QJsonDocument packUpdatedLogin(const QString& token,const QString& newLogin);
     QJsonDocument packUpdatedPassword(const QString& token,const QString& oldPassword,const QString& newPassword);
-
     QJsonDocument packToFindUsers(const QString& token,const QString& searchString);
     QJsonDocument packToGetChatParticipants(const QString& token,const int chatId);
     QJsonDocument packToGetMessages(const QString& token,const int lastMsgId, const int chatId);

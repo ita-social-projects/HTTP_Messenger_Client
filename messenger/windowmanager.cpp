@@ -67,6 +67,7 @@ void WindowManager::open_ProfileWindow()
     minorWindow.reset(new ProfileWindow());
     minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    connect(minorWindow.get(), SIGNAL(accountDeleted()), this, SLOT(open_LoginWindow()));
     minorWindow->setModal(true);
     minorWindow->show();
 }
@@ -77,6 +78,7 @@ void WindowManager::open_ChatInfoWindow(CurrentChat chat)
     minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
     connect(minorWindow.get(), SIGNAL(leaveChat()), currentWindow.get(), SLOT(leaveChat()));
+    connect(minorWindow.get(), SIGNAL(chatNameUpdated(QString)), currentWindow.get(), SLOT(updateChatName(QString)));
     minorWindow->setModal(true);
     minorWindow->show();
 }

@@ -28,6 +28,11 @@ void CurrentChat::setLastMessage(Message message)
     this->lastMessage = message;
 }
 
+void CurrentChat::setName(QString name)
+{
+    this->name = name;
+}
+
 void CurrentChat::closeChat()
 {
     name = DEFAULT_STR;

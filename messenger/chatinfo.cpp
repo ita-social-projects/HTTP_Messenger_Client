@@ -43,8 +43,14 @@ void ChatInfo::on_pushButton_AddMember_clicked()
 
 void ChatInfo::on_pushButton_LeaveChat_clicked()
 {
-    CurrentUser* user = CurrentUser::getInstance();
-    RequestManager::GetInstance()->leaveChat(user->getToken(), currentChat.getId(), user->getLogin(), this);
+    auto reply = QMessageBox::question(nullptr, "ChatInfo", "If you leave this chat then you can't come back until "
+                                                           "another member of this chat adds you again. "
+                                                           "Are you sure?", QMessageBox::Yes|QMessageBox::No);
+    if(reply == QMessageBox::Yes)
+    {
+        CurrentUser* user = CurrentUser::getInstance();
+        RequestManager::GetInstance()->leaveChat(user->getToken(), currentChat.getId(), user->getLogin(), this);
+    }
 }
 
 void ChatInfo::on_pushButton_SearchUser_clicked()
@@ -102,6 +108,12 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Members->addItems(users);
+        }
+        if(type == RequestType::UPDATE_CHAT_NAME)
+        {
+            QString newName = ui->lineEdit_ChatName->text();
+            currentChat.setName(newName);
+            emit chatNameUpdated(newName);
         }
     }
 }

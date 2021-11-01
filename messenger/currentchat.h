@@ -13,6 +13,7 @@ public:
 
     void resetChat(unsigned long id, QString name);
     void setLastMessage(Message message);
+    void setName(QString name);
     void closeChat();
 
     unsigned long getId();
