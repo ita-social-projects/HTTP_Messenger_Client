@@ -21,6 +21,7 @@ ChatInfo::ChatInfo(CurrentChat chat) :
 
     RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), currentChat.getId(), this);
 }
+
 ChatInfo::~ChatInfo()
 {
     delete validator;
@@ -29,6 +30,7 @@ ChatInfo::~ChatInfo()
 
 void ChatInfo::on_pushButton_AddMember_clicked()
 {
+
     if(ui->pushButton_AddMember->isChecked())
     {
         ui->verticalWidget_FindUsers->show();
