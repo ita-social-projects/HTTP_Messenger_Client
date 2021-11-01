@@ -55,7 +55,7 @@ void LoginWindow::onRequestFinished(QNetworkReply *answer, RequestType type)
         {
             QString resReply = extractor.extractErrorMsg(document);
             LOG_ERROR(resReply.toStdString());
-            QMessageBox::critical(nullptr, "ERROR", "Can`t connect to server\n" + resReply);
+            QMessageBox::critical(nullptr, "ERROR", resReply);
         }
         else
         {

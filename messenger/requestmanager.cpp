@@ -69,7 +69,7 @@ void RequestManager::checkToken(QString token, RequestResultInterface *resultInt
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
-    auto reply = post("/user/check_token", jsonDocument); // url???
+    auto reply = post("/user/check_session", jsonDocument);
     LOG_DEBUG("Check token request sended");
     resultMap.emplace(reply,Requester(resultInterface, RequestType::CHECK_TOKEN));
 }
@@ -111,7 +111,7 @@ void RequestManager::deleteAccount(QString token, RequestResultInterface *result
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
-    auto reply = post("/user/delete_account", jsonDocument); // url???
+    auto reply = post("/user/delete", jsonDocument);
     LOG_DEBUG("Delete account sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
 }
@@ -182,7 +182,7 @@ void RequestManager::updateChatName(QString token, unsigned long chatId, QString
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packUpdateChatName(token,chatId,newName);
-    auto reply = post("/chat/update_title", jsonDocument); // url???
+    auto reply = post("/chat/change_name", jsonDocument);
     LOG_DEBUG("Update chat name sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));
 }
@@ -280,17 +280,10 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
     return manager->post(request, data);
 }
 
-QNetworkReply* RequestManager::get(QString header)
-{
-    LOG_DEBUG("Get method sended");
-    QNetworkRequest request = createRequest(header);
-    return manager->get(request);
-}
-
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl.toString() + header)); //
+    request.setUrl(QUrl(serverUrl.toString() + header));
     return request;
 }
 

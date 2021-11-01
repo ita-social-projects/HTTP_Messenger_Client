@@ -30,6 +30,7 @@ signals:
     void openProfileWindow();
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
+    void finished();
 public slots:
     void CheckNewMessages();
 
@@ -50,7 +51,7 @@ private slots:
     void updateChatName(QString newName);
     void SetScrollBotButtonVisible();
     void on_ScrollBot_clicked();
-
+    void closeEvent(QCloseEvent * e) override;
 
 private:
     Ui::MainWindow *ui;

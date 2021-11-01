@@ -85,7 +85,6 @@ public:
 private:
     QNetworkRequest createRequest(QString );
     QNetworkReply* post(QString, QJsonDocument&);
-    QNetworkReply* get(QString);
 
     std::map<QNetworkReply *, Requester> resultMap;
 

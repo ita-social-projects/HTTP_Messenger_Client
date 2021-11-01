@@ -1,6 +1,5 @@
 #include "messagesupdater.h"
-
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 #include "Logger.h"
 
 MessagesUpdater::MessagesUpdater(MainWindow& mW)
@@ -20,6 +19,7 @@ M_Thread::M_Thread(MainWindow* mW, MessagesUpdater* mU)
     mainWindow = mW;
     messagesUpdater = mU;
     connect(this, &M_Thread::CheckNewMessagesSig, mainWindow, &MainWindow::CheckNewMessages);
+    connect(mainWindow, &MainWindow::finished, this, &M_Thread::terminate);
 }
 void M_Thread::run()
 {

@@ -309,5 +309,9 @@ void MainWindow::SetScrollBotButtonVisible()
         ui->ScrollBot->setVisible(true);
     else
         ui->ScrollBot->setVisible(false);
+}
 
+void MainWindow::closeEvent(QCloseEvent * e)
+{
+    emit finished();
 }

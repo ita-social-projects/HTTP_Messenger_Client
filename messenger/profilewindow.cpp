@@ -194,7 +194,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         if(type == RequestType::DELETE_ACCOUNT)
         {
             emit accountDeleted();
-            // Delete user`s cache but save url
+            Cache::DeleteFile();
             this->close();
         }
     }
@@ -204,3 +204,15 @@ void ProfileWindow::closeEvent(QCloseEvent * e )
 {
     emit closing();
 }
+
+void ProfileWindow::on_pushButton_DeleteProfile_clicked()
+{
+    auto reply = QMessageBox::question(nullptr, "Profile Window", "If you delete your account then you can't restore it. "
+                                                           "Are you sure?", QMessageBox::Yes|QMessageBox::No);
+    if(reply == QMessageBox::Yes)
+    {
+        CurrentUser* user = CurrentUser::getInstance();
+        RequestManager::GetInstance()->deleteAccount(user->getToken(), this);
+    }
+}
+
