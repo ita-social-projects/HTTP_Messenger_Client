@@ -111,7 +111,7 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         if(type == RequestType::UPDATE_CHAT_NAME)
         {
-            QString newName = ui->label_ChatName->text();
+            QString newName = ui->lineEdit_ChatName->text();
             currentChat.setName(newName);
             emit chatNameUpdated(newName);
         }

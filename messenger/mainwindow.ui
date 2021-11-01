@@ -527,7 +527,7 @@ border-color: rgb(174, 143, 177);</string>
              <item>
               <widget class="QPushButton" name="ScrollBot">
                <property name="styleSheet">
-                <string notr="true">background-color:rgb(255, 237, 42)</string>
+                <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.5 rgba(0, 33, 255, 255), stop:0.509615 rgba(225, 255, 0, 255))</string>
                </property>
                <property name="text">
                 <string>ScrollBottom</string>
