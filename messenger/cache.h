@@ -20,7 +20,7 @@ public:
     static void CreateIfNotExists(QString UserName);
     static std::string GetCachePath();
     static QString OpenByCache();
-    static void DeleteFile();
+    static void DeleteCacheFile();
 
 private:
     static bool FileExists(const std::string& filename);
