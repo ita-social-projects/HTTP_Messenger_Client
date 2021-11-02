@@ -11,25 +11,28 @@
 #include <chrono>
 #include <thread>
 #include <memory>
+#include <string.h>
 
 #include "Log.h"
 
-// if __PRETTY_FUNCTION__ doesnt exist use __FUNCSIG__ instead
+#if defined(_WIN32)
+    #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#elif defined(__linux__)
+    #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#else
+    #define __FILENAME__ __FILE__
+#endif 
 
-#if !defined(__PRETTY_FUNCTION__) && !defined(__GNUC__)
-    #define __PRETTY_FUNCTION__ __FUNCSIG__
-#endif
+#define LOG_DEBUG(X)    (Logger::GetInstance())(t_DEBUG,      __FILENAME__, __FUNCTION__, X)
+#define LOG_VERBOSE(X)  (Logger::GetInstance())(t_VERBOSE,    __FILENAME__, __FUNCTION__, X)
+#define LOG_ERROR(X)    (Logger::GetInstance())(t_ERROR,      __FILENAME__, __FUNCTION__, X)
+#define LOG_FATAL(X)    (Logger::GetInstance())(t_FATAL,      __FILENAME__, __FUNCTION__, X)
 
-#define LOG_DEBUG(X)    (Logger::GetInstance())(t_DEBUG,      __FILE__, __PRETTY_FUNCTION__, X)
-#define LOG_VERBOSE(X)  (Logger::GetInstance())(t_VERBOSE,    __FILE__, __PRETTY_FUNCTION__, X)
-#define LOG_ERROR(X)    (Logger::GetInstance())(t_ERROR,      __FILE__, __PRETTY_FUNCTION__, X)
-#define LOG_FATAL(X)    (Logger::GetInstance())(t_FATAL,      __FILE__, __PRETTY_FUNCTION__, X)
-
-#define SET_LOG_LEVEL(X) (Logger::GetInstance()).SetLogLevel(X)
-#define SET_LOGS_FILE(X) (Logger::GetInstance()).SetFileForLogs(X)
-#define SHOW_LOGS_IN_CONSOLE(X)(Logger::GetInstance()).SetShowInConsole(X)
-#define SAVE_LOGS_NOW() (Logger::GetInstance()).SaveLogsToFile()
-#define SET_MAX_AMOUNT_OF_LOGS(X) (Logger::GetInstance()).SetMaxAmountOfLogs(X)
+#define SET_LOG_LEVEL(X)            (Logger::GetInstance()).SetLogLevel(X)
+#define SET_LOGS_FILE(X)            (Logger::GetInstance()).SetFileForLogs(X)
+#define SHOW_LOGS_IN_CONSOLE(X)     (Logger::GetInstance()).SetShowInConsole(X)
+#define SAVE_LOGS_NOW()             (Logger::GetInstance()).SaveLogsToFile()
+#define SET_MAX_AMOUNT_OF_LOGS(X)   (Logger::GetInstance()).SetMaxAmountOfLogs(X)
 
 #define TIME_FORMAT "%Y-%m-%d_%H-%M"
 

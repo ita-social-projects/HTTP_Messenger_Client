@@ -7,6 +7,10 @@
 #include "requestmanager.h"
 #include "jsondeserializer.h"
 #include "cache.h"
+#include "QtStateMachine/QEventTransition"
+#include "QtStateMachine/QtStateMachine"
+#include "QPropertyAnimation"
+#include "QSequentialAnimationGroup"
 
 namespace Ui {
 class ProfileWindow;

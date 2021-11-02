@@ -80,7 +80,7 @@ bool Cache::FileExists(const std::string &filename)
     return (stat(filename.c_str(), &buffer) == 0);
 }
 
-void Cache::DeleteFile()
+void Cache::DeleteCacheFile()
 {
     char* FilePath = new char[GetCachePath().length()+1];
     std::strcpy(FilePath,GetCachePath().c_str());
