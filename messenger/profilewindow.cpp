@@ -15,19 +15,15 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     hideLoginFields();
     hidePasswordFields();
 
+//UserName widget animation block
+
     QPropertyAnimation *HideEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
     HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
     HideEditAnimation->setDuration(1000);
-//    HideEditAnimation->setStartValue(40);
-//    HideEditAnimation->setEndValue(0);
+
     QPropertyAnimation *ShowEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
     HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
     HideEditAnimation->setDuration(1000);
-//    HideEditAnimation->setStartValue(0);
-//    HideEditAnimation->setEndValue(40);
-
-    QStateMachine *UserNameMachine = new QStateMachine(this);
-    UserNameMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
 
     QState *UserNameHidedState= new QState();
     UserNameHidedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",0);
@@ -44,63 +40,42 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     HideUserNameTransition->addAnimation(HideEditAnimation);
     UserNameShowedState->addTransition(HideUserNameTransition);
 
+    QStateMachine *UserNameMachine = new QStateMachine(this);
+    UserNameMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
     UserNameMachine->addState(UserNameHidedState);
     UserNameMachine->addState(UserNameShowedState);
     UserNameMachine->setInitialState(UserNameHidedState);
     UserNameMachine->start();
 
-    QPropertyAnimation *ShowPasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_Password, "maximumHeight");
+//Password widget animation block
+
+    QPropertyAnimation *ShowPasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
     ShowPasswordEditAnimation->setDuration(1000);
-    ShowPasswordEditAnimation->setStartValue(0);
-    ShowPasswordEditAnimation->setEndValue(40);
-    QPropertyAnimation *ShowNewPasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_NewPassword, "maximumHeight");
-    ShowNewPasswordEditAnimation->setDuration(1000);
-    ShowNewPasswordEditAnimation->setStartValue(0);
-    ShowNewPasswordEditAnimation->setEndValue(40);
-    QPropertyAnimation *ShowConfirmPasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_ConfNewPassword, "maximumHeight");
-    ShowConfirmPasswordEditAnimation->setDuration(1000);
-    ShowConfirmPasswordEditAnimation->setStartValue(0);
-    ShowConfirmPasswordEditAnimation->setEndValue(40);
+    ShowPasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
 
-    QSequentialAnimationGroup *ShowPassGroup = new QSequentialAnimationGroup();
-    ShowPassGroup->addAnimation(ShowPasswordEditAnimation);
-    ShowPassGroup->addAnimation(ShowNewPasswordEditAnimation);
-    ShowPassGroup->addAnimation(ShowConfirmPasswordEditAnimation);
-
-    QPropertyAnimation *HidePasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_Password, "maximumHeight");
+    QPropertyAnimation *HidePasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
     HidePasswordEditAnimation->setDuration(1000);
-    HidePasswordEditAnimation->setStartValue(40);
-    HidePasswordEditAnimation->setEndValue(0);
-    QPropertyAnimation *HideNewPasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_NewPassword, "maximumHeight");
-    HideNewPasswordEditAnimation->setDuration(1000);
-    HideNewPasswordEditAnimation->setStartValue(40);
-    HideNewPasswordEditAnimation->setEndValue(0);
-    QPropertyAnimation *HideConfirmPasswordEditAnimation = new QPropertyAnimation(ui->lineEdit_ConfNewPassword, "maximumHeight");
-    HideConfirmPasswordEditAnimation->setDuration(1000);
-    HideConfirmPasswordEditAnimation->setStartValue(40);
-    HideConfirmPasswordEditAnimation->setEndValue(0);
-
-    QSequentialAnimationGroup *HidePassGroup = new QSequentialAnimationGroup();
-    HidePassGroup->addAnimation(HidePasswordEditAnimation);
-    HidePassGroup->addAnimation(HideNewPasswordEditAnimation);
-    HidePassGroup->addAnimation(HideConfirmPasswordEditAnimation);
+    HidePasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
 
     QState *PasswordHidedState = new QState();
+    PasswordHidedState->assignProperty(ui->Widget_Password,"maximumHeight",0);
+
     QState *PasswordShowedState = new QState();
+    PasswordShowedState->assignProperty(ui->Widget_Password,"maximumHeight",179);
+
 
     QEventTransition *ShowPasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
     ShowPasswordTransition->setTargetState(PasswordShowedState);
-    ShowPasswordTransition->addAnimation(ShowPassGroup);
+    ShowPasswordTransition->addAnimation(ShowPasswordEditAnimation);
     PasswordHidedState->addTransition(ShowPasswordTransition);
 
     QEventTransition *HidePasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
     HidePasswordTransition->setTargetState(PasswordHidedState);
-    HidePasswordTransition->addAnimation(HidePassGroup);
+    HidePasswordTransition->addAnimation(HidePasswordEditAnimation);
     PasswordShowedState->addTransition(HidePasswordTransition);
 
-
     QStateMachine *PasswordMachine = new QStateMachine(this);
-//    PasswordMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
+    PasswordMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
     PasswordMachine->addState(PasswordHidedState);
     PasswordMachine->addState(PasswordShowedState);
     PasswordMachine->setInitialState(PasswordHidedState);
