@@ -132,14 +132,13 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             {
                 if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
                 {
-                    showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime());
+                    showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
                 }
                 else
                 {
-                    showMessage(msg.getWriter(), msg.getMessage(), msg.getDate(), msg.getTime());
+                    showMessage(msg.getWriter() + ':', msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
                 }
-                currentChat.setLastMessage(msgs[msgs.size() - 1]);
-
+                currentChat.setLastMessage(msg);
             }
             if (!notFirstLoad)
             {

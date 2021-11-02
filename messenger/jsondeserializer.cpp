@@ -118,7 +118,7 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
             {
                 QStringList list = obj[TIMESTAMP].toString().split(QRegularExpression("\\s+"));
                 Message msg(obj[MESSAGE_ID].toInt(),obj[SENDER].toString(),
-                            obj[CONTENT].toString(),list.at(DATE),list.at(TIME));
+                            obj[CONTENT].toString(),list.at(DATE), list.at(TIME));
                 messages.append(msg);
             }
         }
