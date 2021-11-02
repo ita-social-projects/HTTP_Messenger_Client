@@ -240,7 +240,7 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
 void MainWindow::on_actionSign_out_triggered()
 {
     RequestManager::GetInstance()->logOut(CurrentUser::getInstance()->getToken(), this);
-    Cache::DeleteFile();
+    Cache::DeleteCacheFile();
 }
 
 

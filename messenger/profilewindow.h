@@ -10,6 +10,7 @@
 #include "QtStateMachine/QEventTransition"
 #include "QtStateMachine/QtStateMachine"
 #include "QPropertyAnimation"
+#include "QSequentialAnimationGroup"
 
 namespace Ui {
 class ProfileWindow;
