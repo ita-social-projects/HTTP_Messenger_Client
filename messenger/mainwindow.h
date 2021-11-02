@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include "requestmanager.h"
-#include <mutex>
+#include "currentchat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,19 +16,23 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
 public:
     MainWindow(QMainWindow* parent = nullptr);
     ~MainWindow();
-
     void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
     void showChats();
-
+    CurrentChat getCurrentChat();
 private:
+    QScrollBar *ScrollBar;
+    CurrentChat currentChat;
     bool CheckMessage();
-
+    bool notFirstLoad;
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow();
-    void openChatInfo();
+    void openChatInfo(CurrentChat);
+    void finished();
+public slots:
+    void CheckNewMessages();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -44,10 +48,15 @@ private slots:
     void on_SearchChat_textEdited(const QString &arg1);
     void addNewChat();
     void leaveChat();
+    void updateChatName(QString newName);
+    void SetScrollBotButtonVisible();
+    void on_ScrollBot_clicked();
+    void closeEvent(QCloseEvent * e) override;
 
 private:
     Ui::MainWindow *ui;
-    static std::mutex mtx;
+
+
 };
 #endif // MAINWINDOW_H
 

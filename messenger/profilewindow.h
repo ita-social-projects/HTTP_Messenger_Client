@@ -3,9 +3,9 @@
 
 #include <QDialog>
 #include <QMessageBox>
-#include "currentUser.h"
+#include "currentuser.h"
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 #include "cache.h"
 
 namespace Ui {
@@ -22,9 +22,9 @@ public:
 
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
 private:
-    void checkUsernameSame(const QString& username);
-    void checkPasswordEqual(const QString& pass1, const QString& pass2);
-    void checkOldNewPasswordsEqual(const QString& pass, const QString& newPass);
+    bool checkUsernameSame(const QString& username);
+    bool checkPasswordEqual(const QString& pass1, const QString& pass2);
+    bool checkOldNewPasswordsEqual(const QString& pass, const QString& newPass);
 
     void setErrorLabelColor(QLabel *label);
     void setPlaceholderTextToLabels();
@@ -38,6 +38,7 @@ private:
 
 signals:
     void closing();
+    void accountDeleted();
 
 private slots:
     void on_pushButton_ChangeUsername_clicked();
@@ -45,6 +46,8 @@ private slots:
     void on_pushButton_SaveLogin_clicked();
     void on_pushButton_SavePassword_clicked();
     void closeEvent(QCloseEvent * e) override;
+
+    void on_pushButton_DeleteProfile_clicked();
 
 private:
     Ui::ProfileWindow *ui;

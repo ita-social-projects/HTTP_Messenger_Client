@@ -17,9 +17,7 @@ SignupWindow::SignupWindow(QWidget *parent) :
     validator = new QRegularExpressionValidator(rx, this);
     ui->Login->setValidator(validator);
 
-    ui->Login->setPlaceholderText(" Enter login:");
-    ui->Password->setPlaceholderText(" Enter password:");
-    ui->ConfirmPassword->setPlaceholderText(" Confirm password:");
+    setPlaceholderText();
 
     this->setWindowTitle("User registration");
 }
@@ -28,6 +26,13 @@ SignupWindow::~SignupWindow()
 {
     delete validator;
     delete ui;
+}
+
+void SignupWindow::setPlaceholderText()
+{
+    ui->Login->setPlaceholderText(" Enter login:");
+    ui->Password->setPlaceholderText(" Enter password:");
+    ui->ConfirmPassword->setPlaceholderText(" Confirm password:");
 }
 
 void SignupWindow::on_LoginButton_clicked()

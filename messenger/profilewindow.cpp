@@ -33,6 +33,7 @@ void ProfileWindow::hideInfoFields()
 {
     ui->label_LoginInfo->hide();
     ui->label_ConfPassInfo->hide();
+    ui->label_PassInfo->hide();
 }
 
 void ProfileWindow::hideLoginFields()
@@ -94,7 +95,10 @@ void ProfileWindow::on_pushButton_SaveLogin_clicked()
     QString newLogin = ui->lineEdit_Username->text();
 
     hideInfoFields();
-    checkUsernameSame(newLogin);
+    if (!checkUsernameSame(newLogin))
+    {
+        return;
+    }
 
     RequestManager::GetInstance()->updateLogin(CurrentUser::getInstance()->getToken(),newLogin,this);
 }
@@ -106,13 +110,17 @@ void ProfileWindow::on_pushButton_SavePassword_clicked()
     QString newPassConf = ui->lineEdit_ConfNewPassword->text();
 
     hideInfoFields();
-    checkPasswordEqual(newPassword,newPassConf);
-    checkOldNewPasswordsEqual(password,newPassword);
+
+    if(!checkPasswordEqual(newPassword,newPassConf) ||
+       !checkOldNewPasswordsEqual(password,newPassword))
+    {
+        return;
+    }
 
     RequestManager::GetInstance()->updatePassword(CurrentUser::getInstance()->getToken(),password,newPassword,this);
 }
 
-void ProfileWindow::checkUsernameSame(const QString& username)
+bool ProfileWindow::checkUsernameSame(const QString& username)
 {
    CurrentUser *user = CurrentUser::getInstance();
    if(username == user->getLogin())
@@ -120,27 +128,33 @@ void ProfileWindow::checkUsernameSame(const QString& username)
        setErrorLabelColor(ui->label_LoginInfo);
        ui->label_LoginInfo->show();
        ui->label_LoginInfo->setText("Your new username is the same as your previous");
+       return false;
    }
+   return true;
 }
 
-void ProfileWindow::checkPasswordEqual(const QString& pass1, const QString& pass2)
+bool ProfileWindow::checkPasswordEqual(const QString& pass1, const QString& pass2)
 {
     if(pass1 != pass2)
     {
        setErrorLabelColor(ui->label_ConfPassInfo);
        ui->label_ConfPassInfo->show();
        ui->label_ConfPassInfo->setText("Your password inputs are not equal. Try again.");
+       return false;
     }
+    return true;
 }
 
-void ProfileWindow::checkOldNewPasswordsEqual(const QString& pass, const QString& newPass)
+bool ProfileWindow::checkOldNewPasswordsEqual(const QString& pass, const QString& newPass)
 {
     if(pass == newPass)
     {
-       setErrorLabelColor(ui->label_ConfPassInfo);
-       ui->label_ConfPassInfo->show();
-       ui->label_ConfPassInfo->setText("Your new password is the same as your previous.");
+       setErrorLabelColor(ui->label_PassInfo);
+       ui->label_PassInfo->show();
+       ui->label_PassInfo->setText("Your new password is the same as your previous.");
+       return false;
     }
+    return true;
 }
 
 void ProfileWindow::setErrorLabelColor(QLabel *label)
@@ -177,6 +191,12 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             QMessageBox::information(nullptr, "Profile", "Password was updated!");
         }
+        if(type == RequestType::DELETE_ACCOUNT)
+        {
+            emit accountDeleted();
+            Cache::DeleteFile();
+            this->close();
+        }
     }
 }
 
@@ -184,3 +204,15 @@ void ProfileWindow::closeEvent(QCloseEvent * e )
 {
     emit closing();
 }
+
+void ProfileWindow::on_pushButton_DeleteProfile_clicked()
+{
+    auto reply = QMessageBox::question(nullptr, "Profile Window", "If you delete your account then you can't restore it. "
+                                                           "Are you sure?", QMessageBox::Yes|QMessageBox::No);
+    if(reply == QMessageBox::Yes)
+    {
+        CurrentUser* user = CurrentUser::getInstance();
+        RequestManager::GetInstance()->deleteAccount(user->getToken(), this);
+    }
+}
+

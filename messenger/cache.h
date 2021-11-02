@@ -26,4 +26,4 @@ private:
     static bool FileExists(const std::string& filename);
 };
 
-#endif // CACHE_H
+#endif

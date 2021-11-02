@@ -8,12 +8,12 @@ class CurrentChat
 {
 
 public:
-    CurrentChat(CurrentChat& other) = delete;
-    void operator=(const CurrentChat& other) = delete;
-    static CurrentChat* getInstance();
+    CurrentChat();
+    CurrentChat(const CurrentChat& other);
 
     void resetChat(unsigned long id, QString name);
     void setLastMessage(Message message);
+    void setName(QString name);
     void closeChat();
 
     unsigned long getId();
@@ -21,14 +21,9 @@ public:
     Message getLastMessage();
 
 private:
-    CurrentChat();
-
     QString name;
     unsigned long id;
     Message lastMessage;
-
-    static CurrentChat* instance;
-    static std::mutex mtx;
 };
 
 #endif // CURRENTCHAT_H

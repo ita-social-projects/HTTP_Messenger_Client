@@ -5,7 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 
 namespace Ui {
 class SignupWindow;
@@ -27,6 +27,7 @@ public:
 private:
     void printErrorText(QLabel *label, QString text);
     void setErrorLabelColor(QLabel *label);
+    void setPlaceholderText();
     bool isEqualPassword(const QString& pass,const QString& confPass);
     bool isEmptyFields();
 

@@ -19,6 +19,16 @@ RequestManager::RequestManager(QObject *parent) : QObject(parent), manager(new Q
     connect(manager.get(), SIGNAL(finished(QNetworkReply*)), this, SLOT(OnRequestResult(QNetworkReply*)));
 }
 
+const QUrl& RequestManager::getServerURL()
+{
+    return serverUrl;
+}
+
+void RequestManager::setServerURL(const QUrl& url)
+{
+    serverUrl = url;
+}
+
 void RequestManager::login(QString login, QString password, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -49,6 +59,21 @@ void RequestManager::signUp(QString login, QString password, RequestResultInterf
     resultMap.emplace(reply,Requester(resultInterface, RequestType::SIGN_UP));
 }
 
+void RequestManager::checkToken(QString token, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packToken(token);
+    auto reply = post("/user/check_session", jsonDocument);
+    LOG_DEBUG("Check token request sended");
+    resultMap.emplace(reply,Requester(resultInterface, RequestType::CHECK_TOKEN));
+}
+
 void RequestManager::updateLogin(QString token, QString newLogin, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -57,7 +82,7 @@ void RequestManager::updateLogin(QString token, QString newLogin, RequestResultI
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdateLogin(token,newLogin);
+    QJsonDocument jsonDocument = serializer.packUpdatedLogin(token,newLogin);
     auto reply = post("/user/change_login", jsonDocument);
     LOG_DEBUG("Update login request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_LOGIN));
@@ -71,11 +96,26 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument = serializer.packUpdatePassword(token,oldPassword,newPassword);
+    QJsonDocument jsonDocument = serializer.packUpdatedPassword(token,oldPassword,newPassword);
     auto reply = post("/user/change_password", jsonDocument);
     LOG_DEBUG("Update password request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
 }
+
+void RequestManager::deleteAccount(QString token, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packToken(token);
+    auto reply = post("/user/delete", jsonDocument);
+    LOG_DEBUG("Delete account sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
+}
+
 
 void RequestManager::logOut(QString token, RequestResultInterface *resultInterface)
 {
@@ -128,9 +168,23 @@ void RequestManager::createChat(QString token, QString chatName, RequestResultIn
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packChatInfo(token,chatName);
-    auto reply = post("/chat/create_new", jsonDocument);
+    auto reply = post("/chat/create", jsonDocument);
     LOG_DEBUG("Create chat sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::CREATE_CHAT));
+}
+
+void RequestManager::updateChatName(QString token, unsigned long chatId, QString newName, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packUpdateChatName(token,chatId,newName);
+    auto reply = post("/chat/change_name", jsonDocument);
+    LOG_DEBUG("Update chat name sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));
 }
 
 void RequestManager::searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface)
@@ -142,7 +196,7 @@ void RequestManager::searchUser(QString token, QString searchingName, RequestRes
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToFindUsers(token,searchingName);
-    auto reply = post("/user/find_users", jsonDocument);
+    auto reply = post("/user/find", jsonDocument);
     LOG_DEBUG("Search user request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::SEARCH_USER));
 }
@@ -226,17 +280,10 @@ QNetworkReply* RequestManager::post(QString header, QJsonDocument& jsonDocument)
     return manager->post(request, data);
 }
 
-QNetworkReply* RequestManager::get(QString header)
-{
-    LOG_DEBUG("Get method sended");
-    QNetworkRequest request = createRequest(header);
-    return manager->get(request);
-}
-
 QNetworkRequest RequestManager::createRequest(QString header)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(serverUrl + header));
+    request.setUrl(QUrl(serverUrl.toString() + header));
     return request;
 }
 

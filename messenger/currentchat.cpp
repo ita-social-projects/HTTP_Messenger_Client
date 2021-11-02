@@ -3,24 +3,18 @@
 #define DEFAULT_ID 0
 #define DEFAULT_STR ""
 
-CurrentChat* CurrentChat::instance{nullptr};
-std::mutex CurrentChat::mtx;
-
-CurrentChat* CurrentChat::getInstance()
-{
-    std::lock_guard<std::mutex> lock(mtx);
-    if (instance == nullptr)
-    {
-        instance = new CurrentChat();
-    }
-    return instance;
-}
-
 CurrentChat::CurrentChat()
 {
     name = DEFAULT_STR;
     id = DEFAULT_ID;
 };
+
+CurrentChat::CurrentChat(const CurrentChat& other)
+{
+    name = other.name;
+    id = other.id;
+    lastMessage = other.lastMessage;
+}
 
 void CurrentChat::resetChat(unsigned long id, QString name)
 {
@@ -32,6 +26,11 @@ void CurrentChat::resetChat(unsigned long id, QString name)
 void CurrentChat::setLastMessage(Message message)
 {
     this->lastMessage = message;
+}
+
+void CurrentChat::setName(QString name)
+{
+    this->name = name;
 }
 
 void CurrentChat::closeChat()

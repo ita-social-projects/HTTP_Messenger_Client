@@ -5,7 +5,7 @@
 #include <QVector>
 #include "mainwindow.h"
 #include "requestmanager.h"
-#include "JsonDeserializer.h"
+#include "jsondeserializer.h"
 
 namespace Ui {
 class CreateChat;
