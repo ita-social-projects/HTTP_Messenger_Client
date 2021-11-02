@@ -101,7 +101,6 @@ void ProfileWindow::hideInfoFields()
 {
     ui->label_LoginInfo->hide();
     ui->label_ConfPassInfo->hide();
-    ui->label_PassInfo->hide();
 }
 
 void ProfileWindow::hideLoginFields()
@@ -217,9 +216,9 @@ bool ProfileWindow::checkOldNewPasswordsEqual(const QString& pass, const QString
 {
     if(pass == newPass)
     {
-       setErrorLabelColor(ui->label_PassInfo);
-       ui->label_PassInfo->show();
-       ui->label_PassInfo->setText("Your new password is the same as your previous.");
+       setErrorLabelColor(ui->label_ConfPassInfo);
+       ui->label_ConfPassInfo->show();
+       ui->label_ConfPassInfo->setText("Your new password is the same as your previous.");
        return false;
     }
     return true;
@@ -262,7 +261,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         if(type == RequestType::DELETE_ACCOUNT)
         {
             emit accountDeleted();
-            Cache::DeleteFile();
+            Cache::DeleteCacheFile();
             this->close();
         }
     }
