@@ -24,7 +24,6 @@ pipeline{
             steps{
                 dir(env.REPO_NAME){
                     bat "echo '======================BUILDING THE PRIOJECT========================='"
-                    bat "cd ${env.REPO_NAME}"
                     bat "cd ${env.PROJECT_FOLDER_NAME}"
                     bat "${QMAKE_PATH} -config debug"
                 }
