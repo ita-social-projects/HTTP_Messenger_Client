@@ -35,7 +35,9 @@ pipeline{
         stage('Generating installer'){
             steps{
                 bat "echo '======================GENERATING INSTALLER========================='"
-                bat "${env.ISCC} installer_script.iss"
+                dir(env.REPO_NAME){
+                    bat "${env.ISCC} installer_script.iss"
+                }
             }
         }
     }
