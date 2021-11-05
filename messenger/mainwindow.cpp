@@ -203,13 +203,14 @@ void MainWindow::on_UserImg_clicked()
 
 void MainWindow::showMessage(QString from, QString message, QString date, QString time)
 {
+    if(from == "")
+    {
+        showSystemMessage(message);
+        return;
+    }
     if(currentChat.getLastMessage().getDate() != date)
     {
-        QListWidgetItem itemDate(date);
-        itemDate.setTextAlignment(Qt::AlignmentFlag::AlignCenter);
-        itemDate.setForeground(Qt::gray);
-         conversation.push_back(itemDate);
-        ui->Messages->addItem(&conversation.back());
+        showSystemMessage(date);
     }
     QListWidgetItem itemFrom(from);
     QListWidgetItem itemMessage(message);
@@ -235,6 +236,15 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
     ui->Messages->addItem("");
 }
 
+void MainWindow::showSystemMessage(QString message)
+{
+    QListWidgetItem item(message);
+    item.setTextAlignment(Qt::AlignmentFlag::AlignCenter);
+    item.setForeground(Qt::gray);
+    conversation.push_back(item);
+    ui->Messages->addItem(&conversation.back());
+}
+
 void MainWindow::on_actionSign_out_triggered()
 {
     RequestManager::GetInstance()->logOut(CurrentUser::getInstance()->getToken(), this);
@@ -257,6 +267,7 @@ void MainWindow::on_ChatInfo_clicked()
 
 void MainWindow::leaveChat()
 {
+    //RequestManager::GetInstance()->leaveChat(user->getToken(), currentChat.getId(), user->getLogin(), this);
     conversation.clear();
     currentChat.closeChat();
     ui->ChatInfo->setText("");

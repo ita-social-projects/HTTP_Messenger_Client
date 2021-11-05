@@ -126,6 +126,23 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
     return messages;
 }
 
+Message JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
+{
+    LOG_DEBUG("Extracting message");
+    QJsonObject jsonObject = replyInfo.object();
+    Message msg;
+    if(checkAllMessageFields(jsonObject))
+    {
+        msg.setId(jsonObject[MESSAGE_ID].toInt());
+        msg.setWriter(jsonObject[SENDER].toString());
+        msg.setMessage(jsonObject[CONTENT].toString());
+        QStringList list = jsonObject[TIMESTAMP].toString().split(QRegularExpression("\\s+"));
+        msg.setDate(list.at(DATE));
+        msg.setTime(list.at(TIME));
+    }
+    return msg;
+}
+
 bool checkAllMessageFields(const QJsonObject& obj)
 {
     if(obj.contains(MESSAGE_ID) &&

@@ -24,6 +24,7 @@ public:
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
     QVector<QString> extractUsersLogin(const QJsonDocument &replyInfo);
     QVector<Message> extractMessages(const QJsonDocument &replyInfo);
+    Message extractMessage(const QJsonDocument &replyInfo);
 };
 
 #endif // JSONDESERIALIZER_H

@@ -21,6 +21,7 @@ public:
 private:
     bool CheckMessage();
     void showMessage(QString from, QString message, QString date, QString time);
+    void showSystemMessage(QString message);
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
 

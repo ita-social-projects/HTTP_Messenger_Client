@@ -98,18 +98,34 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else if(type == RequestType::ADD_USER_TO_CHAT)
         {
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " added user " + ui->label_MemberLogin->text() + " to the chat", this);
             ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
             ui->label_MemberLogin->clear();
         }
         else if(type == RequestType::LEAVE_CHAT)
         {
-            emit leaveChat();
-            this->close();
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " left chat ", this);
         }
         else if(type == RequestType::GET_CHAT_PARTICIPANTS)
         {
             QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Members->addItems(users);
+        }
+        else if(type == RequestType::SEND_MESSAGE)
+        {
+            Message msg = extractor.extractMessage(document);
+            if(msg.getMessage().contains("left chat"))
+            {
+                emit leaveChat();
+                this->close();
+            }
+        }
+        else if(type == RequestType::UPDATE_CHAT_NAME)
+        {
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " updated chat name to " + ui->lineEdit_ChatName->text(), this);
         }
     }
 }

@@ -49,14 +49,20 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
     JsonDeserializer extractor;
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-    if(type == RequestType::CREATE_CHAT)
+    if (reply->error())
     {
-        if (reply->error())
+        QString resReply = extractor.extractErrorMsg(document);
+        QMessageBox::critical(nullptr, "ERROR", resReply);
+    }
+    else
+    {
+        if (type == RequestType::CREATE_CHAT)
         {
-            QString resReply = extractor.extractErrorMsg(document);
-            QMessageBox::critical(nullptr, "ERROR", resReply);
+            std::map<unsigned long, QString> map = extractor.extractChat(document);
+            RequestManager::GetInstance()->sendMessage("", map.begin()->first,
+                            CurrentUser::getInstance()->getLogin() + " created chat " + ui->lineEdit_ChatName->text(), this);
         }
-        else
+        else if(type == RequestType::SEND_MESSAGE)
         {
             this->close();
         }
