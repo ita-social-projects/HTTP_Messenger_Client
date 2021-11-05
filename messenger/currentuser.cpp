@@ -28,6 +28,11 @@ void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
     this->chats = chats;
 }
 
+void CurrentUser::clearChats()
+{
+    chats.clear();
+}
+
 const std::map<unsigned long, QString>& CurrentUser::getChats()
 {
     return chats;
@@ -41,19 +46,4 @@ const QString& CurrentUser::getLogin()
 const QString& CurrentUser::getToken()
 {
     return accessToken;
-}
-
-void CurrentUser::addNewChat(unsigned long id, QString chatName)
-{
-    chats.emplace(id, chatName);
-}
-
-void CurrentUser::deleteChat(unsigned long id)
-{
-    chats.erase(id);
-}
-
-void CurrentUser::updateChat(unsigned long id, QString name)
-{
-    chats[id] = name;
 }

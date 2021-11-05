@@ -111,12 +111,6 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
             QVector<QString> users = extractor.extractUsersLogin(document);
             ui->listWidget_Members->addItems(users);
         }
-        if(type == RequestType::UPDATE_CHAT_NAME)
-        {
-            QString newName = ui->lineEdit_ChatName->text();
-            currentChat.setName(newName);
-            emit chatNameUpdated(newName);
-        }
     }
 }
 

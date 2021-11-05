@@ -47,10 +47,10 @@ void CreateChat::on_pushButton_Create_clicked()
 
 void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
 {
+    JsonDeserializer extractor;
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     if(type == RequestType::CREATE_CHAT)
     {
-        JsonDeserializer extractor;
-        QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         if (reply->error())
         {
             QString resReply = extractor.extractErrorMsg(document);
@@ -58,9 +58,6 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else
         {
-            std::map<unsigned long, QString> map = extractor.extractChat(document);
-            CurrentUser::getInstance()->addNewChat(map.begin()->first,map.begin()->second);
-            emit addChat();
             this->close();
         }
     }

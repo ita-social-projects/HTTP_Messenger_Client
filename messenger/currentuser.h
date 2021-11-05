@@ -15,14 +15,13 @@ public:
     void setToken(const QString& token);
     void setChats(const std::map<unsigned long, QString> chats);
 
+    void clearChats();
+
     const QString& getLogin();
     const QString& getToken();
     const std::map<unsigned long, QString>& getChats();
-    static CurrentUser* getInstance();
 
-    void addNewChat(unsigned long id, QString chatName);
-    void deleteChat(unsigned long id);
-    void updateChat(unsigned long id, QString name);
+    static CurrentUser* getInstance();
 
 private:
     CurrentUser(){};

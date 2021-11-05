@@ -1,4 +1,4 @@
-QT       += core gui statemachine
+QT       += core gui
 QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -28,10 +28,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     message.cpp \
-    messagesupdater.cpp \
     profilewindow.cpp \
     requestmanager.cpp \
     signupwindow.cpp \
+    threadworker.cpp \
     windowmanager.cpp
 
 
@@ -46,10 +46,10 @@ HEADERS += \
     loginwindow.h \
     mainwindow.h \
     message.h \
-    messagesupdater.h \
     profilewindow.h \
     requestmanager.h \
     signupwindow.h \
+    threadworker.h \
     windowmanager.h
 
 FORMS += \

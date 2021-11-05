@@ -6,7 +6,7 @@
 #include "requestmanager.h"
 #include "mainwindow.h"
 class M_Thread;
-class MessagesUpdater :  public QObject
+class ThreadWorker :  public QObject
 {
     Q_OBJECT
 private:
@@ -16,7 +16,7 @@ private:
 
 public:
     void StartThread();
-    explicit MessagesUpdater(MainWindow&);
+    explicit ThreadWorker(MainWindow&);
 };
 
 class M_Thread: public QThread
@@ -24,13 +24,12 @@ class M_Thread: public QThread
     Q_OBJECT
 public:
     MainWindow* mainWindow;
-    MessagesUpdater* messagesUpdater;
-    explicit M_Thread(MainWindow*, MessagesUpdater*);
+    ThreadWorker* messagesUpdater;
+    explicit M_Thread(MainWindow*, ThreadWorker*);
     void run();
 
-private:
 signals:
-    void CheckNewMessagesSig();
+    void SendRequests();
 };
 
 #endif // MESSAGESUPDATER_H

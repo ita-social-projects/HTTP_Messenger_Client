@@ -26,7 +26,6 @@ public:
 
 signals:
     void closing();
-    void addChat();
 
 private slots:
     void on_pushButton_Cancel_clicked();
