@@ -108,6 +108,10 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         QString resReply = extractor.extractErrorMsg(document);
         LOG_ERROR(resReply.toStdString());
+        if(type==RequestType::GET_CHATS || type==RequestType::GET_MESSAGES)
+        {
+            emit finished();
+        }
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
