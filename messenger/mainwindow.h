@@ -23,6 +23,7 @@ private:
     void showMessage(QString from, QString message, QString date, QString time);
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
+    QString setMessageProperties(QString message);
 
 signals:
     void SignoutButtonClicked();
@@ -55,6 +56,7 @@ private:
     QScrollBar *ScrollBar;
     CurrentChat currentChat;
     std::vector<QListWidgetItem> conversation;
+    int maxMessageLength;
 };
 #endif // MAINWINDOW_H
 
