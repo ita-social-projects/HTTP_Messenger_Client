@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
-    <height>351</height>
+    <width>331</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>361</width>
-    <height>351</height>
+    <width>331</width>
+    <height>381</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>361</width>
-    <height>351</height>
+    <width>331</width>
+    <height>381</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -39,8 +39,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>341</width>
-     <height>331</height>
+     <width>311</width>
+     <height>361</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -51,14 +51,14 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>341</width>
-     <height>331</height>
+     <width>311</width>
+     <height>361</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>341</width>
-     <height>331</height>
+     <width>311</width>
+     <height>361</height>
     </size>
    </property>
    <property name="font">
@@ -110,7 +110,7 @@ border-radius: 15px;</string>
     <bool>true</bool>
    </property>
    <property name="columnCount">
-    <number>10</number>
+    <number>9</number>
    </property>
    <attribute name="horizontalHeaderVisible">
     <bool>false</bool>
@@ -191,6 +191,11 @@ border-radius: 15px;</string>
      <string/>
     </property>
    </row>
+   <row>
+    <property name="text">
+     <string/>
+    </property>
+   </row>
    <column>
     <property name="text">
      <string/>
@@ -231,7 +236,6 @@ border-radius: 15px;</string>
      <string/>
     </property>
    </column>
-   <column/>
    <column/>
    <item row="0" column="0">
     <property name="text">
@@ -239,9 +243,6 @@ border-radius: 15px;</string>
     </property>
     <property name="textAlignment">
      <set>AlignCenter</set>
-    </property>
-    <property name="flags">
-     <set>ItemIsSelectable</set>
     </property>
    </item>
    <item row="0" column="1">
@@ -308,7 +309,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="0" column="9">
+   <item row="1" column="0">
     <property name="text">
      <string>😊</string>
     </property>
@@ -316,7 +317,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="1">
     <property name="text">
      <string>🙂</string>
     </property>
@@ -324,7 +325,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="1">
+   <item row="1" column="2">
     <property name="text">
      <string>😋</string>
     </property>
@@ -332,7 +333,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="2">
+   <item row="1" column="3">
     <property name="text">
      <string>🙃</string>
     </property>
@@ -340,7 +341,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="3">
+   <item row="1" column="4">
     <property name="text">
      <string>😌</string>
     </property>
@@ -348,7 +349,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="4">
+   <item row="1" column="5">
     <property name="text">
      <string>😍</string>
     </property>
@@ -356,7 +357,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="5">
+   <item row="1" column="6">
     <property name="text">
      <string>🥰 </string>
     </property>
@@ -364,7 +365,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="6">
+   <item row="1" column="7">
     <property name="text">
      <string>😘</string>
     </property>
@@ -372,7 +373,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="7">
+   <item row="1" column="8">
     <property name="text">
      <string>😗</string>
     </property>
@@ -380,15 +381,18 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="1" column="8">
+   <item row="2" column="0">
     <property name="text">
      <string>😙</string>
     </property>
     <property name="textAlignment">
      <set>AlignCenter</set>
     </property>
+    <property name="flags">
+     <set>ItemIsSelectable</set>
+    </property>
    </item>
-   <item row="1" column="9">
+   <item row="2" column="1">
     <property name="text">
      <string>🤪</string>
     </property>
@@ -396,7 +400,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="0">
+   <item row="2" column="2">
     <property name="text">
      <string>😜</string>
     </property>
@@ -404,7 +408,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="1">
+   <item row="2" column="3">
     <property name="text">
      <string>😝</string>
     </property>
@@ -412,7 +416,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="2">
+   <item row="2" column="4">
     <property name="text">
      <string>😛</string>
     </property>
@@ -420,7 +424,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="3">
+   <item row="2" column="5">
     <property name="text">
      <string>🤑</string>
     </property>
@@ -428,7 +432,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="4">
+   <item row="2" column="6">
     <property name="text">
      <string>😎</string>
     </property>
@@ -436,7 +440,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="5">
+   <item row="2" column="7">
     <property name="text">
      <string>🧐</string>
     </property>
@@ -444,7 +448,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="6">
+   <item row="2" column="8">
     <property name="text">
      <string>🥳</string>
     </property>
@@ -452,7 +456,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="7">
+   <item row="3" column="0">
     <property name="text">
      <string>🤗</string>
     </property>
@@ -460,7 +464,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="8">
+   <item row="3" column="1">
     <property name="text">
      <string>😏</string>
     </property>
@@ -468,7 +472,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="2" column="9">
+   <item row="3" column="2">
     <property name="text">
      <string>😶</string>
     </property>
@@ -476,7 +480,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="0">
+   <item row="3" column="3">
     <property name="text">
      <string>😐</string>
     </property>
@@ -484,7 +488,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="1">
+   <item row="3" column="4">
     <property name="text">
      <string>😑</string>
     </property>
@@ -492,7 +496,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="2">
+   <item row="3" column="5">
     <property name="text">
      <string>😒</string>
     </property>
@@ -500,7 +504,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="3">
+   <item row="3" column="6">
     <property name="text">
      <string>🙄</string>
     </property>
@@ -508,7 +512,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="4">
+   <item row="3" column="7">
     <property name="text">
      <string>🤨</string>
     </property>
@@ -516,7 +520,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="5">
+   <item row="3" column="8">
     <property name="text">
      <string>🤔</string>
     </property>
@@ -524,7 +528,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="6">
+   <item row="4" column="0">
     <property name="text">
      <string>🤫</string>
     </property>
@@ -532,7 +536,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="7">
+   <item row="4" column="1">
     <property name="text">
      <string>🤭</string>
     </property>
@@ -540,7 +544,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="8">
+   <item row="4" column="2">
     <property name="text">
      <string>😳</string>
     </property>
@@ -548,7 +552,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="3" column="9">
+   <item row="4" column="3">
     <property name="text">
      <string>😞</string>
     </property>
@@ -556,7 +560,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="0">
+   <item row="4" column="4">
     <property name="text">
      <string>😟</string>
     </property>
@@ -564,7 +568,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="1">
+   <item row="4" column="5">
     <property name="text">
      <string>😠</string>
     </property>
@@ -572,7 +576,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="2">
+   <item row="4" column="6">
     <property name="text">
      <string>😡</string>
     </property>
@@ -580,7 +584,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="3">
+   <item row="4" column="7">
     <property name="text">
      <string>😔</string>
     </property>
@@ -588,7 +592,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="4">
+   <item row="4" column="8">
     <property name="text">
      <string>😕</string>
     </property>
@@ -596,7 +600,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="5">
+   <item row="5" column="0">
     <property name="text">
      <string>🙁</string>
     </property>
@@ -604,7 +608,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="6">
+   <item row="5" column="1">
     <property name="text">
      <string>😬</string>
     </property>
@@ -612,7 +616,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="7">
+   <item row="5" column="2">
     <property name="text">
      <string>🥺</string>
     </property>
@@ -620,7 +624,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="8">
+   <item row="5" column="3">
     <property name="text">
      <string>😣</string>
     </property>
@@ -628,7 +632,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="4" column="9">
+   <item row="5" column="4">
     <property name="text">
      <string>😖</string>
     </property>
@@ -636,7 +640,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="0">
+   <item row="5" column="5">
     <property name="text">
      <string>😫</string>
     </property>
@@ -644,7 +648,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="1">
+   <item row="5" column="6">
     <property name="text">
      <string>😩</string>
     </property>
@@ -652,7 +656,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="2">
+   <item row="5" column="7">
     <property name="text">
      <string>🥱</string>
     </property>
@@ -660,7 +664,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="3">
+   <item row="5" column="8">
     <property name="text">
      <string>😤</string>
     </property>
@@ -668,7 +672,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="4">
+   <item row="6" column="0">
     <property name="text">
      <string>😮</string>
     </property>
@@ -676,7 +680,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="5">
+   <item row="6" column="1">
     <property name="text">
      <string>😱</string>
     </property>
@@ -684,7 +688,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="6">
+   <item row="6" column="2">
     <property name="text">
      <string>😨</string>
     </property>
@@ -692,7 +696,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="7">
+   <item row="6" column="3">
     <property name="text">
      <string>😰</string>
     </property>
@@ -700,7 +704,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="8">
+   <item row="6" column="4">
     <property name="text">
      <string>😥</string>
     </property>
@@ -708,7 +712,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="5" column="9">
+   <item row="6" column="5">
     <property name="text">
      <string>🤤</string>
     </property>
@@ -716,7 +720,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="0">
+   <item row="6" column="6">
     <property name="text">
      <string>😓</string>
     </property>
@@ -724,7 +728,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="1">
+   <item row="6" column="7">
     <property name="text">
      <string>😭</string>
     </property>
@@ -732,7 +736,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="2">
+   <item row="6" column="8">
     <property name="text">
      <string>🤩</string>
     </property>
@@ -740,7 +744,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="3">
+   <item row="7" column="0">
     <property name="text">
      <string>😵</string>
     </property>
@@ -748,7 +752,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="4">
+   <item row="7" column="1">
     <property name="text">
      <string>🥴</string>
     </property>
@@ -756,7 +760,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="5">
+   <item row="7" column="2">
     <property name="text">
      <string>😲</string>
     </property>
@@ -764,7 +768,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="6">
+   <item row="7" column="3">
     <property name="text">
      <string>🤐</string>
     </property>
@@ -772,7 +776,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="7">
+   <item row="7" column="4">
     <property name="text">
      <string>😷</string>
     </property>
@@ -780,7 +784,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="8">
+   <item row="7" column="5">
     <property name="text">
      <string>🤕</string>
     </property>
@@ -788,7 +792,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="6" column="9">
+   <item row="7" column="6">
     <property name="text">
      <string>🤒</string>
     </property>
@@ -796,7 +800,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="0">
+   <item row="7" column="7">
     <property name="text">
      <string>🤮</string>
     </property>
@@ -804,7 +808,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="1">
+   <item row="7" column="8">
     <property name="text">
      <string>🤢</string>
     </property>
@@ -812,7 +816,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="2">
+   <item row="8" column="0">
     <property name="text">
      <string>🤧</string>
     </property>
@@ -820,7 +824,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="3">
+   <item row="8" column="1">
     <property name="text">
      <string>🥵</string>
     </property>
@@ -828,7 +832,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="4">
+   <item row="8" column="2">
     <property name="text">
      <string>🥶</string>
     </property>
@@ -836,7 +840,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="5">
+   <item row="8" column="3">
     <property name="text">
      <string>😴</string>
     </property>
@@ -844,7 +848,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="6">
+   <item row="8" column="4">
     <property name="text">
      <string>😈</string>
     </property>
@@ -852,7 +856,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="7">
+   <item row="8" column="5">
     <property name="text">
      <string>👿</string>
     </property>
@@ -860,7 +864,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="8">
+   <item row="8" column="6">
     <property name="text">
      <string>💩</string>
     </property>
@@ -868,7 +872,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="7" column="9">
+   <item row="8" column="7">
     <property name="text">
      <string>👻</string>
     </property>
@@ -876,7 +880,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="0">
+   <item row="8" column="8">
     <property name="text">
      <string>💀</string>
     </property>
@@ -884,7 +888,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="0">
     <property name="text">
      <string>🎃</string>
     </property>
@@ -892,7 +896,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="2">
+   <item row="9" column="1">
     <property name="text">
      <string>🤡</string>
     </property>
@@ -900,7 +904,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="3">
+   <item row="9" column="2">
     <property name="text">
      <string>👀</string>
     </property>
@@ -908,7 +912,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="4">
+   <item row="9" column="3">
     <property name="text">
      <string>🙏</string>
     </property>
@@ -916,7 +920,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="5">
+   <item row="9" column="4">
     <property name="text">
      <string>🤝</string>
     </property>
@@ -924,7 +928,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="6">
+   <item row="9" column="5">
     <property name="text">
      <string>👍</string>
     </property>
@@ -932,7 +936,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="7">
+   <item row="9" column="6">
     <property name="text">
      <string>👎</string>
     </property>
@@ -940,7 +944,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="8">
+   <item row="9" column="7">
     <property name="text">
      <string>👊</string>
     </property>
@@ -948,7 +952,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="8" column="9">
+   <item row="9" column="8">
     <property name="text">
      <string>✊</string>
     </property>
@@ -956,7 +960,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <property name="text">
      <string>🤟</string>
     </property>
@@ -964,7 +968,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <property name="text">
      <string>👌</string>
     </property>
@@ -972,7 +976,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="2">
+   <item row="10" column="2">
     <property name="text">
      <string>👈</string>
     </property>
@@ -980,7 +984,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="3">
+   <item row="10" column="3">
     <property name="text">
      <string>👉</string>
     </property>
@@ -988,7 +992,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="4">
+   <item row="10" column="4">
     <property name="text">
      <string>👆</string>
     </property>
@@ -996,7 +1000,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="5">
+   <item row="10" column="5">
     <property name="text">
      <string>👇</string>
     </property>
@@ -1004,7 +1008,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="6">
+   <item row="10" column="6">
     <property name="text">
      <string>✋</string>
     </property>
@@ -1012,7 +1016,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="7">
+   <item row="10" column="7">
     <property name="text">
      <string>🤙</string>
     </property>
@@ -1020,7 +1024,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="8">
+   <item row="10" column="8">
     <property name="text">
      <string>🖕</string>
     </property>
@@ -1028,7 +1032,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="9" column="9">
+   <item row="11" column="0">
     <property name="text">
      <string>👋</string>
     </property>
@@ -1036,7 +1040,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="1">
     <property name="text">
      <string>👏</string>
     </property>
@@ -1044,7 +1048,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="1">
+   <item row="11" column="2">
     <property name="text">
      <string>🧡</string>
     </property>
@@ -1052,7 +1056,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="2">
+   <item row="11" column="3">
     <property name="text">
      <string>💛</string>
     </property>
@@ -1060,7 +1064,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="3">
+   <item row="11" column="4">
     <property name="text">
      <string>💚</string>
     </property>
@@ -1068,7 +1072,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="4">
+   <item row="11" column="5">
     <property name="text">
      <string>💙</string>
     </property>
@@ -1076,7 +1080,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="5">
+   <item row="11" column="6">
     <property name="text">
      <string>🖤</string>
     </property>
@@ -1084,7 +1088,7 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="6">
+   <item row="11" column="7">
     <property name="text">
      <string>🤍</string>
     </property>
@@ -1092,25 +1096,9 @@ border-radius: 15px;</string>
      <set>AlignCenter</set>
     </property>
    </item>
-   <item row="10" column="7">
+   <item row="11" column="8">
     <property name="text">
      <string>💔</string>
-    </property>
-    <property name="textAlignment">
-     <set>AlignCenter</set>
-    </property>
-   </item>
-   <item row="10" column="8">
-    <property name="text">
-     <string>💕</string>
-    </property>
-    <property name="textAlignment">
-     <set>AlignCenter</set>
-    </property>
-   </item>
-   <item row="10" column="9">
-    <property name="text">
-     <string>💘</string>
     </property>
     <property name="textAlignment">
      <set>AlignCenter</set>
