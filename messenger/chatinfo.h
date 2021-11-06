@@ -24,7 +24,6 @@ public:
 signals:
     void closing();
     void leaveChat();
-    void chatNameUpdated(QString);
 
 private slots:
     void on_pushButton_AddMember_clicked();

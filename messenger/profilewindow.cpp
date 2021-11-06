@@ -2,8 +2,6 @@
 #include "ui_profilewindow.h"
 #include <QFileDialog>
 
-#include "jsonserializer.h"
-
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ProfileWindow)
@@ -17,72 +15,71 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     hideLoginFields();
     hidePasswordFields();
 
-//UserName widget animation block
+    //UserName widget animation block
 
-    QPropertyAnimation *HideEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
-    HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
-    HideEditAnimation->setDuration(1000);
+        QPropertyAnimation *HideEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
+        HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        HideEditAnimation->setDuration(1000);
 
-    QPropertyAnimation *ShowEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
-    HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
-    HideEditAnimation->setDuration(1000);
+        QPropertyAnimation *ShowEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
+        HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        HideEditAnimation->setDuration(1000);
 
-    QState *UserNameHidedState= new QState();
-    UserNameHidedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",0);
-    QState *UserNameShowedState= new QState();
-    UserNameShowedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",84);
+        QState *UserNameHidedState= new QState();
+        UserNameHidedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",0);
+        QState *UserNameShowedState= new QState();
+        UserNameShowedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",84);
 
-    QEventTransition *ShowUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
-    ShowUserNameTransition->setTargetState(UserNameShowedState);
-    ShowUserNameTransition->addAnimation(ShowEditAnimation);
-    UserNameHidedState->addTransition(ShowUserNameTransition);
+        QEventTransition *ShowUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
+        ShowUserNameTransition->setTargetState(UserNameShowedState);
+        ShowUserNameTransition->addAnimation(ShowEditAnimation);
+        UserNameHidedState->addTransition(ShowUserNameTransition);
 
-    QEventTransition *HideUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
-    HideUserNameTransition->setTargetState(UserNameHidedState);
-    HideUserNameTransition->addAnimation(HideEditAnimation);
-    UserNameShowedState->addTransition(HideUserNameTransition);
+        QEventTransition *HideUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
+        HideUserNameTransition->setTargetState(UserNameHidedState);
+        HideUserNameTransition->addAnimation(HideEditAnimation);
+        UserNameShowedState->addTransition(HideUserNameTransition);
 
-    QStateMachine *UserNameMachine = new QStateMachine(this);
-    UserNameMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
-    UserNameMachine->addState(UserNameHidedState);
-    UserNameMachine->addState(UserNameShowedState);
-    UserNameMachine->setInitialState(UserNameHidedState);
-    UserNameMachine->start();
+        QStateMachine *UserNameMachine = new QStateMachine(this);
+        UserNameMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
+        UserNameMachine->addState(UserNameHidedState);
+        UserNameMachine->addState(UserNameShowedState);
+        UserNameMachine->setInitialState(UserNameHidedState);
+        UserNameMachine->start();
 
-//Password widget animation block
+    //Password widget animation block
 
-    QPropertyAnimation *ShowPasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
-    ShowPasswordEditAnimation->setDuration(1000);
-    ShowPasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        QPropertyAnimation *ShowPasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
+        ShowPasswordEditAnimation->setDuration(1000);
+        ShowPasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
 
-    QPropertyAnimation *HidePasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
-    HidePasswordEditAnimation->setDuration(1000);
-    HidePasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        QPropertyAnimation *HidePasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
+        HidePasswordEditAnimation->setDuration(1000);
+        HidePasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
 
-    QState *PasswordHidedState = new QState();
-    PasswordHidedState->assignProperty(ui->Widget_Password,"maximumHeight",0);
+        QState *PasswordHidedState = new QState();
+        PasswordHidedState->assignProperty(ui->Widget_Password,"maximumHeight",0);
 
-    QState *PasswordShowedState = new QState();
-    PasswordShowedState->assignProperty(ui->Widget_Password,"maximumHeight",179);
+        QState *PasswordShowedState = new QState();
+        PasswordShowedState->assignProperty(ui->Widget_Password,"maximumHeight",179);
 
 
-    QEventTransition *ShowPasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
-    ShowPasswordTransition->setTargetState(PasswordShowedState);
-    ShowPasswordTransition->addAnimation(ShowPasswordEditAnimation);
-    PasswordHidedState->addTransition(ShowPasswordTransition);
+        QEventTransition *ShowPasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
+        ShowPasswordTransition->setTargetState(PasswordShowedState);
+        ShowPasswordTransition->addAnimation(ShowPasswordEditAnimation);
+        PasswordHidedState->addTransition(ShowPasswordTransition);
 
-    QEventTransition *HidePasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
-    HidePasswordTransition->setTargetState(PasswordHidedState);
-    HidePasswordTransition->addAnimation(HidePasswordEditAnimation);
-    PasswordShowedState->addTransition(HidePasswordTransition);
+        QEventTransition *HidePasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
+        HidePasswordTransition->setTargetState(PasswordHidedState);
+        HidePasswordTransition->addAnimation(HidePasswordEditAnimation);
+        PasswordShowedState->addTransition(HidePasswordTransition);
 
-    QStateMachine *PasswordMachine = new QStateMachine(this);
-    PasswordMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
-    PasswordMachine->addState(PasswordHidedState);
-    PasswordMachine->addState(PasswordShowedState);
-    PasswordMachine->setInitialState(PasswordHidedState);
-    PasswordMachine->start();
-
+        QStateMachine *PasswordMachine = new QStateMachine(this);
+        PasswordMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
+        PasswordMachine->addState(PasswordHidedState);
+        PasswordMachine->addState(PasswordShowedState);
+        PasswordMachine->setInitialState(PasswordHidedState);
+        PasswordMachine->start();
 }
 
 ProfileWindow::~ProfileWindow()
@@ -103,6 +100,7 @@ void ProfileWindow::hideInfoFields()
 {
     ui->label_LoginInfo->hide();
     ui->label_ConfPassInfo->hide();
+    ui->label_PassInfo->hide();
 }
 
 void ProfileWindow::hideLoginFields()
@@ -218,9 +216,9 @@ bool ProfileWindow::checkOldNewPasswordsEqual(const QString& pass, const QString
 {
     if(pass == newPass)
     {
-       setErrorLabelColor(ui->label_ConfPassInfo);
-       ui->label_ConfPassInfo->show();
-       ui->label_ConfPassInfo->setText("Your new password is the same as your previous.");
+       setErrorLabelColor(ui->label_PassInfo);
+       ui->label_PassInfo->show();
+       ui->label_PassInfo->setText("Your new password is the same as your previous.");
        return false;
     }
     return true;
@@ -252,6 +250,7 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             ui->label_Username->setText(user->getLogin());
             ui->lineEdit_Username->clear();
             ui->lineEdit_Username->setPlaceholderText(user->getLogin());
+            emit loginUpdated();
             QMessageBox::information(nullptr, "Profile", "Login was updated!");
             Cache::DeleteCacheFile();
             Cache::CreateIfNotExists(CurrentUser::getInstance()->getLogin());

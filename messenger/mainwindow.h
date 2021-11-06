@@ -16,23 +16,20 @@ class MainWindow : public QMainWindow, public RequestManager::RequestResultInter
 public:
     MainWindow(QMainWindow* parent = nullptr);
     ~MainWindow();
-    void showMessage(QString from, QString message, QString date, QString time);
     virtual void onRequestFinished(QNetworkReply *reply, RequestType type) override;
-    void showChats();
-    CurrentChat getCurrentChat();
+
 private:
-    QScrollBar *ScrollBar;
-    CurrentChat currentChat;
     bool CheckMessage();
-    bool notFirstLoad;
+    void showMessage(QString from, QString message, QString date, QString time);
+    void showChats();
+    void showSearchingMessage(int count, QString searchingMessage);
+
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
-    void finished();
-public slots:
-    void CheckNewMessages();
+    void finished(); 
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -46,17 +43,18 @@ private slots:
     void on_actionSign_out_triggered();
     void on_ChatInfo_clicked();
     void on_SearchChat_textEdited(const QString &arg1);
-    void addNewChat();
     void leaveChat();
-    void updateChatName(QString newName);
+    void updateLogin();
     void SetScrollBotButtonVisible();
     void on_ScrollBot_clicked();
     void closeEvent(QCloseEvent * e) override;
+    void UpdateData();
 
 private:
     Ui::MainWindow *ui;
-
-
+    QScrollBar *ScrollBar;
+    CurrentChat currentChat;
+    std::vector<QListWidgetItem> conversation;
 };
 #endif // MAINWINDOW_H
 

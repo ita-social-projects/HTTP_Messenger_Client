@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QDialog>
 #include "mainwindow.h"
-#include "messagesupdater.h"
+#include "threadworker.h"
 class WindowManager : public QObject
 {
     Q_OBJECT

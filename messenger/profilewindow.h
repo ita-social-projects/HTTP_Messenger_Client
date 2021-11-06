@@ -11,10 +11,9 @@
 #include "requestmanager.h"
 #include "jsondeserializer.h"
 #include "cache.h"
-#include "QtStateMachine/QEventTransition"
-#include "QtStateMachine/QtStateMachine"
 #include "QPropertyAnimation"
-#include "QSequentialAnimationGroup"
+#include "QtStateMachine/QEventTransition"
+#include "QtStateMachine/QStateMachine"
 
 namespace Ui {
 class ProfileWindow;
@@ -47,6 +46,7 @@ private:
 signals:
     void closing();
     void accountDeleted();
+    void loginUpdated();
 
 private slots:
     void on_pushButton_ChangeUsername_clicked();
