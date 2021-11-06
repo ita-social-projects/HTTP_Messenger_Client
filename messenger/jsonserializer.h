@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#include <QPixmap>
 class JsonSerializer
 {
 public:
@@ -23,6 +24,7 @@ public:
     QJsonDocument packToSendMessage(const QString& token, const QString& message,const int chatId);
     QJsonDocument packUserToChat(const QString& token, const int chatId, const QString& login);
     QJsonDocument packChatInfo(const QString& token, const QString& chatTitle);
+    QJsonDocument packPhoto(const QPixmap& img);
 };
 
 #endif // JSONSERIALIZER_H

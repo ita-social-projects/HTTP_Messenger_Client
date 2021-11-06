@@ -468,6 +468,26 @@ font: 10pt MS Shell Dlg 2;
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="ScrollBot">
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+border-radius: 15px;
+background-color: white;
+}
+QPushButton:hover {
+     background-color:rgb(200, 192, 207);
+ }</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/icons/icons/arrow-down.ico</normaloff>:/icons/icons/arrow-down.ico</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="Line" name="line_3">
              <property name="styleSheet">
               <string notr="true">color: rgb(161, 156, 169);</string>
@@ -481,7 +501,7 @@ font: 10pt MS Shell Dlg 2;
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0">
              <property name="spacing">
               <number>5</number>
              </property>
@@ -521,16 +541,6 @@ border-color: rgb(174, 143, 177);</string>
                </property>
                <property name="clearButtonEnabled">
                 <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="ScrollBot">
-               <property name="styleSheet">
-                <string notr="true">background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.5 rgba(0, 33, 255, 255), stop:0.509615 rgba(225, 255, 0, 255))</string>
-               </property>
-               <property name="text">
-                <string>ScrollBottom</string>
                </property>
               </widget>
              </item>

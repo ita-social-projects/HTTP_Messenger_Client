@@ -13,6 +13,7 @@
 #define DATE 0
 #define TIME 1
 
+#define IMAGE "photo"
 #define USERS "users"
 #define MESSAGES "messages"
 #define SENDER "sender"
@@ -21,6 +22,7 @@
 #define ERROR_MESSAGE "what"
 
 bool checkAllMessageFields(const QJsonObject& obj);
+QPixmap pixmapFrom(const QJsonValue &val);
 
 QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyInfo)
 {
@@ -124,6 +126,37 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
         }
     }
     return messages;
+}
+
+std::tuple<QPixmap, QVector<QString>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
+{
+    auto logins = extractUsersLogin(replyInfo);
+    auto chatImg = extractPhoto(replyInfo);
+
+    std::tuple res{chatImg,logins};
+    return res;
+}
+
+QPixmap JsonDeserializer::extractPhoto(const QJsonDocument& replyInfo)
+{
+    LOG_DEBUG("Extracting messages");
+    QJsonObject obj = replyInfo.object();
+    QJsonValue val;
+
+    if(obj.contains(IMAGE))
+    {
+        val = obj.value(IMAGE);
+    }
+
+    return pixmapFrom(val);
+}
+
+QPixmap pixmapFrom(const QJsonValue &val)
+{
+  auto const encoded = val.toString().toLatin1();
+  QPixmap p;
+  p.loadFromData(QByteArray::fromBase64(encoded), "PNG");
+  return p;
 }
 
 bool checkAllMessageFields(const QJsonObject& obj)

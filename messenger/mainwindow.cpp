@@ -118,8 +118,11 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         if(type==RequestType::GET_CHATS)
         {
             std::map<unsigned long, QString> chats = extractor.extractChats(document);
-            CurrentUser::getInstance()->setChats(chats);
-            showChats();
+            if(CurrentUser::getInstance()->getChats() != chats)
+            {
+                CurrentUser::getInstance()->setChats(chats);
+                showChats();
+            }
         }
         else if(type==RequestType::GET_MESSAGES)
         {
@@ -289,6 +292,7 @@ void MainWindow::CheckNewMessages()
                                                currentChat.getId(),
                                                currentChat.getLastMessage().getId(),
                                                this);
+    RequestManager::GetInstance()->getChats(CurrentUser::getInstance()->getToken(), this);
 }
 
 CurrentChat MainWindow::getCurrentChat()
