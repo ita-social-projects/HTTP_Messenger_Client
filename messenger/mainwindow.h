@@ -29,6 +29,7 @@ signals:
     void openProfileWindow();
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
+    void openEmojiList();
     void finished(); 
 
 private slots:
@@ -49,6 +50,8 @@ private slots:
     void on_ScrollBot_clicked();
     void closeEvent(QCloseEvent * e) override;
     void UpdateData();
+    void on_emojiButton_clicked();
+    void printEmoji(QString emoji);
 
 private:
     Ui::MainWindow *ui;

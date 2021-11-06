@@ -47,7 +47,6 @@ private slots:
     void on_pushButton_SaveLogin_clicked();
     void on_pushButton_SavePassword_clicked();
     void closeEvent(QCloseEvent * e) override;
-
     void on_pushButton_DeleteProfile_clicked();
 
 private:

@@ -481,7 +481,7 @@ font: 10pt MS Shell Dlg 2;
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0,0">
+            <layout class="QHBoxLayout" name="horizontalLayout_Message" stretch="0,0,0,0">
              <property name="spacing">
               <number>5</number>
              </property>
@@ -531,6 +531,38 @@ border-color: rgb(174, 143, 177);</string>
                </property>
                <property name="text">
                 <string>ScrollBottom</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="emojiButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton{
+border-radius: 15px;
+background-color: white;
+}
+QPushButton:hover {
+     background-color:rgb(200, 192, 207);
+ }</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/icons/icons/emoji.ico</normaloff>:/icons/icons/emoji.ico</iconset>
                </property>
               </widget>
              </item>
