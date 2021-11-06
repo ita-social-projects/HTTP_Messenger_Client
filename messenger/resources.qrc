@@ -15,4 +15,7 @@
         <file>icons/edit.ico</file>
         <file>icons/arrow-down.ico</file>
     </qresource>
+    <qresource prefix="/">
+        <file>icons/arrow-down.ico</file>
+    </qresource>
 </RCC>
