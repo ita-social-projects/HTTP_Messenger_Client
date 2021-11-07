@@ -49,6 +49,7 @@ private slots:
     void on_ScrollBot_clicked();
     void closeEvent(QCloseEvent * e) override;
     void UpdateData();
+    void update_ProfileImage();
 
 private:
     Ui::MainWindow *ui;

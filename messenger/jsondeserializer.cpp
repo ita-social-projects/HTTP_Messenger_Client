@@ -24,10 +24,10 @@
 bool checkAllMessageFields(const QJsonObject& obj);
 QPixmap pixmapFrom(const QJsonValue &val);
 
-QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyInfo)
+QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting vector");
-    QVector<QString> vect;
+    QVector<std::pair<QPixmap,QString>> vect;
     QJsonObject jsonObject = replyInfo.object();
 
     if(replyInfo.toJson().contains(USERS))
@@ -36,9 +36,15 @@ QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyI
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            if(obj.contains(LOGIN))
+            if(obj.contains(LOGIN) )
             {
-                vect.append(obj[LOGIN].toString());
+                QPixmap p = extractPhoto(replyInfo);
+                if(p.isNull())
+                {
+                    p.load(":/icons/icons/profile.svg");
+                }
+                std::pair<QPixmap,QString> pair(p,obj[LOGIN].toString());
+                vect.append(pair);
             }
         }
     }
@@ -102,6 +108,12 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
     {
         user->setLogin(replyInfo.object().value(LOGIN).toString());
     }
+
+    if(replyInfo.toJson().contains(IMAGE))
+    {
+        user->setImage(extractPhoto(replyInfo));
+    }
+
     return user;
 }
 
@@ -128,9 +140,9 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
     return messages;
 }
 
-std::tuple<QPixmap, QVector<QString>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
+std::tuple<QPixmap, QVector<std::pair<QPixmap,QString>>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
 {
-    auto logins = extractUsersLogin(replyInfo);
+    auto logins = extractUsersInfo(replyInfo);
     auto chatImg = extractPhoto(replyInfo);
 
     std::tuple res{chatImg,logins};

@@ -67,6 +67,7 @@ void WindowManager::open_ProfileWindow()
     minorWindow.reset(new ProfileWindow());
     minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    connect(minorWindow.get(),SIGNAL(imageUpdated()),currentWindow.get(),SLOT(update_ProfileImage()));
     connect(minorWindow.get(), SIGNAL(accountDeleted()), this, SLOT(open_LoginWindow()));
     connect(minorWindow.get(), SIGNAL(loginUpdated()), currentWindow.get(), SLOT(updateLogin()));
     minorWindow->setModal(true);
@@ -109,3 +110,5 @@ void WindowManager::close_Window()
         LOG_ERROR("Current window pointer is empty");
     }
 }
+
+

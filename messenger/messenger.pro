@@ -22,6 +22,7 @@ SOURCES += \
     cache.cpp \
     currentchat.cpp \
     currentuser.cpp \
+    imagemanager.cpp \
     jsondeserializer.cpp \
     jsonserializer.cpp \
     loginwindow.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     cache.h \
     currentchat.h \
     currentuser.h \
+    imagemanager.h \
     jsondeserializer.h \
     jsonserializer.h \
     loginwindow.h \

@@ -3,6 +3,11 @@
 CurrentUser* CurrentUser::instance{nullptr};
 std::mutex CurrentUser::mtx;
 
+CurrentUser::CurrentUser()
+{
+    profileImg.load(":/icons/icons/profile.svg");
+}
+
 CurrentUser* CurrentUser::getInstance()
 {
     std::lock_guard<std::mutex> lock(mtx);
@@ -28,6 +33,11 @@ void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
     this->chats = chats;
 }
 
+void CurrentUser::setImage(const QPixmap& image)
+{
+    this->profileImg = image;
+}
+
 void CurrentUser::clearChats()
 {
     chats.clear();
@@ -46,4 +56,9 @@ const QString& CurrentUser::getLogin()
 const QString& CurrentUser::getToken()
 {
     return accessToken;
+}
+
+const QPixmap& CurrentUser::getImage()
+{
+    return profileImg;
 }

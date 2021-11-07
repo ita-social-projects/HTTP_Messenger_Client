@@ -317,3 +317,8 @@ void MainWindow::updateLogin()
 {
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
 }
+
+void MainWindow::update_ProfileImage()
+{
+    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
+}
