@@ -267,7 +267,6 @@ void MainWindow::on_ChatInfo_clicked()
 
 void MainWindow::leaveChat()
 {
-    //RequestManager::GetInstance()->leaveChat(user->getToken(), currentChat.getId(), user->getLogin(), this);
     conversation.clear();
     currentChat.closeChat();
     ui->ChatInfo->setText("");
