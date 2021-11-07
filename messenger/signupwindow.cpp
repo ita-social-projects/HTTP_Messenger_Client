@@ -45,6 +45,11 @@ void SignupWindow::on_SignUp_clicked()
     clearInfoFields();
     if(checkInput())
     {
+        QUrl url = ui->EnterURL->text();
+        if(url.isValid())
+        {
+            RequestManager::GetInstance()->setServerURL(url);
+        }
         QString password = ui->Password->text();
         QString login = ui->Login->text();
         RequestManager::GetInstance()->signUp(login,password,this);

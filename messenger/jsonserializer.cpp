@@ -14,6 +14,9 @@
 #define MESSAGE "message"
 #define TOKEN "token"
 
+#define IMAGE "photo"
+QJsonValue jsonValFromPixmap(const QPixmap &p);
+
 JsonSerializer::JsonSerializer()
 {
 
@@ -153,4 +156,24 @@ QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& 
 
     QJsonDocument doc(jsonObject);
     return doc;
+}
+
+QJsonDocument JsonSerializer::packPhoto(const QPixmap& img)
+{
+    LOG_DEBUG("Packing photo into json");
+    QJsonObject jsonObject;
+
+    jsonObject[IMAGE] = jsonValFromPixmap(img);
+
+    QJsonDocument doc(jsonObject);
+    return doc;
+}
+
+QJsonValue jsonValFromPixmap(const QPixmap &p)
+{
+  QBuffer buffer;
+  buffer.open(QIODevice::WriteOnly);
+  p.save(&buffer, "PNG");
+  auto const encoded = buffer.data().toBase64();
+  return {QLatin1String(encoded)};
 }

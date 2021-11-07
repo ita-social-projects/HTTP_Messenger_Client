@@ -23,6 +23,9 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->EnterMessage->setHidden(true);
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
+    ui->emojiButton->setHidden(true);
+    ui->EnterMessage->setMaxLength(255);
+    maxMessageLength = 0;
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +35,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
 {
+    maxMessageLength = ui->Messages->width() / 6.5 / 2 - 3;
     conversation.clear();
     int index = ui->ChatList->currentRow();
     auto iterator = CurrentUser::getInstance()->getChats().begin();
@@ -46,6 +50,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     ui->EnterMessage->clear();
     ui->EnterMessage->setHidden(false);
     ui->SendButton->setHidden(false);
+    ui->emojiButton->setHidden(false);
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -108,6 +113,10 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         QString resReply = extractor.extractErrorMsg(document);
         LOG_ERROR(resReply.toStdString());
+        if(type==RequestType::GET_CHATS || type==RequestType::GET_MESSAGES)
+        {
+            emit finished();
+        }
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
@@ -213,7 +222,7 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
         showSystemMessage(date);
     }
     QListWidgetItem itemFrom(from);
-    QListWidgetItem itemMessage(message);
+    QListWidgetItem itemMessage(setMessageProperties(message));
     QListWidgetItem itemTime(time);
     itemTime.setForeground(Qt::gray);
     if(from == "Me:")
@@ -245,6 +254,29 @@ void MainWindow::showSystemMessage(QString message)
     ui->Messages->addItem(&conversation.back());
 }
 
+QString MainWindow::setMessageProperties(QString message)
+{
+    auto words = message.split(' ');
+    QString resultString = "";
+    int currentLength = 0;
+    for(auto &word : words)
+    {
+        if(currentLength + word.length() > maxMessageLength)
+        {
+           resultString += '\n';
+           currentLength = 0;
+        }
+        else
+        {
+            resultString += ' ';
+            currentLength += 1;
+        }
+        resultString += word;
+        currentLength += word.length();
+    }
+    return resultString;
+}
+
 void MainWindow::on_actionSign_out_triggered()
 {
     RequestManager::GetInstance()->logOut(CurrentUser::getInstance()->getToken(), this);
@@ -274,6 +306,7 @@ void MainWindow::leaveChat()
     ui->EnterMessage->setHidden(true);
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
+    ui->emojiButton->setHidden(true);
 }
 
 void MainWindow::showChats()
@@ -322,4 +355,19 @@ void MainWindow::closeEvent(QCloseEvent * e)
 void MainWindow::updateLogin()
 {
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
+}
+
+void MainWindow::on_emojiButton_clicked()
+{
+    emit openEmojiList();
+}
+
+void MainWindow::printEmoji(QString emoji)
+{
+    ui->EnterMessage->insert(emoji);
+}
+
+void MainWindow::update_ProfileImage()
+{
+    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
 }

@@ -13,6 +13,7 @@
 #define DATE 0
 #define TIME 1
 
+#define IMAGE "photo"
 #define USERS "users"
 #define MESSAGES "messages"
 #define SENDER "sender"
@@ -21,11 +22,12 @@
 #define ERROR_MESSAGE "what"
 
 bool checkAllMessageFields(const QJsonObject& obj);
+QPixmap pixmapFrom(const QJsonValue &val);
 
-QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyInfo)
+QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting vector");
-    QVector<QString> vect;
+    QVector<std::pair<QPixmap,QString>> vect;
     QJsonObject jsonObject = replyInfo.object();
 
     if(replyInfo.toJson().contains(USERS))
@@ -34,9 +36,15 @@ QVector<QString> JsonDeserializer::extractUsersLogin(const QJsonDocument &replyI
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            if(obj.contains(LOGIN))
+            if(obj.contains(LOGIN) )
             {
-                vect.append(obj[LOGIN].toString());
+                QPixmap p = extractPhoto(replyInfo);
+                if(p.isNull())
+                {
+                    p.load(":/icons/icons/profile.svg");
+                }
+                std::pair<QPixmap,QString> pair(p,obj[LOGIN].toString());
+                vect.append(pair);
             }
         }
     }
@@ -100,6 +108,12 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
     {
         user->setLogin(replyInfo.object().value(LOGIN).toString());
     }
+
+    if(replyInfo.toJson().contains(IMAGE))
+    {
+        user->setImage(extractPhoto(replyInfo));
+    }
+
     return user;
 }
 
@@ -141,6 +155,37 @@ Message JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
         msg.setTime(list.at(TIME));
     }
     return msg;
+}
+
+std::tuple<QPixmap, QVector<std::pair<QPixmap,QString>>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
+{
+    auto logins = extractUsersInfo(replyInfo);
+    auto chatImg = extractPhoto(replyInfo);
+
+    std::tuple res{chatImg,logins};
+    return res;
+}
+
+QPixmap JsonDeserializer::extractPhoto(const QJsonDocument& replyInfo)
+{
+    LOG_DEBUG("Extracting messages");
+    QJsonObject obj = replyInfo.object();
+    QJsonValue val;
+
+    if(obj.contains(IMAGE))
+    {
+        val = obj.value(IMAGE);
+    }
+
+    return pixmapFrom(val);
+}
+
+QPixmap pixmapFrom(const QJsonValue &val)
+{
+  auto const encoded = val.toString().toLatin1();
+  QPixmap p;
+  p.loadFromData(QByteArray::fromBase64(encoded), "PNG");
+  return p;
 }
 
 bool checkAllMessageFields(const QJsonObject& obj)

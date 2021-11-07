@@ -1,5 +1,6 @@
 #include "chatinfo.h"
 #include "ui_chatinfo.h"
+#include "imagemanager.h"
 
 ChatInfo::ChatInfo(CurrentChat chat) :
     QDialog(nullptr),
@@ -15,6 +16,9 @@ ChatInfo::ChatInfo(CurrentChat chat) :
     ui->lineEdit_SearchUser->setValidator(validator);
     ui->verticalWidget_FindUsers->hide();
 
+    QPixmap p;
+    p.load(":/icons/icons/photo.ico");
+    ui->pushButton_ChatImg->setIcon(p);
     ui->lineEdit_ChatName->setText(currentChat.getName());
     ui->lineEdit_ChatName->setReadOnly(true);
     ui->lineEdit_ChatName->blockSignals(true);
@@ -90,11 +94,26 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
     }
     else
     {
-        if(type == RequestType::SEARCH_USER)
+        if(type == RequestType::SEARCH_USER || type == RequestType::GET_CHAT_PARTICIPANTS)
         {
-            QVector<QString> users = extractor.extractUsersLogin(document);
+            QVector<std::pair<QPixmap,QString>> users = extractor.extractUsersInfo(document);
             ui->listWidget_Users->clear();
-            ui->listWidget_Users->addItems(users);
+            QVector<QListWidgetItem> items;
+            for(int i = 0; i < users.size(); ++i)
+            {
+                QIcon icon = users.at(i).first;
+                QListWidgetItem *item = new QListWidgetItem(users.at(i).second);
+                item->setIcon(icon);
+                items.append(*item);
+                if(type == RequestType::GET_CHAT_PARTICIPANTS)
+                {
+                    ui->listWidget_Members->addItem(item);
+                }
+                else
+                {
+                    ui->listWidget_Users->addItem(item);
+                }
+            }
         }
         else if(type == RequestType::ADD_USER_TO_CHAT)
         {
@@ -107,11 +126,6 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
                             CurrentUser::getInstance()->getLogin() + " left chat ", this);
-        }
-        else if(type == RequestType::GET_CHAT_PARTICIPANTS)
-        {
-            QVector<QString> users = extractor.extractUsersLogin(document);
-            ui->listWidget_Members->addItems(users);
         }
         else if(type == RequestType::SEND_MESSAGE)
         {
@@ -157,3 +171,17 @@ void ChatInfo::on_lineEdit_ChatName_editingFinished()
 {
     RequestManager::GetInstance()->updateChatName(CurrentUser::getInstance()->getToken(), currentChat.getId(), ui->lineEdit_ChatName->text(), this);
 }
+
+void ChatInfo::on_pushButton_ChatImg_clicked()
+{
+    ImageManager manager;
+    QPixmap resImg = manager.uploadRoundedImage(this);
+    if(resImg.isNull())
+    {
+        return;
+    }
+
+    ui->pushButton_ChatImg->setIcon(resImg);
+    ui->pushButton_ChatImg->setStyleSheet("background-color: rgb(230, 221, 238);");
+}
+

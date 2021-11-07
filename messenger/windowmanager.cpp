@@ -6,6 +6,7 @@
 #include "cache.h"
 #include "createchat.h"
 #include "chatinfo.h"
+#include "emoji.h"
 
 WindowManager::WindowManager(QObject *parent) : QObject(parent), currentWindow(nullptr), minorWindow(nullptr)
 {
@@ -57,6 +58,7 @@ void WindowManager::open_MainWindow()
     connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
     connect(currentWindow.get(), SIGNAL(openCreateChatWindow()), this, SLOT(open_CreateChatWindow()));
     connect(currentWindow.get(), SIGNAL(openChatInfo(CurrentChat)), this, SLOT(open_ChatInfoWindow(CurrentChat)));
+    connect(currentWindow.get(), SIGNAL(openEmojiList()), this, SLOT(open_EmojiList()));
     currentWindow->show();
     ThreadWorker mU(*mW);
     mU.StartThread();
@@ -67,6 +69,7 @@ void WindowManager::open_ProfileWindow()
     minorWindow.reset(new ProfileWindow());
     minorWindow->setWindowIcon(this->icon);
     connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    connect(minorWindow.get(),SIGNAL(imageUpdated()),currentWindow.get(),SLOT(update_ProfileImage()));
     connect(minorWindow.get(), SIGNAL(accountDeleted()), this, SLOT(open_LoginWindow()));
     connect(minorWindow.get(), SIGNAL(loginUpdated()), currentWindow.get(), SLOT(updateLogin()));
     minorWindow->setModal(true);
@@ -92,6 +95,15 @@ void WindowManager::open_CreateChatWindow()
     minorWindow->show();
 }
 
+void WindowManager::open_EmojiList()
+{
+    minorWindow.reset(new Emoji());
+    minorWindow->setWindowIcon(this->icon);
+    connect(minorWindow.get(), SIGNAL(closing()), this, SLOT(close_MinorWindow()));
+    connect(minorWindow.get(), SIGNAL(emojiSelected(QString)), currentWindow.get(), SLOT(printEmoji(QString)));
+    minorWindow->show();
+}
+
 void WindowManager::close_MinorWindow()
 {
     minorWindow.reset(nullptr);
@@ -109,3 +121,5 @@ void WindowManager::close_Window()
         LOG_ERROR("Current window pointer is empty");
     }
 }
+
+

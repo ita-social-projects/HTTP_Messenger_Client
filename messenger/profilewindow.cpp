@@ -1,5 +1,6 @@
 #include "profilewindow.h"
 #include "ui_profilewindow.h"
+#include "imagemanager.h"
 
 ProfileWindow::ProfileWindow(QWidget *parent) :
     QDialog(parent),
@@ -8,11 +9,79 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Profile");
     ui->label_Username->setText(CurrentUser::getInstance()->getLogin());
+    ui->pushButton_UserImg->setIcon(CurrentUser::getInstance()->getImage());
+    ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
 
     setPlaceholderTextToLabels();
     hideInfoFields();
     hideLoginFields();
     hidePasswordFields();
+
+    //UserName widget animation block
+
+        QPropertyAnimation *HideEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
+        HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        HideEditAnimation->setDuration(1000);
+
+        QPropertyAnimation *ShowEditAnimation = new QPropertyAnimation(ui->Widget_SaveLogin, "maximumHeight");
+        HideEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+        HideEditAnimation->setDuration(1000);
+
+        QState *UserNameHidedState= new QState();
+        UserNameHidedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",0);
+        QState *UserNameShowedState= new QState();
+        UserNameShowedState->assignProperty(ui->Widget_SaveLogin,"maximumHeight",84);
+
+        QEventTransition *ShowUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
+        ShowUserNameTransition->setTargetState(UserNameShowedState);
+        ShowUserNameTransition->addAnimation(ShowEditAnimation);
+        UserNameHidedState->addTransition(ShowUserNameTransition);
+
+        QEventTransition *HideUserNameTransition = new QEventTransition(ui->pushButton_ChangeUsername,QEvent::MouseButtonPress);
+        HideUserNameTransition->setTargetState(UserNameHidedState);
+        HideUserNameTransition->addAnimation(HideEditAnimation);
+        UserNameShowedState->addTransition(HideUserNameTransition);
+
+        QStateMachine *UserNameMachine = new QStateMachine(this);
+        UserNameMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
+        UserNameMachine->addState(UserNameHidedState);
+        UserNameMachine->addState(UserNameShowedState);
+        UserNameMachine->setInitialState(UserNameHidedState);
+        UserNameMachine->start();
+
+    //Password widget animation block
+
+        QPropertyAnimation *ShowPasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
+        ShowPasswordEditAnimation->setDuration(1000);
+        ShowPasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+
+        QPropertyAnimation *HidePasswordEditAnimation = new QPropertyAnimation(ui->Widget_Password, "maximumHeight");
+        HidePasswordEditAnimation->setDuration(1000);
+        HidePasswordEditAnimation->setEasingCurve(QEasingCurve::OutBounce);
+
+        QState *PasswordHidedState = new QState();
+        PasswordHidedState->assignProperty(ui->Widget_Password,"maximumHeight",0);
+
+        QState *PasswordShowedState = new QState();
+        PasswordShowedState->assignProperty(ui->Widget_Password,"maximumHeight",179);
+
+
+        QEventTransition *ShowPasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
+        ShowPasswordTransition->setTargetState(PasswordShowedState);
+        ShowPasswordTransition->addAnimation(ShowPasswordEditAnimation);
+        PasswordHidedState->addTransition(ShowPasswordTransition);
+
+        QEventTransition *HidePasswordTransition = new QEventTransition(ui->pushButton_ChangePassword,QEvent::MouseButtonPress);
+        HidePasswordTransition->setTargetState(PasswordHidedState);
+        HidePasswordTransition->addAnimation(HidePasswordEditAnimation);
+        PasswordShowedState->addTransition(HidePasswordTransition);
+
+        QStateMachine *PasswordMachine = new QStateMachine(this);
+        PasswordMachine->setGlobalRestorePolicy(QStateMachine::RestoreProperties);
+        PasswordMachine->addState(PasswordHidedState);
+        PasswordMachine->addState(PasswordShowedState);
+        PasswordMachine->setInitialState(PasswordHidedState);
+        PasswordMachine->start();
 }
 
 ProfileWindow::~ProfileWindow()
@@ -217,3 +286,17 @@ void ProfileWindow::on_pushButton_DeleteProfile_clicked()
     }
 }
 
+void ProfileWindow::on_pushButton_UserImg_clicked()
+{
+    ImageManager manager;
+    QPixmap p = manager.uploadRoundedImage(this);
+    if(p.isNull())
+    {
+        return;
+    }
+
+    ui->pushButton_UserImg->setIcon(p);
+    ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
+    CurrentUser::getInstance()->setImage(p);
+    emit imageUpdated();
+}
