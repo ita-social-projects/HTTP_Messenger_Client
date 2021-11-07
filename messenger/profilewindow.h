@@ -2,11 +2,18 @@
 #define PROFILEWINDOW_H
 
 #include <QDialog>
+#include <QLabel>
+#include <QApplication>
 #include <QMessageBox>
+#include <QtWidgets>
+
 #include "currentuser.h"
 #include "requestmanager.h"
 #include "jsondeserializer.h"
 #include "cache.h"
+#include "QPropertyAnimation"
+#include "QtStateMachine/QEventTransition"
+#include "QtStateMachine/QStateMachine"
 
 namespace Ui {
 class ProfileWindow;
@@ -35,11 +42,11 @@ private:
 
     void showPasswordFields();
     void showLoginFields();
-
 signals:
     void closing();
     void accountDeleted();
     void loginUpdated();
+    void imageUpdated();
 
 private slots:
     void on_pushButton_ChangeUsername_clicked();
@@ -48,9 +55,11 @@ private slots:
     void on_pushButton_SavePassword_clicked();
     void closeEvent(QCloseEvent * e) override;
     void on_pushButton_DeleteProfile_clicked();
+    void on_pushButton_UserImg_clicked();
 
 private:
     Ui::ProfileWindow *ui;
+    QIcon accountImage;
 };
 
-#endif // PROFILEWINDOW_H
+#endif// PROFILEWINDOW_H

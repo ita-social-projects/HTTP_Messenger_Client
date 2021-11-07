@@ -52,6 +52,7 @@ private slots:
     void UpdateData();
     void on_emojiButton_clicked();
     void printEmoji(QString emoji);
+    void update_ProfileImage();
 
 private:
     Ui::MainWindow *ui;

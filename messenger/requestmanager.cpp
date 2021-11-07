@@ -289,13 +289,13 @@ QNetworkRequest RequestManager::createRequest(QString header)
 
 RequestManager::Requester::Requester(RequestResultInterface * interface, RequestType type)
 {
-    this->interface = interface;
+    this->resInterface = interface;
     this->requestType = type;
 }
 
 RequestManager::RequestResultInterface * RequestManager::Requester::getInterface()
 {
-    return interface;
+    return resInterface;
 }
 
 RequestType RequestManager::Requester::getType()

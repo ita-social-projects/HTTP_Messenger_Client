@@ -14,22 +14,25 @@ public:
     void setChats(const QMap<int,QString> chats);
     void setToken(const QString& token);
     void setChats(const std::map<unsigned long, QString> chats);
+    void setImage(const QPixmap& image);
 
     void clearChats();
 
     const QString& getLogin();
     const QString& getToken();
     const std::map<unsigned long, QString>& getChats();
+    const QPixmap& getImage();
 
     static CurrentUser* getInstance();
 
 private:
-    CurrentUser(){};
+    CurrentUser();
     CurrentUser(const QString& userLogin, const QString& userToken)
         : login(userLogin), accessToken(userToken){}
 
     QString login;
     QString accessToken;
+    QPixmap profileImg;
     std::map<unsigned long, QString> chats;
 
     static CurrentUser* instance;

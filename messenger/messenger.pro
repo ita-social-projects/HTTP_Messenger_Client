@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui statemachine
 QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -23,6 +23,7 @@ SOURCES += \
     currentchat.cpp \
     currentuser.cpp \
     emoji.cpp \
+    imagemanager.cpp \
     jsondeserializer.cpp \
     jsonserializer.cpp \
     loginwindow.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     currentchat.h \
     currentuser.h \
     emoji.h \
+    imagemanager.h \
     jsondeserializer.h \
     jsonserializer.h \
     loginwindow.h \

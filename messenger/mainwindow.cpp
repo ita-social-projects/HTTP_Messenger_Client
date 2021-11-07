@@ -110,6 +110,10 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         QString resReply = extractor.extractErrorMsg(document);
         LOG_ERROR(resReply.toStdString());
+        if(type==RequestType::GET_CHATS || type==RequestType::GET_MESSAGES)
+        {
+            emit finished();
+        }
         QMessageBox::critical(nullptr, "ERROR", resReply);
     }
     else
@@ -327,4 +331,7 @@ void MainWindow::printEmoji(QString emoji)
     ui->EnterMessage->insert(emoji);
 }
 
-
+void MainWindow::update_ProfileImage()
+{
+    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
+}
