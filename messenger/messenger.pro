@@ -22,6 +22,7 @@ SOURCES += \
     cache.cpp \
     currentchat.cpp \
     currentuser.cpp \
+    emoji.cpp \
     imagemanager.cpp \
     jsondeserializer.cpp \
     jsonserializer.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     cache.h \
     currentchat.h \
     currentuser.h \
+    emoji.h \
     imagemanager.h \
     jsondeserializer.h \
     jsonserializer.h \
@@ -57,6 +59,7 @@ HEADERS += \
 FORMS += \
     chatinfo.ui \
     createchat.ui \
+    emoji.ui \
     loginwindow.ui \
     mainwindow.ui \
     profilewindow.ui \

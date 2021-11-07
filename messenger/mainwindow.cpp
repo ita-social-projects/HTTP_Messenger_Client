@@ -23,6 +23,7 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->EnterMessage->setHidden(true);
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
+    ui->emojiButton->setHidden(true);
     ui->EnterMessage->setMaxLength(255);
     maxMessageLength = 0;
 }
@@ -49,6 +50,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
     ui->EnterMessage->clear();
     ui->EnterMessage->setHidden(false);
     ui->SendButton->setHidden(false);
+    ui->emojiButton->setHidden(false);
 }
 
 void MainWindow::on_SendButton_clicked()
@@ -294,6 +296,7 @@ void MainWindow::leaveChat()
     ui->EnterMessage->setHidden(true);
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
+    ui->emojiButton->setHidden(true);
 }
 
 void MainWindow::showChats()
@@ -342,6 +345,16 @@ void MainWindow::closeEvent(QCloseEvent * e)
 void MainWindow::updateLogin()
 {
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
+}
+
+void MainWindow::on_emojiButton_clicked()
+{
+    emit openEmojiList();
+}
+
+void MainWindow::printEmoji(QString emoji)
+{
+    ui->EnterMessage->insert(emoji);
 }
 
 void MainWindow::update_ProfileImage()
