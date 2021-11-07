@@ -49,11 +49,11 @@ private:
 
     class Requester
     {
-        RequestResultInterface * interface;
+        RequestResultInterface * resInterface;
         RequestType requestType;
     public:
         Requester() = default;
-        Requester(RequestResultInterface * interface, RequestType type);
+        Requester(RequestResultInterface * resInterface, RequestType type);
         RequestResultInterface * getInterface();
         RequestType getType();
     };
