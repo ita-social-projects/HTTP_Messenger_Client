@@ -29,6 +29,7 @@ private slots:
 private:
     std::unique_ptr<QWidget> currentWindow;
     std::unique_ptr<QDialog> minorWindow;
+    std::unique_ptr<ThreadWorker> threadWorker;
     QIcon icon;
 };
 #endif // WINDOWMANAGER_H

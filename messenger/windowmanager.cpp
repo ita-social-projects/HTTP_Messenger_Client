@@ -60,8 +60,8 @@ void WindowManager::open_MainWindow()
     connect(currentWindow.get(), SIGNAL(openChatInfo(CurrentChat)), this, SLOT(open_ChatInfoWindow(CurrentChat)));
     connect(currentWindow.get(), SIGNAL(openEmojiList()), this, SLOT(open_EmojiList()));
     currentWindow->show();
-    ThreadWorker mU(*mW);
-    mU.StartThread();
+    threadWorker.reset(new ThreadWorker(mW));
+    threadWorker->StartThread();
 }
 
 void WindowManager::open_ProfileWindow()

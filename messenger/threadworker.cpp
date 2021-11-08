@@ -2,16 +2,22 @@
 #include "jsondeserializer.h"
 #include "Logger.h"
 
-ThreadWorker::ThreadWorker(MainWindow& mW)
+ThreadWorker::ThreadWorker(MainWindow* mW)
     :QObject(nullptr)
 {
-    mainWindow = &mW;
-    mt = new M_Thread(mainWindow, this);
+    mainWindow = mW;
+    updaterThread = new M_Thread(mainWindow, this);
 }
 
 void ThreadWorker::StartThread()
 {
-    mt->start();
+    updaterThread->start();
+}
+
+ThreadWorker::~ThreadWorker()
+{
+    updaterThread->exit(0);
+    delete updaterThread;
 }
 
 M_Thread::M_Thread(MainWindow* mW, ThreadWorker* mU)
