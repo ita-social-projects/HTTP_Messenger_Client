@@ -65,7 +65,7 @@ std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocumen
 
 std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
-    //LOG_DEBUG("Extracting chats");
+    LOG_DEBUG("Extracting chats");
     std::map<unsigned long,QString> map;
     QJsonObject jsonObject = replyInfo.object();
 
@@ -119,7 +119,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
 QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInfo)
 {
-    //LOG_DEBUG("Extracting messages");
+    LOG_DEBUG("Extracting messages");
     QVector<Message> messages;
     QJsonObject jsonObject = replyInfo.object();
     if(!jsonObject.empty() && jsonObject.contains(MESSAGES))

@@ -130,7 +130,6 @@ void RequestManager::deleteAccount(QString token, RequestResultInterface *result
     resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
 }
 
-
 void RequestManager::logOut(QString token, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -155,7 +154,7 @@ void RequestManager::getChats(QString token, RequestResultInterface *resultInter
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
     auto reply = post("/user/get_chats", jsonDocument);
-    //LOG_DEBUG("Get chats request sended");
+    LOG_DEBUG("Get chats request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_CHATS));
 }
 
@@ -210,7 +209,7 @@ void RequestManager::updateChatImage(QString token, unsigned long chatId, QPixma
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument; // = serializer.pack();
-    auto reply = post("/user/change_image", jsonDocument);
+    auto reply = post("/user/change_immage", jsonDocument);
     LOG_DEBUG("Update chat name sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_IMAGE));
 }
@@ -281,7 +280,7 @@ void RequestManager::getMessages(QString token, unsigned long chatId, unsigned l
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToGetMessages(token,lastMessageId,chatId);
     auto reply = post("/messages/get", jsonDocument);
-    //LOG_DEBUG("Get messages request sended");
+    LOG_DEBUG("Get messages request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_MESSAGES));
 }
 

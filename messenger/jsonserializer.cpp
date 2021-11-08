@@ -36,7 +36,7 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
 
 QJsonDocument JsonSerializer::packToken(const QString& token)
 {
-    //LOG_DEBUG("Packing token into json");
+    LOG_DEBUG("Packing token into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
