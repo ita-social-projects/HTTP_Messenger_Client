@@ -19,11 +19,9 @@ class JsonDeserializer
 {
 public:
     QString extractErrorMsg(const QJsonDocument &replyInfo);
-    std::map<unsigned long,QString> extractChats(const QJsonDocument &replyInfo);
-    std::map<unsigned long,QString> extractChat(const QJsonDocument &replyInfo);
+    std::map<unsigned long,std::pair<QPixmap,QString>> extractChats(const QJsonDocument &replyInfo);
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
     QVector<Message> extractMessages(const QJsonDocument &replyInfo);
-    std::tuple<QPixmap,  QVector<std::pair<QPixmap,QString>>> extractChatInfo(const QJsonDocument &replyInfo);
     QVector<std::pair<QPixmap,QString>> extractUsersInfo(const QJsonDocument &replyInfo);
     static QPixmap extractPhoto(const QJsonDocument& replyInfo);
 };

@@ -13,7 +13,7 @@
 #define DATE 0
 #define TIME 1
 
-#define IMAGE "photo"
+#define IMAGE "image"
 #define USERS "users"
 #define MESSAGES "messages"
 #define SENDER "sender"
@@ -51,22 +51,10 @@ QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJs
     return vect;
 }
 
-std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
-{
-    LOG_DEBUG("Extracting chat");
-    std::map<unsigned long,QString> map;
-    QJsonObject jsonObject = replyInfo.object();
-    if(jsonObject.contains(CHAT_ID) && jsonObject.contains(CHAT_TITLE))
-    {
-        map.emplace(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString());
-    }
-    return map;
-}
-
-std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
+std::map<unsigned long,std::pair<QPixmap,QString>> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting chats");
-    std::map<unsigned long,QString> map;
+    std::map<unsigned long,std::pair<QPixmap,QString>> chatsInfo;
     QJsonObject jsonObject = replyInfo.object();
 
     if(replyInfo.toJson().contains(CHATS))
@@ -75,13 +63,19 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE))
+            if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE) && obj.contains(IMAGE))
             {
-                map.emplace(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString());
+                QPixmap p = extractPhoto(replyInfo);
+                if(p.isNull())
+                {
+                    p.load(":/icons/icons/photo.ico");
+                }
+                std::pair pair(p,obj[CHAT_TITLE].toString());
+                chatsInfo.emplace(obj[CHAT_ID].toInt(),pair);
             }
         }
     }
-    return map;
+    return chatsInfo;
 }
 
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
@@ -138,15 +132,6 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
         }
     }
     return messages;
-}
-
-std::tuple<QPixmap, QVector<std::pair<QPixmap,QString>>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
-{
-    auto logins = extractUsersInfo(replyInfo);
-    auto chatImg = extractPhoto(replyInfo);
-
-    std::tuple res{chatImg,logins};
-    return res;
 }
 
 QPixmap JsonDeserializer::extractPhoto(const QJsonDocument& replyInfo)
