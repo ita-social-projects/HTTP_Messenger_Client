@@ -212,7 +212,7 @@ void MainWindow::on_UserImg_clicked()
 
 void MainWindow::showMessage(QString from, QString message, QString date, QString time)
 {
-    if(from == "")
+    if(from == ":")
     {
         showSystemMessage(message);
         return;
