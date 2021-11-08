@@ -302,5 +302,6 @@ void ProfileWindow::on_pushButton_UserImg_clicked()
     ui->pushButton_UserImg->setIcon(p);
     ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
     CurrentUser::getInstance()->setImage(p);
+    Cache::WriteUserImg();
     emit imageUpdated();
 }

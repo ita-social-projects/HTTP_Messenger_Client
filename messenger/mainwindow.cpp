@@ -24,6 +24,7 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->ScrollBot->setHidden(true);
     ui->emojiButton->setHidden(true);
     ui->EnterMessage->setMaxLength(255);
+    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
     maxMessageLength = 0;
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
     RequestManager::GetInstance()->checkToken(CurrentUser::getInstance()->getToken(), this);

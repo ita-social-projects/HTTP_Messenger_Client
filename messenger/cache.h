@@ -5,7 +5,9 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <QString>
+#include <QByteArray>
 #include <stdio.h>
+#include <direct.h>
 
 #ifdef _WIN32
 #define USER_HOME_DIR "USERPROFILE"
@@ -21,6 +23,8 @@ public:
     static std::string GetCachePath();
     static QString OpenByCache();
     static void DeleteCacheFile();
+    static void WriteUserImg();
+    static void ReadUserImg();
 
 private:
     static bool FileExists(const std::string& filename);
