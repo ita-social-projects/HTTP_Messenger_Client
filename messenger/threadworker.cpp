@@ -7,6 +7,7 @@ ThreadWorker::ThreadWorker(MainWindow* mW)
 {
     mainWindow = mW;
     updaterThread = new M_Thread(mainWindow, this);
+    connect(mainWindow, SIGNAL(start()), this, SLOT(StartThread()));
 }
 
 void ThreadWorker::StartThread()

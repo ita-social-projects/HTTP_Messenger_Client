@@ -31,7 +31,8 @@ signals:
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
     void openEmojiList();
-    void finished(); 
+    void finished();
+    void start();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);

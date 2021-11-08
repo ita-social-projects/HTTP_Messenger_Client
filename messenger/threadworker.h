@@ -14,9 +14,11 @@ private:
     M_Thread* updaterThread;
 
 public:
-    void StartThread();
     ~ThreadWorker();
     explicit ThreadWorker(MainWindow*);
+
+private slots:
+    void StartThread();
 };
 
 class M_Thread: public QThread

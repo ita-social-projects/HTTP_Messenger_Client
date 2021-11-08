@@ -52,6 +52,7 @@ void WindowManager::open_MainWindow()
     LOG_DEBUG("Opening main window");
     close_Window();
     MainWindow* mW = new MainWindow();
+    threadWorker.reset(new ThreadWorker(mW));
     currentWindow.reset(mW);
     currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
@@ -60,8 +61,6 @@ void WindowManager::open_MainWindow()
     connect(currentWindow.get(), SIGNAL(openChatInfo(CurrentChat)), this, SLOT(open_ChatInfoWindow(CurrentChat)));
     connect(currentWindow.get(), SIGNAL(openEmojiList()), this, SLOT(open_EmojiList()));
     currentWindow->show();
-    threadWorker.reset(new ThreadWorker(mW));
-    threadWorker->StartThread();
 }
 
 void WindowManager::open_ProfileWindow()

@@ -19,13 +19,14 @@ MainWindow::MainWindow(QMainWindow* parent)
     ScrollBar = ui->Messages->verticalScrollBar();
     connect(ScrollBar, &QScrollBar::valueChanged, this, &MainWindow::SetScrollBotButtonVisible);
     this->setWindowTitle("Toretto");
-    ui->UserName->setText(CurrentUser::getInstance()->getLogin());
     ui->EnterMessage->setHidden(true);
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
     ui->emojiButton->setHidden(true);
     ui->EnterMessage->setMaxLength(255);
     maxMessageLength = 0;
+    ui->UserName->setText(CurrentUser::getInstance()->getLogin());
+    RequestManager::GetInstance()->checkToken(CurrentUser::getInstance()->getToken(), this);
 }
 
 MainWindow::~MainWindow()
@@ -118,6 +119,11 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             emit finished();
         }
         QMessageBox::critical(nullptr, "ERROR", resReply);
+        if(type == RequestType::CHECK_TOKEN)
+        {
+            Cache::DeleteCacheFile();
+            emit SignoutButtonClicked();
+        }
     }
     else
     {
@@ -169,6 +175,10 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             Cache::DeleteCacheFile();
             this->close();
             emit SignoutButtonClicked();
+        }
+        else if(type == RequestType::CHECK_TOKEN)
+        {
+            emit start();
         }
     }
 }
