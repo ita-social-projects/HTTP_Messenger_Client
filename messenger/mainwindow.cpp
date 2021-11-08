@@ -8,6 +8,7 @@
 #include "chatinfo.h"
 #include <QMessageBox>
 #include <QScrollBar>
+bool checkEqualityOfChats(const std::map<unsigned long,std::pair<QPixmap,QString>>&,const std::map<unsigned long,std::pair<QPixmap,QString>>&);
 
 MainWindow::MainWindow(QMainWindow* parent)
     : QMainWindow(parent)
@@ -130,17 +131,19 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
     {
         if(type==RequestType::GET_CHATS)
         {
-            std::map<unsigned long, QString> chats = extractor.extractChats(document);
-            if(CurrentUser::getInstance()->getChats() != chats)
+            auto chatsInfo = extractor.extractChats(document);
+            bool isEqual = checkEqualityOfChats(CurrentUser::getInstance()->getChats(),chatsInfo);
+            if(!isEqual)
             {
-                CurrentUser::getInstance()->setChats(chats);
+                CurrentUser::getInstance()->setChats(chatsInfo);
                 showChats();
                 if(currentChat.getId() != 0)
                 {
-                    ui->ChatInfo->setText(chats[currentChat.getId()]);
-                    currentChat.setName(chats[currentChat.getId()]);
+                    ui->ChatInfo->setText(chatsInfo[currentChat.getId()].second);
+                    currentChat.setName(chatsInfo[currentChat.getId()].second);
                 }
             }
+
         }
         else if(type==RequestType::GET_MESSAGES)
         {
@@ -182,6 +185,23 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             emit start();
         }
     }
+}
+
+bool checkEqualityOfChats(const std::map<unsigned long,std::pair<QPixmap,QString>>& chat1,const std::map<unsigned long,std::pair<QPixmap,QString>>& chat2)
+{
+    if(chat1.size() != chat2.size())
+    {
+        return false;
+    }
+    for(auto &it: chat1)
+    {
+        if(it.second.first.toImage() != chat2.at(it.first).first.toImage() ||
+           it.second.second != chat2.at(it.first).second)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool MainWindow::CheckMessage()
@@ -313,10 +333,10 @@ void MainWindow::leaveChat()
 void MainWindow::showChats()
 {
     ui->ChatList->clear();
-    std::map<unsigned long, QString> chats = CurrentUser::getInstance()->getChats();
+    auto chats = CurrentUser::getInstance()->getChats();
     for(auto &a: chats)
     {
-        ui->ChatList->addItem(a.second);
+        ui->ChatList->addItem(a.second.second);
     }
 }
 

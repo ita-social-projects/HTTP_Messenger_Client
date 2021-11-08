@@ -50,6 +50,7 @@ QString Cache::OpenByCache()
         return "";
     }
 }
+
 void Cache::ReadUserImg()
 {
     const char* home_dir = std::getenv(USER_HOME_DIR);
@@ -61,8 +62,14 @@ void Cache::ReadUserImg()
     }
     std::string ImgPath = std::string(home_dir) + "\\UserImg.png";
     QPixmap PixMapImg;
-    PixMapImg.load(QString::fromStdString(ImgPath));
-    CurrentUser::getInstance()->setImage(PixMapImg);
+    if(FileExists(ImgPath)){
+        PixMapImg.load(QString::fromStdString(ImgPath));
+        CurrentUser::getInstance()->setImage(PixMapImg);
+    }
+    else
+    {
+        WriteUserImg();
+    }
 }
 
 void Cache::WriteUserImg()

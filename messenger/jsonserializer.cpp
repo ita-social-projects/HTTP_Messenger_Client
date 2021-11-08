@@ -14,7 +14,7 @@
 #define MESSAGE "message"
 #define TOKEN "token"
 
-#define IMAGE "photo"
+#define IMAGE "image"
 QJsonValue jsonValFromPixmap(const QPixmap &p);
 
 JsonSerializer::JsonSerializer()
@@ -31,6 +31,18 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
     jsonInfo[PASSWORD] = pass;
 
     QJsonDocument document(jsonInfo);
+    return document;
+}
+
+QJsonDocument JsonSerializer::packUserInfo(const QString& token,const QPixmap& img)
+{
+    LOG_DEBUG("Packing user info (token, img) into json");
+
+    QJsonObject obj;
+    obj = packPhoto(img);
+    obj[TOKEN] = token;
+
+    QJsonDocument document(obj);
     return document;
 }
 
@@ -149,6 +161,7 @@ QJsonDocument JsonSerializer::packUserToChat(const QString& token, const int cha
 QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& chatTitle)
 {
     LOG_DEBUG("Packing chat information into json");
+
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;
@@ -158,15 +171,26 @@ QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& 
     return doc;
 }
 
-QJsonDocument JsonSerializer::packPhoto(const QPixmap& img)
+QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& chatTitle, const QPixmap& img)
+{
+     LOG_DEBUG("Packing chat information into json");
+     QJsonObject obj;
+     obj = packPhoto(img);
+     obj[TOKEN] = token;
+     obj[CHAT_TITLE] = chatTitle;
+
+     QJsonDocument doc;
+     return doc;
+}
+
+QJsonObject JsonSerializer::packPhoto(const QPixmap& img)
 {
     LOG_DEBUG("Packing photo into json");
     QJsonObject jsonObject;
 
     jsonObject[IMAGE] = jsonValFromPixmap(img);
 
-    QJsonDocument doc(jsonObject);
-    return doc;
+    return jsonObject;
 }
 
 QJsonValue jsonValFromPixmap(const QPixmap &p)

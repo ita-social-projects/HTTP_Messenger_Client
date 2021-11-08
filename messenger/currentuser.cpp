@@ -28,7 +28,7 @@ void CurrentUser::setToken(const QString& userAccessToken)
     accessToken = userAccessToken;
 }
 
-void CurrentUser::setChats(const std::map<unsigned long, QString> chats)
+void CurrentUser::setChats(const std::map<unsigned long,std::pair<QPixmap,QString>> chats)
 {
     this->chats = chats;
 }
@@ -43,7 +43,7 @@ void CurrentUser::clearChats()
     chats.clear();
 }
 
-const std::map<unsigned long, QString>& CurrentUser::getChats()
+const std::map<unsigned long,std::pair<QPixmap,QString>>& CurrentUser::getChats()
 {
     return chats;
 }
