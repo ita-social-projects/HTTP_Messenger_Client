@@ -174,7 +174,6 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         else if(type == RequestType::LOG_OUT)
         {
             Cache::DeleteCacheFile();
-            this->close();
             emit SignoutButtonClicked();
         }
         else if(type == RequestType::CHECK_TOKEN)
