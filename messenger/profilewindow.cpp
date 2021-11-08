@@ -12,6 +12,10 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     ui->pushButton_UserImg->setIcon(CurrentUser::getInstance()->getImage());
     ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
 
+    QRegularExpression rx("[a-zA-Z0-9]+");
+    validator = new QRegularExpressionValidator(rx, this);
+    ui->lineEdit_Username->setValidator(validator);
+
     setPlaceholderTextToLabels();
     hideInfoFields();
     hideLoginFields();
