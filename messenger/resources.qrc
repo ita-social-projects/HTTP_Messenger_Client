@@ -13,6 +13,7 @@
         <file>icons/signOut.ico</file>
         <file>icons/group.ico</file>
         <file>icons/edit.ico</file>
+        <file>icons/emoji.ico</file>
         <file>icons/arrow-down.ico</file>
     </qresource>
     <qresource prefix="/">

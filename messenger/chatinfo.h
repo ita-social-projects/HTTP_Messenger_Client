@@ -35,6 +35,7 @@ private slots:
     void on_listWidget_Users_itemDoubleClicked(QListWidgetItem *item);
     void on_pushButton_EditChatName_clicked();
     void on_lineEdit_ChatName_editingFinished();
+    void on_pushButton_ChatImg_clicked();
 
 private:
     QValidator *validator;

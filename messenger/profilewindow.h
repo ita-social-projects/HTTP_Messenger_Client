@@ -32,7 +32,6 @@ private:
     bool checkUsernameSame(const QString& username);
     bool checkPasswordEqual(const QString& pass1, const QString& pass2);
     bool checkOldNewPasswordsEqual(const QString& pass, const QString& newPass);
-    const QPixmap roundImage(const QPixmap &pix);
 
     void setErrorLabelColor(QLabel *label);
     void setPlaceholderTextToLabels();
@@ -47,6 +46,7 @@ signals:
     void closing();
     void accountDeleted();
     void loginUpdated();
+    void imageUpdated();
 
 private slots:
     void on_pushButton_ChangeUsername_clicked();

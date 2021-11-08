@@ -20,6 +20,7 @@ private slots:
     void open_ProfileWindow();
     void open_CreateChatWindow();
     void open_ChatInfoWindow(CurrentChat chat);
+    void open_EmojiList();
 
     void close_Window();
     void close_MinorWindow();
