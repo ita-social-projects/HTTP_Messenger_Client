@@ -23,12 +23,14 @@ private:
     void showMessage(QString from, QString message, QString date, QString time);
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
+    QString setMessageProperties(QString message);
 
 signals:
     void SignoutButtonClicked();
     void openProfileWindow();
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
+    void openEmojiList();
     void finished(); 
 
 private slots:
@@ -49,6 +51,8 @@ private slots:
     void on_ScrollBot_clicked();
     void closeEvent(QCloseEvent * e) override;
     void UpdateData();
+    void on_emojiButton_clicked();
+    void printEmoji(QString emoji);
     void update_ProfileImage();
 
 private:
@@ -56,6 +60,7 @@ private:
     QScrollBar *ScrollBar;
     CurrentChat currentChat;
     std::vector<QListWidgetItem> conversation;
+    int maxMessageLength;
 };
 #endif // MAINWINDOW_H
 

@@ -20,6 +20,7 @@ private slots:
     void open_ProfileWindow();
     void open_CreateChatWindow();
     void open_ChatInfoWindow(CurrentChat chat);
+    void open_EmojiList();
 
     void close_Window();
     void close_MinorWindow();
@@ -28,6 +29,7 @@ private slots:
 private:
     std::unique_ptr<QWidget> currentWindow;
     std::unique_ptr<QDialog> minorWindow;
+    std::unique_ptr<ThreadWorker> threadWorker;
     QIcon icon;
 };
 #endif // WINDOWMANAGER_H
