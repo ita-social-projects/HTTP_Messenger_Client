@@ -19,6 +19,8 @@ class ChatInfo : public QDialog, public RequestManager::RequestResultInterface
 public:
     explicit ChatInfo(CurrentChat chat);
     void onRequestFinished(QNetworkReply *reply, RequestType type) override;
+    void showMembers();
+    void showUsers();
     ~ChatInfo();
 
 signals:

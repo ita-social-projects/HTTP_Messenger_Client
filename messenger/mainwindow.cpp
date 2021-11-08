@@ -47,7 +47,7 @@ void MainWindow::on_ChatList_itemClicked(QListWidgetItem *item)
         ++iterator;
     }
     unsigned long chatId = iterator->first;
-    currentChat.resetChat(chatId, item->text());
+    currentChat.resetChat(chatId, item->text(), iterator->second.first);
     ui->ChatInfo->setText(item->text());
     ui->Messages->clear();
     ui->EnterMessage->clear();
@@ -135,13 +135,15 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             bool isEqual = checkEqualityOfChats(CurrentUser::getInstance()->getChats(),chatsInfo);
             if(!isEqual)
             {
+                chatList.clear();
+                ui->ChatList->clear();
                 CurrentUser::getInstance()->setChats(chatsInfo);
                 showChats();
                 if(currentChat.getId() != 0)
                 {
-                    // set icon
                     ui->ChatInfo->setText(chatsInfo[currentChat.getId()].second);
                     currentChat.setName(chatsInfo[currentChat.getId()].second);
+                    currentChat.setImage(chatsInfo[currentChat.getId()].first);
                 }
             }
 
@@ -248,7 +250,7 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
         QListWidgetItem itemDate(date);
         itemDate.setTextAlignment(Qt::AlignmentFlag::AlignCenter);
         itemDate.setForeground(Qt::gray);
-         conversation.push_back(itemDate);
+        conversation.push_back(itemDate);
         ui->Messages->addItem(&conversation.back());
     }
     QListWidgetItem itemFrom(from);
@@ -332,11 +334,16 @@ void MainWindow::leaveChat()
 
 void MainWindow::showChats()
 {
-    ui->ChatList->clear();
     auto chats = CurrentUser::getInstance()->getChats();
     for(auto &a: chats)
     {
-        ui->ChatList->addItem(a.second.second);
+        QListWidgetItem chat(a.second.second);
+        chat.setIcon(a.second.first);
+        chatList.push_back(chat);
+    }
+    for(auto &a: chatList)
+    {
+        ui->ChatList->addItem(&a);
     }
 }
 

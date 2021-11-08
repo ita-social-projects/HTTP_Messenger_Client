@@ -2,11 +2,13 @@
 
 #define DEFAULT_ID 0
 #define DEFAULT_STR ""
+#define DEFAULT_IMG QPixmap()
 
 CurrentChat::CurrentChat()
 {
     name = DEFAULT_STR;
     id = DEFAULT_ID;
+    image = DEFAULT_IMG;
 };
 
 CurrentChat::CurrentChat(const CurrentChat& other)
@@ -16,10 +18,11 @@ CurrentChat::CurrentChat(const CurrentChat& other)
     lastMessage = other.lastMessage;
 }
 
-void CurrentChat::resetChat(unsigned long id, QString name)
+void CurrentChat::resetChat(unsigned long id, QString name, QPixmap img)
 {
     this->id = id;
     this->name = name;
+    this->image = img;
     lastMessage.clear();
 }
 
@@ -33,10 +36,16 @@ void CurrentChat::setName(QString name)
     this->name = name;
 }
 
+void CurrentChat::setImage(QPixmap img)
+{
+    image = img;
+}
+
 void CurrentChat::closeChat()
 {
     name = DEFAULT_STR;
     id = DEFAULT_ID;
+    image = DEFAULT_IMG;
     lastMessage.clear();
 }
 
@@ -55,3 +64,7 @@ Message CurrentChat::getLastMessage()
     return lastMessage;
 }
 
+QPixmap CurrentChat::getImage()
+{
+    return image;
+}

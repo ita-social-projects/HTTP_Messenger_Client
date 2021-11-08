@@ -33,7 +33,7 @@ void M_Thread::run()
     while (true)
     {
         emit SendRequests();
-        QThread::sleep(1);
+        QThread::sleep(2);
         LOG_DEBUG("Thread working");
     }
 }

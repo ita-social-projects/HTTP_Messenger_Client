@@ -16,10 +16,12 @@ ChatInfo::ChatInfo(CurrentChat chat) :
     ui->lineEdit_SearchUser->setValidator(validator);
     ui->verticalWidget_FindUsers->hide();
 
-    // set image from chat list
-
-    QPixmap p;
-    p.load(":/icons/icons/photo.ico");
+    QPixmap p = currentChat.getImage();
+    if(p.isNull())
+    {
+        p.load(":/icons/icons/photo.ico");
+    }
+    //p.load(":/icons/icons/photo.ico");
     ui->pushButton_ChatImg->setIcon(p);
     chatImage = p;
     ui->lineEdit_ChatName->setText(currentChat.getName());
@@ -69,7 +71,8 @@ void ChatInfo::on_pushButton_SearchUser_clicked()
     {
         return;
     }
-     ui->listWidget_Users->clear();
+    ui->listWidget_Users->clear();
+    searchingItems.clear();
     RequestManager::GetInstance()->searchUser(CurrentUser::getInstance()->getToken(), userLogin, this);
 }
 
@@ -81,6 +84,22 @@ void ChatInfo::on_pushButton_Add_clicked()
         return;
     }
     RequestManager::GetInstance()->addUserToChat(CurrentUser::getInstance()->getToken(), currentChat.getId(), memberLogin, this);
+}
+
+void ChatInfo::showMembers()
+{
+    for(auto &a:memberItems)
+    {
+        ui->listWidget_Members->addItem(&a);
+    }
+}
+
+void ChatInfo::showUsers()
+{
+    for(auto &a:searchingItems)
+    {
+        ui->listWidget_Users->addItem(&a);
+    }
 }
 
 void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
@@ -98,12 +117,12 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
-            // set image from chat list
+            chatImage = currentChat.getImage();
         }
     }
     else
     {
-        if(type == RequestType::SEARCH_USER || type == RequestType::GET_CHAT_PARTICIPANTS)
+        if(type == RequestType::SEARCH_USER)
         {
             QVector<std::pair<QPixmap,QString>> users = extractor.extractUsersInfo(document);
             for(int i = 0; i < users.size(); ++i)
@@ -111,17 +130,21 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
                 QIcon icon = users.at(i).first;
                 QListWidgetItem item(users.at(i).second);
                 item.setIcon(icon);
-                if(type == RequestType::GET_CHAT_PARTICIPANTS)
-                {
-                    memberItems.push_back(item);
-                    ui->listWidget_Members->addItem(&memberItems.back());
-                }
-                else
-                {
-                    searchingItems.push_back(item);
-                    ui->listWidget_Users->addItem(&searchingItems.back());
-                }
+                searchingItems.push_back(item);
             }
+            showUsers();
+        }
+        if(type == RequestType::GET_CHAT_PARTICIPANTS)
+        {
+            QVector<std::pair<QPixmap,QString>> users = extractor.extractUsersInfo(document);
+            for(int i = 0; i < users.size(); ++i)
+            {
+                QIcon icon = users.at(i).first;
+                QListWidgetItem item(users.at(i).second);
+                item.setIcon(icon);
+                memberItems.push_back(item);
+            }
+            showMembers();
         }
         else if(type == RequestType::ADD_USER_TO_CHAT)
         {
@@ -176,7 +199,7 @@ void ChatInfo::on_pushButton_ChatImg_clicked()
     chatImage = manager.uploadRoundedImage(this);
     if(chatImage.isNull())
     {
-        // set from chat list
+        chatImage = currentChat.getImage();
         return;
     }
     RequestManager::GetInstance()->updateChatImage(CurrentUser::getInstance()->getToken(), currentChat.getId(), chatImage, this);

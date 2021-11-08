@@ -33,7 +33,7 @@ private:
     QString login;
     QString accessToken;
     QPixmap profileImg;
-    std::map<unsigned long,std::pair<QPixmap,QString>> chats;
+    std::map<unsigned long, std::pair<QPixmap,QString>> chats;
 
     static CurrentUser* instance;
     static std::mutex mtx;

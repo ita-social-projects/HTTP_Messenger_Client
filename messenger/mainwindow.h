@@ -61,6 +61,7 @@ private:
     QScrollBar *ScrollBar;
     CurrentChat currentChat;
     std::vector<QListWidgetItem> conversation;
+    std::vector<QListWidgetItem> chatList;
     int maxMessageLength;
 };
 #endif // MAINWINDOW_H

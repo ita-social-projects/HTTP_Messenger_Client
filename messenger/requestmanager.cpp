@@ -209,7 +209,7 @@ void RequestManager::updateChatImage(QString token, unsigned long chatId, QPixma
     }
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packChatInfo(token, chatId, newImage);
-    auto reply = post("/user/change_image", jsonDocument);
+    auto reply = post("/chat/change_image", jsonDocument);
     LOG_DEBUG("Update chat image sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_IMAGE));
 }
