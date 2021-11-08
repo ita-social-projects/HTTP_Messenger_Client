@@ -179,7 +179,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else if(type == RequestType::CHECK_TOKEN)
         {
-            //emit start();
+            emit start();
         }
     }
 }
