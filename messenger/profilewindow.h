@@ -60,7 +60,7 @@ private slots:
 private:
     QValidator *validator;
     Ui::ProfileWindow *ui;
-    QIcon accountImage;
+    QPixmap accountImage;
 };
 
 #endif// PROFILEWINDOW_H

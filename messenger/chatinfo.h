@@ -41,6 +41,9 @@ private:
     QValidator *validator;
     Ui::ChatInfo *ui;
     CurrentChat currentChat;
+    QVector<QListWidgetItem> memberItems;
+    QVector<QListWidgetItem> searchingItems;
+    QPixmap chatImage;
 };
 
 #endif

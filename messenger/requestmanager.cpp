@@ -102,6 +102,20 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
 }
 
+void RequestManager::updateProfileImage(QString token, QPixmap image, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument;// = serializer.pack();
+    auto reply = post("/user/change_image", jsonDocument);
+    LOG_DEBUG("Update user image request sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PROFILE_IMAGE));
+}
+
 void RequestManager::deleteAccount(QString token, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -141,7 +155,7 @@ void RequestManager::getChats(QString token, RequestResultInterface *resultInter
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToken(token);
     auto reply = post("/user/get_chats", jsonDocument);
-    LOG_DEBUG("Get chats request sended");
+    //LOG_DEBUG("Get chats request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_CHATS));
 }
 
@@ -185,6 +199,20 @@ void RequestManager::updateChatName(QString token, unsigned long chatId, QString
     auto reply = post("/chat/change_name", jsonDocument);
     LOG_DEBUG("Update chat name sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));
+}
+
+void RequestManager::updateChatImage(QString token, unsigned long chatId, QPixmap newImage, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument; // = serializer.pack();
+    auto reply = post("/user/change_image", jsonDocument);
+    LOG_DEBUG("Update chat name sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_IMAGE));
 }
 
 void RequestManager::searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface)
@@ -253,7 +281,7 @@ void RequestManager::getMessages(QString token, unsigned long chatId, unsigned l
     JsonSerializer serializer;
     QJsonDocument jsonDocument = serializer.packToGetMessages(token,lastMessageId,chatId);
     auto reply = post("/messages/get", jsonDocument);
-    LOG_DEBUG("Get messages request sended");
+    //LOG_DEBUG("Get messages request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::GET_MESSAGES));
 }
 

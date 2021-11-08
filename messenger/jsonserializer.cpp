@@ -14,7 +14,7 @@
 #define MESSAGE "message"
 #define TOKEN "token"
 
-#define IMAGE "photo"
+#define IMAGE "image"
 QJsonValue jsonValFromPixmap(const QPixmap &p);
 
 JsonSerializer::JsonSerializer()
@@ -36,7 +36,7 @@ QJsonDocument JsonSerializer::packUserInfo(const QString& pass,const QString& us
 
 QJsonDocument JsonSerializer::packToken(const QString& token)
 {
-    LOG_DEBUG("Packing token into json");
+    //LOG_DEBUG("Packing token into json");
     QJsonObject jsonObject;
 
     jsonObject[TOKEN] = token;

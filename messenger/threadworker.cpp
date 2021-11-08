@@ -34,6 +34,6 @@ void M_Thread::run()
     {
         emit SendRequests();
         QThread::sleep(1);
-        LOG_DEBUG("Messages Update");
+        //LOG_DEBUG("Thread working");
     }
 }

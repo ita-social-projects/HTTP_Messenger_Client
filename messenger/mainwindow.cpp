@@ -139,6 +139,7 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
                 {
                     ui->ChatInfo->setText(chats[currentChat.getId()]);
                     currentChat.setName(chats[currentChat.getId()]);
+                    // set icon
                 }
             }
         }
@@ -174,12 +175,11 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         else if(type == RequestType::LOG_OUT)
         {
             Cache::DeleteCacheFile();
-            this->close();
             emit SignoutButtonClicked();
         }
         else if(type == RequestType::CHECK_TOKEN)
         {
-            emit start();
+            //emit start();
         }
     }
 }
@@ -350,6 +350,7 @@ void MainWindow::closeEvent(QCloseEvent * e)
 {
     conversation.clear();
     CurrentUser::getInstance()->clearChats();
+    CurrentUser::getInstance()->setImage(QPixmap());
     emit finished();
 }
 

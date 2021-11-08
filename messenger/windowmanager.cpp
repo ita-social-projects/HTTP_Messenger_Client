@@ -52,8 +52,8 @@ void WindowManager::open_MainWindow()
     LOG_DEBUG("Opening main window");
     close_Window();
     MainWindow* mW = new MainWindow();
-    threadWorker.reset(new ThreadWorker(mW));
     currentWindow.reset(mW);
+    threadWorker.reset(new ThreadWorker(mW));
     currentWindow->setWindowIcon(this->icon);
     connect(currentWindow.get(), SIGNAL(SignoutButtonClicked()), this, SLOT(open_LoginWindow()));
     connect(currentWindow.get(), SIGNAL(openProfileWindow()), this, SLOT(open_ProfileWindow()));
