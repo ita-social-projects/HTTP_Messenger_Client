@@ -110,9 +110,9 @@ void RequestManager::updateProfileImage(QString token, QPixmap image, RequestRes
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument;// = serializer.pack();
+    QJsonDocument jsonDocument = serializer.packUserInfo(token, image);
     auto reply = post("/user/change_image", jsonDocument);
-    LOG_DEBUG("Update user image request sended");
+    LOG_DEBUG("Update profile image request sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PROFILE_IMAGE));
 }
 
@@ -208,9 +208,9 @@ void RequestManager::updateChatImage(QString token, unsigned long chatId, QPixma
         return;
     }
     JsonSerializer serializer;
-    QJsonDocument jsonDocument; // = serializer.pack();
+    QJsonDocument jsonDocument = serializer.packChatInfo(token, chatId, newImage);
     auto reply = post("/user/change_image", jsonDocument);
-    LOG_DEBUG("Update chat name sended");
+    LOG_DEBUG("Update chat image sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_IMAGE));
 }
 
