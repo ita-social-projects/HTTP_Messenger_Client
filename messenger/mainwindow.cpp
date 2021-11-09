@@ -159,14 +159,15 @@ void MainWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             {
                 if(msg.getWriter() == CurrentUser::getInstance()->getLogin())
                 {
-                    showMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
+                    saveMessage("Me:", msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
                 }
                 else
                 {
-                    showMessage(msg.getWriter() + ':', msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
+                    saveMessage(msg.getWriter() + ':', msg.getMessage(), msg.getDate(), msg.getTime().split('.')[0]);
                 }
                 currentChat.setLastMessage(msg);
             }
+            showMessages();
             if (ScrollBar->value() == ScrollBar->maximum())
             {
                 ui->Messages->scrollToBottom();
@@ -243,7 +244,15 @@ void MainWindow::on_UserImg_clicked()
     emit openProfileWindow();
 }
 
-void MainWindow::showMessage(QString from, QString message, QString date, QString time)
+void MainWindow::showMessages()
+{
+    for(int i = ui->Messages->count(); i < conversation.size(); i++)
+    {
+        ui->Messages->addItem(&conversation[i]);
+    }
+}
+
+void MainWindow::saveMessage(QString from, QString message, QString date, QString time)
 {
     if(currentChat.getLastMessage().getDate() != date)
     {
@@ -251,7 +260,6 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
         itemDate.setTextAlignment(Qt::AlignmentFlag::AlignCenter);
         itemDate.setForeground(Qt::gray);
         conversation.push_back(itemDate);
-        ui->Messages->addItem(&conversation.back());
     }
     QListWidgetItem itemFrom(from);
     QListWidgetItem itemMessage(setMessageProperties(message));
@@ -269,12 +277,9 @@ void MainWindow::showMessage(QString from, QString message, QString date, QStrin
         itemFrom.setForeground(Qt::blue);
     }
     conversation.push_back(itemFrom);
-    ui->Messages->addItem(&conversation.back());
     conversation.push_back(itemMessage);
-    ui->Messages->addItem(&conversation.back());
     conversation.push_back(itemTime);
-    ui->Messages->addItem(&conversation.back());
-    ui->Messages->addItem("");
+    conversation.push_back(QListWidgetItem(""));
 }
 
 QString MainWindow::setMessageProperties(QString message)

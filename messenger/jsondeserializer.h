@@ -23,7 +23,7 @@ public:
     CurrentUser* extractUserInfo(const QJsonDocument &replyInfo);
     QVector<Message> extractMessages(const QJsonDocument &replyInfo);
     QVector<std::pair<QPixmap,QString>> extractUsersInfo(const QJsonDocument &replyInfo);
-    static QPixmap extractPhoto(const QJsonDocument& replyInfo);
+    static QPixmap extractPhoto(const QJsonObject& replyInfo);
 };
 
 #endif // JSONDESERIALIZER_H

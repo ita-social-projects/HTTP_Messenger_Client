@@ -179,7 +179,7 @@ QJsonDocument JsonSerializer::packChatInfo(const QString& token, const int chatI
      obj[TOKEN] = token;
      obj[CHAT_ID] = chatId;
 
-     QJsonDocument doc;
+     QJsonDocument doc(obj);
      return doc;
 }
 

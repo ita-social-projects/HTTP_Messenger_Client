@@ -15,6 +15,7 @@ CurrentChat::CurrentChat(const CurrentChat& other)
 {
     name = other.name;
     id = other.id;
+    image = other.image;
     lastMessage = other.lastMessage;
 }
 

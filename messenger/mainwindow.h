@@ -20,7 +20,8 @@ public:
 
 private:
     bool CheckMessage();
-    void showMessage(QString from, QString message, QString date, QString time);
+    void saveMessage(QString from, QString message, QString date, QString time);
+    void showMessages();
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
     QString setMessageProperties(QString message);
