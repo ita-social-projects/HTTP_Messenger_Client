@@ -20,7 +20,8 @@ public:
 
 private:
     bool CheckMessage();
-    void showMessage(QString from, QString message, QString date, QString time);
+    void saveMessage(QString from, QString message, QString date, QString time);
+    void showMessages();
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
     QString setMessageProperties(QString message);
@@ -61,6 +62,7 @@ private:
     QScrollBar *ScrollBar;
     CurrentChat currentChat;
     std::vector<QListWidgetItem> conversation;
+    std::vector<QListWidgetItem> chatList;
     int maxMessageLength;
 };
 #endif // MAINWINDOW_H

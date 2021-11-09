@@ -38,7 +38,7 @@ QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJs
             QJsonObject obj = value.toObject();
             if(obj.contains(LOGIN) )
             {
-                QPixmap p = extractPhoto(replyInfo);
+                QPixmap p = extractPhoto(obj);
                 if(p.isNull())
                 {
                     p.load(":/icons/icons/profile.svg");
@@ -65,7 +65,7 @@ std::map<unsigned long,std::pair<QPixmap,QString>> JsonDeserializer::extractChat
             QJsonObject obj = value.toObject();
             if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE) && obj.contains(IMAGE))
             {
-                QPixmap p = extractPhoto(replyInfo);
+                QPixmap p = extractPhoto(obj);
                 if(p.isNull())
                 {
                     p.load(":/icons/icons/photo.ico");
@@ -105,7 +105,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
     if(replyInfo.toJson().contains(IMAGE))
     {
-        user->setImage(extractPhoto(replyInfo));
+        user->setImage(extractPhoto(replyInfo.object()));
     }
 
     return user;
@@ -134,10 +134,9 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
     return messages;
 }
 
-QPixmap JsonDeserializer::extractPhoto(const QJsonDocument& replyInfo)
+QPixmap JsonDeserializer::extractPhoto(const QJsonObject& obj)
 {
     LOG_DEBUG("Extracting messages");
-    QJsonObject obj = replyInfo.object();
     QJsonValue val;
 
     if(obj.contains(IMAGE))

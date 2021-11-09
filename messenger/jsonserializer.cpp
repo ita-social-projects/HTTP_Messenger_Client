@@ -171,15 +171,15 @@ QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& 
     return doc;
 }
 
-QJsonDocument JsonSerializer::packChatInfo(const QString& token, const QString& chatTitle, const QPixmap& img)
+QJsonDocument JsonSerializer::packChatInfo(const QString& token, const int chatId, const QPixmap& img)
 {
      LOG_DEBUG("Packing chat information into json");
      QJsonObject obj;
      obj = packPhoto(img);
      obj[TOKEN] = token;
-     obj[CHAT_TITLE] = chatTitle;
+     obj[CHAT_ID] = chatId;
 
-     QJsonDocument doc;
+     QJsonDocument doc(obj);
      return doc;
 }
 

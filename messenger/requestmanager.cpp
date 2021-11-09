@@ -102,6 +102,20 @@ void RequestManager::updatePassword(QString token, QString oldPassword, QString 
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PASSWORD));
 }
 
+void RequestManager::updateProfileImage(QString token, QPixmap image, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packUserInfo(token, image);
+    auto reply = post("/user/change_image", jsonDocument);
+    LOG_DEBUG("Update profile image request sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_PROFILE_IMAGE));
+}
+
 void RequestManager::deleteAccount(QString token, RequestResultInterface *resultInterface)
 {
     if(resultInterface == nullptr)
@@ -115,7 +129,6 @@ void RequestManager::deleteAccount(QString token, RequestResultInterface *result
     LOG_DEBUG("Delete account sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::DELETE_ACCOUNT));
 }
-
 
 void RequestManager::logOut(QString token, RequestResultInterface *resultInterface)
 {
@@ -185,6 +198,20 @@ void RequestManager::updateChatName(QString token, unsigned long chatId, QString
     auto reply = post("/chat/change_name", jsonDocument);
     LOG_DEBUG("Update chat name sended");
     resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_NAME));
+}
+
+void RequestManager::updateChatImage(QString token, unsigned long chatId, QPixmap newImage, RequestResultInterface *resultInterface)
+{
+    if(resultInterface == nullptr)
+    {
+        LOG_DEBUG("Asnwer don't needed anymore");
+        return;
+    }
+    JsonSerializer serializer;
+    QJsonDocument jsonDocument = serializer.packChatInfo(token, chatId, newImage);
+    auto reply = post("/chat/change_image", jsonDocument);
+    LOG_DEBUG("Update chat image sended");
+    resultMap.emplace(reply, Requester(resultInterface, RequestType::UPDATE_CHAT_IMAGE));
 }
 
 void RequestManager::searchUser(QString token, QString searchingName, RequestResultInterface *resultInterface)

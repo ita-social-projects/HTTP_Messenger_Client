@@ -24,7 +24,7 @@ public:
     QJsonDocument packToGetMessages(const QString& token,const int lastMsgId, const int chatId);
     QJsonDocument packToSendMessage(const QString& token, const QString& message,const int chatId);
     QJsonDocument packUserToChat(const QString& token, const int chatId, const QString& login);
-    QJsonDocument packChatInfo(const QString& token, const QString& chatTitle, const QPixmap& img);
+    QJsonDocument packChatInfo(const QString& token, const int chatId, const QPixmap& img);
     QJsonDocument packChatInfo(const QString& token, const QString& chatTitle);
     QJsonObject packPhoto(const QPixmap& img);
 };
