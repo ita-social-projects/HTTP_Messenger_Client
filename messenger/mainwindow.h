@@ -20,6 +20,7 @@ public:
 
 private:
     bool CheckMessage();
+    void saveSystemMessage(QString message);
     void saveMessage(QString from, QString message, QString date, QString time);
     void showMessages();
     void showChats();

@@ -21,7 +21,6 @@ ChatInfo::ChatInfo(CurrentChat chat) :
     {
         p.load(":/icons/icons/photo.ico");
     }
-    //p.load(":/icons/icons/photo.ico");
     ui->pushButton_ChatImg->setIcon(p);
     chatImage = p;
     ui->lineEdit_ChatName->setText(currentChat.getName());
@@ -109,13 +108,18 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
     if (reply->error())
     {
         QString replyMsg = extractor.extractErrorMsg(document);
+        if(replyMsg.contains("No such chat"))
+        {
+            emit leaveChat();
+            this->close();
+            return;
+        }
         QMessageBox::critical(nullptr, "ERROR", replyMsg);
         if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->label_MemberLogin->clear();
-            return;
         }
-        if(type == RequestType::UPDATE_CHAT_IMAGE)
+        else if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
             chatImage = currentChat.getImage();
         }
@@ -148,17 +152,34 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else if(type == RequestType::ADD_USER_TO_CHAT)
         {
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " added user " + ui->label_MemberLogin->text() + " to the chat", this);
             ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
             ui->label_MemberLogin->clear();
         }
         else if(type == RequestType::LEAVE_CHAT)
         {
-            emit leaveChat();
-            this->close();
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " left chat ", this);
+        }
+        else if(type == RequestType::SEND_MESSAGE)
+        {
+            Message msg = extractor.extractMessage(document);
+            if(msg.getMessage().contains("left chat"))
+            {
+                emit leaveChat();
+                this->close();
+            }
+        }
+        else if(type == RequestType::UPDATE_CHAT_NAME)
+        {
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " updated chat name to " + ui->lineEdit_ChatName->text(), this);
         }
         else if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
-            // system message
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " updated chat image", this);
             ui->pushButton_ChatImg->setIcon(chatImage);
             ui->pushButton_ChatImg->setStyleSheet("background-color: rgb(230, 221, 238);");
         }

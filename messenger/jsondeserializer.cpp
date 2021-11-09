@@ -78,6 +78,18 @@ std::map<unsigned long,std::pair<QPixmap,QString>> JsonDeserializer::extractChat
     return chatsInfo;
 }
 
+std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
+{
+    LOG_DEBUG("Extracting chat");
+    std::map<unsigned long,QString> map;
+    QJsonObject jsonObject = replyInfo.object();
+    if(jsonObject.contains(CHAT_ID) && jsonObject.contains(CHAT_TITLE))
+    {
+        map.emplace(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString());
+    }
+    return map;
+}
+
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting error message");
@@ -132,6 +144,23 @@ QVector<Message> JsonDeserializer::extractMessages(const QJsonDocument &replyInf
         }
     }
     return messages;
+}
+
+Message JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
+{
+    LOG_DEBUG("Extracting message");
+    QJsonObject jsonObject = replyInfo.object();
+    Message msg;
+    if(checkAllMessageFields(jsonObject))
+    {
+        msg.setId(jsonObject[MESSAGE_ID].toInt());
+        msg.setWriter(jsonObject[SENDER].toString());
+        msg.setMessage(jsonObject[CONTENT].toString());
+        QStringList list = jsonObject[TIMESTAMP].toString().split(QRegularExpression("\\s+"));
+        msg.setDate(list.at(DATE));
+        msg.setTime(list.at(TIME));
+    }
+    return msg;
 }
 
 QPixmap JsonDeserializer::extractPhoto(const QJsonObject& obj)
