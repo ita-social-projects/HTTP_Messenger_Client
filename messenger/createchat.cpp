@@ -86,6 +86,10 @@ void CreateChat::on_pushButton_ChatImg_clicked()
 {
     ImageManager manager;
     chatImage = manager.uploadRoundedImage(this);
+    if(chatImage.isNull())
+    {
+        return;
+    }
     ui->pushButton_ChatImg->setIcon(chatImage);
     ui->pushButton_ChatImg->setStyleSheet("background-color: rgb(230, 221, 238);");
 }
