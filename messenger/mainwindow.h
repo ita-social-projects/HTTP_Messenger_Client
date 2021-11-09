@@ -20,8 +20,9 @@ public:
 
 private:
     bool CheckMessage();
-    void showMessage(QString from, QString message, QString date, QString time);
-    void showSystemMessage(QString message);
+    void saveSystemMessage(QString message);
+    void saveMessage(QString from, QString message, QString date, QString time);
+    void showMessages();
     void showChats();
     void showSearchingMessage(int count, QString searchingMessage);
     QString setMessageProperties(QString message);
@@ -32,7 +33,8 @@ signals:
     void openCreateChatWindow();
     void openChatInfo(CurrentChat);
     void openEmojiList();
-    void finished(); 
+    void finished();
+    void start();
 
 private slots:
     void on_ChatList_itemClicked(QListWidgetItem *item);
@@ -61,6 +63,7 @@ private:
     QScrollBar *ScrollBar;
     CurrentChat currentChat;
     std::vector<QListWidgetItem> conversation;
+    std::vector<QListWidgetItem> chatList;
     int maxMessageLength;
 };
 #endif // MAINWINDOW_H

@@ -58,8 +58,9 @@ private slots:
     void on_pushButton_UserImg_clicked();
 
 private:
+    QValidator *validator;
     Ui::ProfileWindow *ui;
-    QIcon accountImage;
+    QPixmap accountImage;
 };
 
 #endif// PROFILEWINDOW_H

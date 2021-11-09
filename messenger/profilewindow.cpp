@@ -12,6 +12,10 @@ ProfileWindow::ProfileWindow(QWidget *parent) :
     ui->pushButton_UserImg->setIcon(CurrentUser::getInstance()->getImage());
     ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
 
+    QRegularExpression rx("[a-zA-Z0-9]+");
+    validator = new QRegularExpressionValidator(rx, this);
+    ui->lineEdit_Username->setValidator(validator);
+
     setPlaceholderTextToLabels();
     hideInfoFields();
     hideLoginFields();
@@ -242,6 +246,10 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
         QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
         QString resReply = extractor.extractErrorMsg(document);
         QMessageBox::critical(nullptr, "ERROR", resReply);
+        if(type == RequestType::UPDATE_PROFILE_IMAGE)
+        {
+            accountImage = CurrentUser::getInstance()->getImage();
+        }
     }
     else
     {
@@ -257,15 +265,23 @@ void ProfileWindow::onRequestFinished(QNetworkReply *reply, RequestType type)
             Cache::DeleteCacheFile();
             Cache::CreateIfNotExists(CurrentUser::getInstance()->getLogin());
         }
-        if(type == RequestType::UPDATE_PASSWORD)
+        else if(type == RequestType::UPDATE_PASSWORD)
         {
             QMessageBox::information(nullptr, "Profile", "Password was updated!");
         }
-        if(type == RequestType::DELETE_ACCOUNT)
+        else if(type == RequestType::DELETE_ACCOUNT)
         {
             emit accountDeleted();
             Cache::DeleteCacheFile();
             this->close();
+        }
+        else if(type == RequestType::UPDATE_PROFILE_IMAGE)
+        {
+            ui->pushButton_UserImg->setIcon(accountImage);
+            ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
+            CurrentUser::getInstance()->setImage(accountImage);
+            Cache::WriteUserImg();
+            emit imageUpdated();
         }
     }
 }
@@ -289,14 +305,10 @@ void ProfileWindow::on_pushButton_DeleteProfile_clicked()
 void ProfileWindow::on_pushButton_UserImg_clicked()
 {
     ImageManager manager;
-    QPixmap p = manager.uploadRoundedImage(this);
-    if(p.isNull())
+    accountImage = manager.uploadRoundedImage(this);
+    if(accountImage.isNull())
     {
         return;
     }
-
-    ui->pushButton_UserImg->setIcon(p);
-    ui->pushButton_UserImg->setStyleSheet("background-color: rgb(230, 221, 238);");
-    CurrentUser::getInstance()->setImage(p);
-    emit imageUpdated();
+    RequestManager::GetInstance()->updateProfileImage(CurrentUser::getInstance()->getToken(), accountImage, this);
 }

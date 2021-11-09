@@ -2,16 +2,23 @@
 #include "jsondeserializer.h"
 #include "Logger.h"
 
-ThreadWorker::ThreadWorker(MainWindow& mW)
+ThreadWorker::ThreadWorker(MainWindow* mW)
     :QObject(nullptr)
 {
-    mainWindow = &mW;
-    mt = new M_Thread(mainWindow, this);
+    mainWindow = mW;
+    updaterThread = new M_Thread(mainWindow, this);
+    connect(mainWindow, SIGNAL(start()), this, SLOT(StartThread()));
 }
 
 void ThreadWorker::StartThread()
 {
-    mt->start();
+    updaterThread->start();
+}
+
+ThreadWorker::~ThreadWorker()
+{
+    updaterThread->exit(0);
+    delete updaterThread;
 }
 
 M_Thread::M_Thread(MainWindow* mW, ThreadWorker* mU)
@@ -26,7 +33,7 @@ void M_Thread::run()
     while (true)
     {
         emit SendRequests();
-        QThread::sleep(1);
-        LOG_DEBUG("Messages Update");
+        QThread::sleep(3);
+        LOG_DEBUG("Thread working");
     }
 }

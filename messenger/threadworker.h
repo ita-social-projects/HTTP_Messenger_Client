@@ -11,12 +11,14 @@ class ThreadWorker :  public QObject
     Q_OBJECT
 private:
     MainWindow* mainWindow;
-    QThread qthread;
-    M_Thread* mt;
+    M_Thread* updaterThread;
 
 public:
+    ~ThreadWorker();
+    explicit ThreadWorker(MainWindow*);
+
+private slots:
     void StartThread();
-    explicit ThreadWorker(MainWindow&);
 };
 
 class M_Thread: public QThread

@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     SET_LOGS_FILE("logs.txt");
-    SHOW_LOGS_IN_CONSOLE(true);
+    //SHOW_LOGS_IN_CONSOLE(true);
     LOG_DEBUG("QApplication running");
     QApplication a(argc, argv);
     WindowManager ui;

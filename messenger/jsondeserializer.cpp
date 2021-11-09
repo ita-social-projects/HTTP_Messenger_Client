@@ -13,7 +13,7 @@
 #define DATE 0
 #define TIME 1
 
-#define IMAGE "photo"
+#define IMAGE "image"
 #define USERS "users"
 #define MESSAGES "messages"
 #define SENDER "sender"
@@ -38,7 +38,7 @@ QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJs
             QJsonObject obj = value.toObject();
             if(obj.contains(LOGIN) )
             {
-                QPixmap p = extractPhoto(replyInfo);
+                QPixmap p = extractPhoto(obj);
                 if(p.isNull())
                 {
                     p.load(":/icons/icons/profile.svg");
@@ -51,22 +51,10 @@ QVector<std::pair<QPixmap,QString>> JsonDeserializer::extractUsersInfo(const QJs
     return vect;
 }
 
-std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
-{
-    LOG_DEBUG("Extracting chat");
-    std::map<unsigned long,QString> map;
-    QJsonObject jsonObject = replyInfo.object();
-    if(jsonObject.contains(CHAT_ID) && jsonObject.contains(CHAT_TITLE))
-    {
-        map.emplace(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString());
-    }
-    return map;
-}
-
-std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
+std::map<unsigned long,std::pair<QPixmap,QString>> JsonDeserializer::extractChats(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting chats");
-    std::map<unsigned long,QString> map;
+    std::map<unsigned long,std::pair<QPixmap,QString>> chatsInfo;
     QJsonObject jsonObject = replyInfo.object();
 
     if(replyInfo.toJson().contains(CHATS))
@@ -75,13 +63,19 @@ std::map<unsigned long,QString> JsonDeserializer::extractChats(const QJsonDocume
         foreach (const QJsonValue & value, jsonArray)
         {
             QJsonObject obj = value.toObject();
-            if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE))
+            if(obj.contains(CHAT_ID) && obj.contains(CHAT_TITLE) && obj.contains(IMAGE))
             {
-                map.emplace(obj[CHAT_ID].toInt(),obj[CHAT_TITLE].toString());
+                QPixmap p = extractPhoto(obj);
+                if(p.isNull())
+                {
+                    p.load(":/icons/icons/photo.ico");
+                }
+                std::pair pair(p,obj[CHAT_TITLE].toString());
+                chatsInfo.emplace(obj[CHAT_ID].toInt(),pair);
             }
         }
     }
-    return map;
+    return chatsInfo;
 }
 
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
@@ -111,7 +105,7 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
     if(replyInfo.toJson().contains(IMAGE))
     {
-        user->setImage(extractPhoto(replyInfo));
+        user->setImage(extractPhoto(replyInfo.object()));
     }
 
     return user;
@@ -166,10 +160,9 @@ std::tuple<QPixmap, QVector<std::pair<QPixmap,QString>>> JsonDeserializer::extra
     return res;
 }
 
-QPixmap JsonDeserializer::extractPhoto(const QJsonDocument& replyInfo)
+QPixmap JsonDeserializer::extractPhoto(const QJsonObject& obj)
 {
     LOG_DEBUG("Extracting messages");
-    QJsonObject obj = replyInfo.object();
     QJsonValue val;
 
     if(obj.contains(IMAGE))

@@ -19,6 +19,8 @@ class ChatInfo : public QDialog, public RequestManager::RequestResultInterface
 public:
     explicit ChatInfo(CurrentChat chat);
     void onRequestFinished(QNetworkReply *reply, RequestType type) override;
+    void showMembers();
+    void showUsers();
     ~ChatInfo();
 
 signals:
@@ -41,6 +43,9 @@ private:
     QValidator *validator;
     Ui::ChatInfo *ui;
     CurrentChat currentChat;
+    QVector<QListWidgetItem> memberItems;
+    QVector<QListWidgetItem> searchingItems;
+    QPixmap chatImage;
 };
 
 #endif
