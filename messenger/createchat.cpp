@@ -1,6 +1,8 @@
 #include "createchat.h"
 #include "ui_createchat.h"
 #include <QMessageBox>
+#include "imagemanager.h"
+#include "currentchat.h"
 
 CreateChat::CreateChat() :
     QDialog(nullptr),
@@ -61,10 +63,30 @@ void CreateChat::onRequestFinished(QNetworkReply *reply, RequestType type)
             std::map<unsigned long, QString> map = extractor.extractChat(document);
             RequestManager::GetInstance()->sendMessage("", map.begin()->first,
                             CurrentUser::getInstance()->getLogin() + " created chat " + ui->lineEdit_ChatName->text(), this);
+            if(!chatImage.isNull())
+            {
+                RequestManager::GetInstance()->updateChatImage(CurrentUser::getInstance()->getToken(), map.begin()->first, chatImage, this);
+            }
         }
-        else if(type == RequestType::SEND_MESSAGE)
+        else if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
             this->close();
         }
+        else if(type == RequestType::SEND_MESSAGE)
+        {
+            if(chatImage.isNull())
+            {
+                this->close();
+            }
+        }
     }
 }
+
+void CreateChat::on_pushButton_ChatImg_clicked()
+{
+    ImageManager manager;
+    chatImage = manager.uploadRoundedImage(this);
+    ui->pushButton_ChatImg->setIcon(chatImage);
+    ui->pushButton_ChatImg->setStyleSheet("background-color: rgb(230, 221, 238);");
+}
+

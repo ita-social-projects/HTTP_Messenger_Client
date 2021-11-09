@@ -20,6 +20,7 @@
 #define CONTENT "content"
 #define MESSAGE_ID "message_id"
 #define ERROR_MESSAGE "what"
+#define DEFAULT_IMG ":/icons/icons/profile.svg"
 
 bool checkAllMessageFields(const QJsonObject& obj);
 QPixmap pixmapFrom(const QJsonValue &val);
@@ -117,7 +118,12 @@ CurrentUser* JsonDeserializer::extractUserInfo(const QJsonDocument &replyInfo)
 
     if(replyInfo.toJson().contains(IMAGE))
     {
-        user->setImage(extractPhoto(replyInfo.object()));
+        auto img = extractPhoto(replyInfo.object());
+        if(img.isNull())
+        {
+            img.load(DEFAULT_IMG,"PNG");
+        }
+        user->setImage(img);
     }
 
     return user;

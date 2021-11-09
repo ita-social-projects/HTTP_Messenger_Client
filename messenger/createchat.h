@@ -32,9 +32,12 @@ private slots:
     void on_pushButton_Create_clicked();
     void closeEvent(QCloseEvent * e ) override;
 
+    void on_pushButton_ChatImg_clicked();
+
 private:
     QVector<QString> users;
     Ui::CreateChat *ui;
+    QPixmap chatImage;
 };
 
 #endif // CREATECHAT_H
