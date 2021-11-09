@@ -76,7 +76,7 @@ void MainWindow::on_SearchChat_textEdited(const QString &arg)
     for(int i = 0; i < ui->ChatList->count(); i++)
     {
         item = ui->ChatList->item(i);
-        if(!item->text().contains(searchingString))
+        if(!item->text().toLower().contains(searchingString.toLower()))
         {
             item->setHidden(true);
         }
