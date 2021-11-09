@@ -1,140 +1,68 @@
-<a href="https://softserve.academy/"><img src="https://s.057.ua/section/newsInternalIcon/upload/images/news/icon/000/050/792/vnutr_5ce4f980ef15f.jpg" title="SoftServe IT Academy" alt="SoftServe IT Academy"></a>
+# HTTP_Messenger_Client
 
-***INSERT GRAPHIC HERE (include hyperlink in image)***
-
-# Repository Title Goes Here
-
-> Subtitle or Short Description Goes Here
-
-> ideally one sentence
-
-> include terms/tags that can be searched
-
-**Badges will go here**
-
-- build status
-- coverage
-- issues (waffle.io maybe)
-- devDependencies
-- npm package
-- slack
-- downloads
-- gitter chat
-- license
-- etc.
-
-[![Build Status](https://img.shields.io/travis/ita-social-projects/GreenCity/master?style=flat-square)](https://travis-ci.org/github/ita-social-projects/GreenCity)
-[![Coverage Status](https://img.shields.io/gitlab/coverage/ita-social-projects/GreenCity/master?style=flat-square)](https://coveralls.io)
-[![Github Issues](https://img.shields.io/github/issues/ita-social-projects/GreenCity?style=flat-square)](https://github.com/ita-social-projects/GreenCity/issues)
-[![Pending Pull-Requests](https://img.shields.io/github/issues-pr/ita-social-projects/GreenCity?style=flat-square)](https://github.com/ita-social-projects/GreenCity/pulls)
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
-
-- For more on these wonderful  badges, refer to <a href="https://shields.io/" target="_blank">shields.io</a>.
-
----
-
-## Table of Contents (Optional)
-
-> If your `README` has a lot of info, section headers might be nice.
-
-- [Installation](#installation)
-  - [Required to install](#Required-to-install)
-  - [Environment](#Environment)
-  - [Clone](#Clone)
-  - [Setup](#Setup)
-  - [How to run local](#How-to-run-local)
-  - [How to run Docker](#How-to-run-Docker)
-- [Usage](#Usage)
-  - [How to work with swagger UI](#How-to-work-with-swagger-UI)
-  - [How to run tests](#How-to-run-tests)
-  - [How to Checkstyle](#How-to-Checkstyle)
-- [Documentation](#Documentation))
-- [Contributing](#contributing)
-  - [git flow](#git-flow)
-  - [issue flow](#git-flow)
-- [FAQ](#faq)
-- [Support](#support)
-- [License](#license)
-
----
 
 ## Installation
 
-- All the `code` required to get started
-- Images of what it should look like
-
-### Required to install
-* Python (3.6.3)
-* PostgreSQL (9.5.9)
-* Django (1.11.6)
-* NodeJS (6.11.4)
-* Redis (3.0.6)
-
-### Environment
-environmental variables
-```properties
-spring.datasource.url=${DATASOURCE_URL}
-spring.datasource.username=${DATASOURCE_USER}
-spring.datasource.password=${DATASOURCE_PASSWORD}
-spring.mail.username=${EMAIL_ADDRESS}
-spring.mail.password=${EMAIL_PASSWORD}
-cloud.name=${CLOUD_NAME}
-api.key=${API_KEY}
-api.secret=${API_SECRET}
-```
-
-### Clone
-
-- Clone this repo to your local machine using `https://github.com/ita-social-projects/SOMEREPO`
-
-### Setup
-
-- If you want more syntax highlighting, format your code like this:
-
-> update and install this package first
+### Download installer
 
 ```shell
-$ brew update
-$ brew install SOMEREPOproductions
+curl -L -o HTTP_Messenger_installer.zip https://github.com/ita-social-projects/HTTP_Messenger_Client/releases/tag/release/HTTP_Messenger_installer.zip
 ```
 
-> now install npm and bower packages
+#### Or install manually <a href="https://github.com/ita-social-projects/HTTP_Messenger_Client/releases/tag/release"> here </a>
 
-```shell
-$ npm install
-$ bower install
-```
-
-- For all the possible languages that support syntax highlithing on GitHub (which is basically all of them), refer <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml" target="_blank">here</a>.
-
-### How to run local
-
-### How to run Docker
+### Run installer
 
 ---
 
-## Usage
-### How to work with swagger UI
-### How to run tests
-### How to Checkstyle
+# How to use HTTP_Messenger
 
----
+## This window will appear after you open it for the first time:
 
-## Documentation
+<img  src="screenshots/login_window.png">
+
+### At first enter the URL address of HTTP_Messenger_Server (by default it refers to localhost). 
+### After that enter your login and password to get into your account.
+
+### If you don't have account😳 in our cool and innovative Messenger💪, 
+### you can create one by clicking "Sign up" button at the bottom of login window.
+
+
+### Once you are in, you can chat with your friends  (if you have them😁) or colleagues, but they also need to register in HTTP_Messenger
+
+## To create chat click this button:
+
+<img  src="screenshots/create_chat.png">
+
+### After that you will have to enter the name of your new chat, and click "Create" 
+
+## To add friends to your chat ckick on your chat title:
+
+<img  src="screenshots/add_friends.png">
+
+### Then in Chat info window click on "Add member" 
+
+<img  src="screenshots/add_member.png">
+
+### And search for your friends
+
+Can`t find them? Maybe they don't want to chat with you(
+
+# That's it!😎 Now you can switch to really fast and secure HTTP_Messenger💪!!
 
 ---
 
 ## Contributing
 
-### Git flow
-> To get started...
+### **Attention: QStateMachine is required for this project!!!**
+
 #### Step 1
 
 - **Option 1**
     - 🍴 Fork this repo!
 
 - **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/ita-social-projects/SOMEREPO.git`
+    - 👯 Clone this repo to your local machine using `https://github.com/ita-social-projects/HTTP_Messenger_Client.git`
 
 #### Step 2
 
@@ -142,44 +70,25 @@ $ bower install
 
 #### Step 3
 
-- 🔃 Create a new pull request using <a href="https://github.com/ita-social-projects/SOMEREPO/compare/" target="_blank">github.com/ita-social-projects/SOMEREPO</a>.
+- 🔃 Create a new pull request using <a href="https://github.com/ita-social-projects/HTTP_Messenger_Client/compare/" target="_blank">github.com/ita-social-projects/HTTP_Messenger_Client</a>.
 
-### Issue flow
+---
+## Issue flow
+
+No isses 🙂
 
 ---
 
-## Team
+## Our team
 
-> Or Contributors/People
-
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam) 
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)
-[![@lhalam](https://avatars3.githubusercontent.com/u/3837059?s=100&v=4)](https://github.com/lhalam)  
-
-- You can just grab their GitHub profile image URL
-- You should probably resize their picture using `?s=200` at the end of the image URL.
-
----
-
-## FAQ
-
-- **How do I do *specifically* so and so?**
-    - No problem! Just do this.
-
----
-
-## Support
-
-Reach out to me at one of the following places!
-
-- Website at <a href="http://Website.com" target="_blank">`Website.com`</a>
-- Facebook at <a href="https://www.facebook.com/LiubomyrHalamaha/" target="_blank">`Liubomyr Halamaha`</a>
-- Insert more social links here.
+[![@RomanKasko](https://avatars.githubusercontent.com/u/46456972?s=100&v=2)](https://github.com/RomanKasko)
+[![@BeliaViktoria](https://avatars.githubusercontent.com/u/87976187?s=100&v=2)](https://github.com/BeliaViktoria)
+[![@Morituri67](https://avatars.githubusercontent.com/u/72103688?s=100&v=2)](https://github.com/Morituri67)
+[![@AndrianKupyniak](https://avatars.githubusercontent.com/u/88183610?s=100&v=2)](https://github.com/AndrianKupyniak)
+[![@Yurazast](https://avatars.githubusercontent.com/u/58906983?s=100&v=2)](https://github.com/Yurazast)
+[![@PaulMoroz](https://avatars.githubusercontent.com/u/55598887?s=100&v=2)](https://github.com/PaulMoroz)
+[![@losimen](https://avatars.githubusercontent.com/u/80248183?s=100&v=2)](https://github.com/losimen)
+[![@Vitalik-Kshly](https://avatars.githubusercontent.com/u/51457991?s=100&v=2)](https://github.com/Vitalik-Kshly)
 
 ---
 
