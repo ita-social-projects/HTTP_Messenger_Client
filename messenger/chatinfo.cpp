@@ -21,7 +21,6 @@ ChatInfo::ChatInfo(CurrentChat chat) :
     {
         p.load(":/icons/icons/photo.ico");
     }
-    //p.load(":/icons/icons/photo.ico");
     ui->pushButton_ChatImg->setIcon(p);
     chatImage = p;
     ui->lineEdit_ChatName->setText(currentChat.getName());
@@ -174,7 +173,8 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         else if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
-            // system message
+            RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
+                            CurrentUser::getInstance()->getLogin() + " updated chat image", this);
             ui->pushButton_ChatImg->setIcon(chatImage);
             ui->pushButton_ChatImg->setStyleSheet("background-color: rgb(230, 221, 238);");
         }

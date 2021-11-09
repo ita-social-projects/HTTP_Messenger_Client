@@ -78,6 +78,18 @@ std::map<unsigned long,std::pair<QPixmap,QString>> JsonDeserializer::extractChat
     return chatsInfo;
 }
 
+std::map<unsigned long,QString> JsonDeserializer::extractChat(const QJsonDocument &replyInfo)
+{
+    LOG_DEBUG("Extracting chat");
+    std::map<unsigned long,QString> map;
+    QJsonObject jsonObject = replyInfo.object();
+    if(jsonObject.contains(CHAT_ID) && jsonObject.contains(CHAT_TITLE))
+    {
+        map.emplace(jsonObject[CHAT_ID].toInt(),jsonObject[CHAT_TITLE].toString());
+    }
+    return map;
+}
+
 QString JsonDeserializer::extractErrorMsg(const QJsonDocument &replyInfo)
 {
     LOG_DEBUG("Extracting error message");
@@ -149,15 +161,6 @@ Message JsonDeserializer::extractMessage(const QJsonDocument &replyInfo)
         msg.setTime(list.at(TIME));
     }
     return msg;
-}
-
-std::tuple<QPixmap, QVector<std::pair<QPixmap,QString>>> JsonDeserializer::extractChatInfo(const QJsonDocument &replyInfo)
-{
-    auto logins = extractUsersInfo(replyInfo);
-    auto chatImg = extractPhoto(replyInfo);
-
-    std::tuple res{chatImg,logins};
-    return res;
 }
 
 QPixmap JsonDeserializer::extractPhoto(const QJsonObject& obj)
