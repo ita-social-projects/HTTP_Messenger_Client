@@ -70,8 +70,8 @@ void ChatInfo::on_pushButton_SearchUser_clicked()
     {
         return;
     }
-    ui->listWidget_Users->clear();
     searchingItems.clear();
+    ui->listWidget_Users->clear();
     RequestManager::GetInstance()->searchUser(CurrentUser::getInstance()->getToken(), userLogin, this);
 }
 
@@ -140,6 +140,8 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         }
         if(type == RequestType::GET_CHAT_PARTICIPANTS)
         {
+            memberItems.clear();
+            ui->listWidget_Members->clear();
             QVector<std::pair<QPixmap,QString>> users = extractor.extractUsersInfo(document);
             for(int i = 0; i < users.size(); ++i)
             {
@@ -154,7 +156,8 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
         {
             RequestManager::GetInstance()->sendMessage("", currentChat.getId(),
                             CurrentUser::getInstance()->getLogin() + " added user " + ui->label_MemberLogin->text() + " to the chat", this);
-            ui->listWidget_Members->addItem(ui->label_MemberLogin->text());
+
+            RequestManager::GetInstance()->getChatParticipants(CurrentUser::getInstance()->getToken(), currentChat.getId(),this);
             ui->label_MemberLogin->clear();
         }
         else if(type == RequestType::LEAVE_CHAT)
