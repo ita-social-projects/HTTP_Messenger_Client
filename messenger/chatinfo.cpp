@@ -108,13 +108,18 @@ void ChatInfo::onRequestFinished(QNetworkReply *reply, RequestType type)
     if (reply->error())
     {
         QString replyMsg = extractor.extractErrorMsg(document);
+        if(replyMsg.contains("No such chat"))
+        {
+            emit leaveChat();
+            this->close();
+            return;
+        }
         QMessageBox::critical(nullptr, "ERROR", replyMsg);
         if(type == RequestType::ADD_USER_TO_CHAT)
         {
             ui->label_MemberLogin->clear();
-            return;
         }
-        if(type == RequestType::UPDATE_CHAT_IMAGE)
+        else if(type == RequestType::UPDATE_CHAT_IMAGE)
         {
             chatImage = currentChat.getImage();
         }

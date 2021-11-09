@@ -25,8 +25,9 @@ MainWindow::MainWindow(QMainWindow* parent)
     ui->ScrollBot->setHidden(true);
     ui->emojiButton->setHidden(true);
     ui->EnterMessage->setMaxLength(255);
-    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
     maxMessageLength = 0;
+    ui->Messages->item(0)->setForeground(Qt::gray);
+    ui->UserImg->setIcon(CurrentUser::getInstance()->getImage());
     ui->UserName->setText(CurrentUser::getInstance()->getLogin());
     RequestManager::GetInstance()->checkToken(CurrentUser::getInstance()->getToken(), this);
 }
@@ -290,7 +291,6 @@ void MainWindow::saveSystemMessage(QString message)
     item.setTextAlignment(Qt::AlignmentFlag::AlignCenter);
     item.setForeground(Qt::gray);
     conversation.push_back(item);
-    //ui->Messages->addItem(&conversation.back());
 }
 
 QString MainWindow::setMessageProperties(QString message)
@@ -346,6 +346,10 @@ void MainWindow::leaveChat()
     ui->SendButton->setHidden(true);
     ui->ScrollBot->setHidden(true);
     ui->emojiButton->setHidden(true);
+    ui->Messages->addItem("Select or Create new chat");
+    ui->Messages->item(0)->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
+    ui->Messages->item(0)->setForeground(Qt::gray);
+    ui->Messages->item(0)->setFont(QFont("MS Shell Dlg 2", 16));
 }
 
 void MainWindow::showChats()
